@@ -93,6 +93,18 @@ void dae::Minigin::LoadGame() const
 	texComp->Init("timer!", fpsFont);
 	go->SetPosition(0, 455);
 	scene.Add(go);
+
+
+
+
+	auto pParent = std::make_shared<GameObject>();
+	scene.Add(pParent);
+
+	auto pChild1 = std::make_shared<GameObject>(pParent.get());
+	scene.Add(pChild1);
+
+	auto pChild2 = std::make_shared<GameObject>(pParent.get());
+	scene.Add(pChild2);
 	
 }
 

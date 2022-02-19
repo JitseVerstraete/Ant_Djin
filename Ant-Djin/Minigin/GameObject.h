@@ -14,14 +14,14 @@ namespace dae
 		void Render() const;
 
 		//components
-		template<typename T>
-		T* AddComponent();
+		template<typename T> T* AddComponent();
+		template <typename T> void RemoveComponent();
+		template <typename T> T* GetComponent();
 
-		template <typename T>
-		void RemoveComponent();
-
-		template <typename T>
-		T* GetComponent();
+		//hirearchy
+		void AddChild(GameObject* childObject) { m_pChildren.push_back(childObject); }
+		std::vector<GameObject*> Getchildren() const { return m_pChildren; }
+		GameObject* GetParent() const { return m_pParent; }
 
 
 		//transform manip
@@ -29,7 +29,7 @@ namespace dae
 		Transform GetTransform() const { return m_Transform; }
 
 
-		GameObject() = default;
+		GameObject(GameObject* pParent = nullptr);
 		virtual ~GameObject(); 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -40,6 +40,11 @@ namespace dae
 		Transform m_Transform;
 
 		std::vector<Component*> m_pComponents;
+
+		//scenegraph structure
+		std::vector<GameObject*> m_pChildren;
+		GameObject* m_pParent;
+
 
 	};
 
