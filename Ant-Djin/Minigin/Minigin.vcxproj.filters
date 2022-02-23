@@ -26,6 +26,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{085e57d5-061f-4434-813d-9b815a054734}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IMGUI">
+      <UniqueIdentifier>{a8780212-323d-4fc5-aab7-90d918694ad8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -76,7 +79,33 @@
     <ClInclude Include="TextComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="FPSComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl2.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -127,6 +156,29 @@
     <ClCompile Include="TextComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="FPSComponent.cpp" />
+    <ClCompile Include="FPSComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl2.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
