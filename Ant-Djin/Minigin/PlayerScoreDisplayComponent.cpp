@@ -1,7 +1,9 @@
 #include "MiniginPCH.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "TextComponent.h"
-#include <steam_api.h>
+#include "SteamAchievements.h"
+
+
 
 
 dae::PlayerScoreDisplayComponent::PlayerScoreDisplayComponent(GameObject* pGo, PeterPepperComponent* peter )
@@ -10,6 +12,9 @@ dae::PlayerScoreDisplayComponent::PlayerScoreDisplayComponent(GameObject* pGo, P
 {
 	peter->AddObserver(this);
 	pGo->GetComponent<TextComponent>()->SetText(CreatePointsString());
+
+
+
 }
 
 void dae::PlayerScoreDisplayComponent::GainedPoints()
@@ -17,7 +22,8 @@ void dae::PlayerScoreDisplayComponent::GainedPoints()
 	GetGameObject()->GetComponent<TextComponent>()->SetText(CreatePointsString());
 	if (m_pPeter->GetTotalPoints() >= 500)
 	{
-		
+		CSteamAchievements* temp = CSteamAchievements::GetInstance();
+		temp->SetAchievement("ACH_WIN_ONE_GAME");
 	}
 }
 

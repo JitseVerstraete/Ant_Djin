@@ -14,7 +14,7 @@
 #include "PeterPepperComponent.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "PlayerLivesDisplayComponent.h"
-#include <steam_api.h>
+#include "SteamAchievements.h"
 
 using namespace std;
 
@@ -194,8 +194,10 @@ void dae::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		auto& time = Time::GetInstance();
+		CSteamAchievements::GetInstance();
 
-		// todo: this update loop could use some work.
+
+
 		float lag{};
 		bool doContinue = true;
 		while (doContinue)
