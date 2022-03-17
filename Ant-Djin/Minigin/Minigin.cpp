@@ -200,7 +200,7 @@ void dae::Minigin::Run()
 		bool doContinue = true;
 		while (doContinue)
 		{
-			//SteamAPI_RunCallbacks();
+			SteamAPI_RunCallbacks();
 			//PROCESS TIME
 			time.ProcessTime();
 
