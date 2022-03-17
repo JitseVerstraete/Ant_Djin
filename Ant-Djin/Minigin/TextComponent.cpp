@@ -5,21 +5,23 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 
-dae::TextComponent::TextComponent()
-	: Component{}
-	, m_Text{ "" }
+dae::TextComponent::TextComponent(GameObject* pGo, const std::string& text, std::shared_ptr<Font> font)
+	: Component(pGo)
+	, m_Text{ text }
 	, m_NeedsUpdate{ true }
+	, m_Font{ font }
 {
 }
 
+
 void dae::TextComponent::Update()
 {
-	
+
 	//if needs update, find a rendercomponent and set the new texture2d to the newly made texture with text&font
 	if (m_NeedsUpdate)
 	{
 		const SDL_Color color = { 255,255,255 }; // only white text is supported now
-		
+
 		RenderComponent* renComp = GetGameObject()->GetComponent<RenderComponent>();
 		if (renComp == nullptr)
 		{
@@ -27,9 +29,9 @@ void dae::TextComponent::Update()
 
 		}
 		else
-		
+
 		{
-			
+
 			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
 			if (surf == nullptr)
 			{
@@ -45,12 +47,12 @@ void dae::TextComponent::Update()
 
 			renComp->SetTexture(newTex);
 
-			
+
 		}
 
 		m_NeedsUpdate = false;
 	}
-	
+
 }
 
 void dae::TextComponent::FixedUpdate()
@@ -67,9 +69,3 @@ void dae::TextComponent::SetText(const std::string& newText)
 	m_NeedsUpdate = true;
 }
 
-void dae::TextComponent::Init(const std::string& text, std::shared_ptr<Font> font)
-{
-	m_Text = text;
-	m_Font = font;
-
-}

@@ -4,6 +4,11 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
+dae::RenderComponent::RenderComponent(GameObject* pGo)
+	:Component(pGo)
+{
+}
+
 void dae::RenderComponent::Update()
 {
 	//no update needed for this component

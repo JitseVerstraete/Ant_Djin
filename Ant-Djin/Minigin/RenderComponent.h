@@ -7,6 +7,7 @@ namespace dae
 	class RenderComponent : public Component
 	{
 	public:
+		RenderComponent(GameObject* pGo);
 
 		void Update() override;
 		void FixedUpdate() override;

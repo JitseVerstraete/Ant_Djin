@@ -7,7 +7,7 @@ namespace dae
 	class Component
 	{
 	public:
-		Component() {};
+		Component(GameObject* pGo) :m_pAttachedGameObject{ pGo } {};
 		virtual ~Component() {};
 
 		virtual void Update() = 0;

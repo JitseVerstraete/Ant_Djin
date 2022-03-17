@@ -11,6 +11,9 @@
 #include "FPSComponent.h"
 #include "GameObject.h"
 #include "Scene.h"
+#include "PeterPepperComponent.h"
+#include "PlayerScoreDisplayComponent.h"
+#include "PlayerLivesDisplayComponent.h"
 
 using namespace std;
 
@@ -30,8 +33,8 @@ void PrintSDLVersion()
 void dae::Minigin::Initialize()
 {
 	PrintSDLVersion();
-	
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
@@ -44,7 +47,7 @@ void dae::Minigin::Initialize()
 		480,
 		SDL_WINDOW_OPENGL
 	);
-	if (m_Window == nullptr) 
+	if (m_Window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
@@ -59,16 +62,24 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
+	std::cout << "CONTROLS INSTRUCTIONS:\n";
+	std::cout << "Player 1 Die: Button A\n";
+	std::cout << "Player 1 Points: Button B\n";
+	std::cout << "Player 2 Die: Button X\n";
+	std::cout << "Player 2 Points: Button Y\n";
+
+
 	//add background
 	auto go = std::make_shared<GameObject>();
-	RenderComponent* renComp = go->AddComponent<RenderComponent>();
+	RenderComponent* renComp = go->AddComponent(new RenderComponent(go.get()));
 	std::shared_ptr<Texture2D> texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
 	scene.Add(go);
+	/*
 
 	//add dae logo
 	go = std::make_shared<GameObject>();
-	renComp = go->AddComponent<RenderComponent>();
+	renComp = go->AddComponent(new RenderComponent());
 	texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	renComp->SetTexture(texture);
 	go->SetPosition(216, 180);
@@ -82,18 +93,69 @@ void dae::Minigin::LoadGame() const
 	texComp->Init("Programming 4 Assignment", font);
 	go->SetPosition(80, 20);
 	scene.Add(go);
-
+	*/
 
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = std::make_shared<GameObject>();
-	renComp = go->AddComponent<RenderComponent>();
-	texComp = go->AddComponent<TextComponent>();
-	go->AddComponent<FPSComponent>();
-	texComp->Init("timer!", fpsFont);
-	go->SetPosition(0, 455);
+	go->AddComponent(new RenderComponent(go.get()));
+	go->AddComponent(new TextComponent(go.get(), "timer!", fpsFont));
+	go->AddComponent(new FPSComponent(go.get()));
+	go->SetPosition(0, 0);
 	scene.Add(go);
 
+	//make a peter pepper1 and the corresponding displays
+	go = std::make_shared<GameObject>();
+	auto peterComp = go->AddComponent(new PeterPepperComponent(go.get(), 3, ControllerButton::ButtonA, ControllerButton::ButtonB));
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new RenderComponent(go.get()));
+	go->AddComponent(new TextComponent(go.get(), "Player 1:", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->SetPosition(5.f, 300.f);
+	scene.Add(go);
+
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new RenderComponent(go.get()));
+	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerScoreDisplayComponent(go.get(), peterComp));
+	go->SetPosition(5.f, 330.f);
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new RenderComponent(go.get()));
+	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerLivesDisplayComponent(go.get(), peterComp));
+	go->SetPosition(5.f, 360.f);
+	scene.Add(go);
+
+
+
+	//make a peter pepper2 and the corresponding displays
+	go = std::make_shared<GameObject>();
+	peterComp = go->AddComponent(new PeterPepperComponent(go.get(), 3, ControllerButton::ButtonX, ControllerButton::ButtonY));
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new RenderComponent(go.get()));
+	go->AddComponent(new TextComponent(go.get(), "Player 2:", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->SetPosition(520.f, 300.f);
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new RenderComponent(go.get()));
+	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerScoreDisplayComponent(go.get(), peterComp));
+	go->SetPosition(520.f, 330.f);
+	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	go->AddComponent(new RenderComponent(go.get()));
+	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerLivesDisplayComponent(go.get(), peterComp));
+	go->SetPosition(520.f, 360.f);
+	scene.Add(go);
 
 
 
@@ -105,7 +167,7 @@ void dae::Minigin::LoadGame() const
 
 	auto pChild2 = std::make_shared<GameObject>(pParent.get());
 	scene.Add(pChild2);
-	
+
 }
 
 void dae::Minigin::Cleanup()

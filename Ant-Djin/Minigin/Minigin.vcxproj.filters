@@ -29,6 +29,9 @@
     <Filter Include="IMGUI">
       <UniqueIdentifier>{a8780212-323d-4fc5-aab7-90d918694ad8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observer Pattern">
+      <UniqueIdentifier>{790220cb-7c76-49ed-8823-944c54b7576d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -106,6 +109,24 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="XBox360Controller.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterPepperComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PeterObserver.h">
+      <Filter>Observer Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScoreDisplayComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLivesDisplayComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -179,6 +200,18 @@
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="XBox360Controller.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScoreDisplayComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLivesDisplayComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

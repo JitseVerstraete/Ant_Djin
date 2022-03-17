@@ -5,8 +5,8 @@
 #include "TextComponent.h"
 #include <iomanip>
 
-dae::FPSComponent::FPSComponent()
-	: Component()
+dae::FPSComponent::FPSComponent(GameObject* pGo)
+	: Component(pGo)
 	, m_UpdateTimer{ m_SecondsPerUpdate }
 {
 }

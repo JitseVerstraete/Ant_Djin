@@ -6,7 +6,7 @@ namespace dae
 	class FPSComponent : public Component
 	{
 	public:
-		FPSComponent();
+		FPSComponent(GameObject* pGo);
 
 		void Update() override;
 		void FixedUpdate() override;

@@ -14,7 +14,7 @@ namespace dae
 		void Render() const;
 
 		//components
-		template<typename T> T* AddComponent();
+		template<typename T> T* AddComponent(T* component);
 		template <typename T> void RemoveComponent();
 		template <typename T> T* GetComponent();
 
@@ -30,7 +30,7 @@ namespace dae
 
 
 		GameObject(GameObject* pParent = nullptr);
-		virtual ~GameObject(); 
+		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -52,14 +52,13 @@ namespace dae
 
 
 	template<typename T>
-	inline T* GameObject::AddComponent()
+	inline T* GameObject::AddComponent(T* pComponent)
 	{
-		T* newComp = new T();
-		m_pComponents.push_back(newComp);
-		newComp->SetAttachedGameObject(this);
-		return newComp;
+		if (pComponent) m_pComponents.push_back(pComponent);
+		pComponent->SetAttachedGameObject(this);
+		return pComponent;
 	}
-	
+
 	template<typename T> //typename T are classes that derive from Component base class
 	inline T* GameObject::GetComponent()
 	{
