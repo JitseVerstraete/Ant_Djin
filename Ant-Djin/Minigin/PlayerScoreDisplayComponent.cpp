@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "TextComponent.h"
+#include <steam_api.h>
 
 
 dae::PlayerScoreDisplayComponent::PlayerScoreDisplayComponent(GameObject* pGo, PeterPepperComponent* peter )
@@ -14,6 +15,10 @@ dae::PlayerScoreDisplayComponent::PlayerScoreDisplayComponent(GameObject* pGo, P
 void dae::PlayerScoreDisplayComponent::GainedPoints()
 {
 	GetGameObject()->GetComponent<TextComponent>()->SetText(CreatePointsString());
+	if (m_pPeter->GetTotalPoints() >= 500)
+	{
+		
+	}
 }
 
 std::string dae::PlayerScoreDisplayComponent::CreatePointsString()

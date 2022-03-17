@@ -14,6 +14,7 @@
 #include "PeterPepperComponent.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "PlayerLivesDisplayComponent.h"
+#include <steam_api.h>
 
 using namespace std;
 
@@ -199,6 +200,7 @@ void dae::Minigin::Run()
 		bool doContinue = true;
 		while (doContinue)
 		{
+			//SteamAPI_RunCallbacks();
 			//PROCESS TIME
 			time.ProcessTime();
 
