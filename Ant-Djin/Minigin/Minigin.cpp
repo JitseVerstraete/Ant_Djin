@@ -64,10 +64,10 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	std::cout << "CONTROLS INSTRUCTIONS:\n";
-	std::cout << "Player 1 Die: Button A\n";
-	std::cout << "Player 1 Points: Button B\n";
-	std::cout << "Player 2 Die: Button X\n";
-	std::cout << "Player 2 Points: Button Y\n";
+	std::cout << "Player 1 Die:	Button A\n";
+	std::cout << "Player 1 Give 100 Points: Button B\n";
+	std::cout << "Player 2 Die:	Button X\n";
+	std::cout << "Player 2 Give 100 Points: Button Y\n";
 
 
 	//add background
