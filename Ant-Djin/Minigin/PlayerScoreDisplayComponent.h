@@ -17,7 +17,7 @@ namespace dae
 
 
 		void PlayerDied() override {}
-		void GainedPoints() override;
+		void GainedPoints(int totalPoints) override;
 
 	private:
 		PeterPepperComponent* m_pPeter;

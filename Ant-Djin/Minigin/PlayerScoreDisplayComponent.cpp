@@ -1,7 +1,6 @@
 #include "MiniginPCH.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "TextComponent.h"
-#include "SteamAchievements.h"
 
 
 
@@ -17,14 +16,10 @@ dae::PlayerScoreDisplayComponent::PlayerScoreDisplayComponent(GameObject* pGo, P
 
 }
 
-void dae::PlayerScoreDisplayComponent::GainedPoints()
+void dae::PlayerScoreDisplayComponent::GainedPoints(int /*totalpoints*/)
 {
 	GetGameObject()->GetComponent<TextComponent>()->SetText(CreatePointsString());
-	if (m_pPeter->GetTotalPoints() >= 500)
-	{
-		CSteamAchievements* temp = CSteamAchievements::GetInstance();
-		temp->SetAchievement("ACH_WIN_ONE_GAME");
-	}
+
 }
 
 std::string dae::PlayerScoreDisplayComponent::CreatePointsString()

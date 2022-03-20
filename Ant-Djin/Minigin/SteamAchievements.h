@@ -1,5 +1,6 @@
 #pragma once
 #include <steam_api.h>
+#include "PeterObserver.h"
 
 #define _ACH_ID( id, name ) { id, #id, name, "", 0, 0 }
 struct Achievement_t
@@ -30,6 +31,7 @@ private:
 	Achievement_t* m_pAchievements; // Achievements data
 	int m_iNumAchievements; // The number of Achievements
 	bool m_bInitialized; // Have we called Request stats and received the callback?
+
 
 	static CSteamAchievements* instance;
 	CSteamAchievements(Achievement_t* Achievements, int NumAchievements);

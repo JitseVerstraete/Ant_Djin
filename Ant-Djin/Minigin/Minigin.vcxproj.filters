@@ -128,6 +128,7 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="SteamAchievements.h" />
+    <ClInclude Include="AchievementSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -215,5 +216,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="SteamAchievements.cpp" />
+    <ClCompile Include="AchievementSystem.cpp" />
   </ItemGroup>
 </Project>

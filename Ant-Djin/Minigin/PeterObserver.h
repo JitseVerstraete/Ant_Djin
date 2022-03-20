@@ -6,5 +6,5 @@ public:
 	PeterObserver() = default;
 	virtual ~PeterObserver() = default;
 	virtual void PlayerDied() = 0;
-	virtual void GainedPoints() = 0;
+	virtual void GainedPoints(int totalPoints) = 0;
 };

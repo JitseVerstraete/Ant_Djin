@@ -18,7 +18,7 @@ void dae::PeterPepperComponent::Update()
 		m_TotalPoints += m_PointsGain;
 		for (auto pObs : m_pObservers)
 		{
-			pObs->GainedPoints();
+			pObs->GainedPoints(m_TotalPoints);
 		}
 	}
 }

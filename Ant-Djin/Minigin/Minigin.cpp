@@ -15,6 +15,7 @@
 #include "PlayerScoreDisplayComponent.h"
 #include "PlayerLivesDisplayComponent.h"
 #include "SteamAchievements.h"
+#include "AchievementSystem.h"
 
 using namespace std;
 
@@ -105,10 +106,19 @@ void dae::Minigin::LoadGame() const
 	go->SetPosition(0, 0);
 	scene.Add(go);
 
+
+
+	
+
 	//make a peter pepper1 and the corresponding displays
 	go = std::make_shared<GameObject>();
 	auto peterComp = go->AddComponent(new PeterPepperComponent(go.get(), 3, ControllerButton::ButtonA, ControllerButton::ButtonB));
 	scene.Add(go);
+
+	
+	
+	peterComp->AddObserver(&AchievementSystem::GetInstance());
+
 
 	go = std::make_shared<GameObject>();
 	go->AddComponent(new RenderComponent(go.get()));
@@ -138,6 +148,8 @@ void dae::Minigin::LoadGame() const
 	peterComp = go->AddComponent(new PeterPepperComponent(go.get(), 3, ControllerButton::ButtonX, ControllerButton::ButtonY));
 	scene.Add(go);
 
+	peterComp->AddObserver(&AchievementSystem::GetInstance());
+
 	go = std::make_shared<GameObject>();
 	go->AddComponent(new RenderComponent(go.get()));
 	go->AddComponent(new TextComponent(go.get(), "Player 2:", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
@@ -157,6 +169,8 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(new PlayerLivesDisplayComponent(go.get(), peterComp));
 	go->SetPosition(520.f, 360.f);
 	scene.Add(go);
+
+	
 
 
 
