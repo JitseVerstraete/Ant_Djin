@@ -29,7 +29,29 @@ void dae::ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::string& file) const
+dae::ResourceManager::~ResourceManager()
+{
+	CleanUpTextures();
+	CleanUpFonts();
+}
+
+void dae::ResourceManager::CleanUpTextures()
+{
+	for (auto& texturePair : m_pTextures)
+	{
+		delete texturePair.second;
+	}
+}
+
+void dae::ResourceManager::CleanUpFonts()
+{
+	for (auto& fontPair : m_pFonts)
+	{
+		delete fontPair.second;
+	}
+}
+
+dae::Texture2D* dae::ResourceManager::LoadTexture(const std::string& file) const
 {
 	const auto fullPath = m_DataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
@@ -37,10 +59,10 @@ std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::str
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return std::make_shared<Texture2D>(texture);
+	return new Texture2D(texture);
 }
 
-std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
+dae::Font* dae::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
 {
-	return std::make_shared<Font>(m_DataPath + file, size);
+	return new Font(m_DataPath + file, size);
 }

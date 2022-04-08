@@ -14,8 +14,6 @@
 #include "PeterPepperComponent.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "PlayerLivesDisplayComponent.h"
-#include "SteamAchievements.h"
-#include "AchievementSystem.h"
 
 using namespace std;
 
@@ -72,9 +70,9 @@ void dae::Minigin::LoadGame() const
 
 
 	//add background
-	auto go = std::make_shared<GameObject>();
-	RenderComponent* renComp = go->AddComponent(new RenderComponent(go.get()));
-	std::shared_ptr<Texture2D> texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
+	auto go = new GameObject();
+	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
+	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
 	scene.Add(go);
 	/*
@@ -99,10 +97,10 @@ void dae::Minigin::LoadGame() const
 
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new RenderComponent(go.get()));
-	go->AddComponent(new TextComponent(go.get(), "timer!", fpsFont));
-	go->AddComponent(new FPSComponent(go.get()));
+	go = new GameObject();
+	go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
+	go->AddComponent(new FPSComponent(go));
 	go->SetPosition(0, 0);
 	scene.Add(go);
 
@@ -111,77 +109,62 @@ void dae::Minigin::LoadGame() const
 	
 
 	//make a peter pepper1 and the corresponding displays
-	go = std::make_shared<GameObject>();
-	auto peterComp = go->AddComponent(new PeterPepperComponent(go.get(), 3, ControllerButton::ButtonA, ControllerButton::ButtonB));
+	go = new GameObject();
+	auto peterComp = go->AddComponent(new PeterPepperComponent(go, 3, ControllerButton::ButtonA, ControllerButton::ButtonB));
 	scene.Add(go);
 
-	
-	
-	peterComp->AddObserver(&AchievementSystem::GetInstance());
 
 
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new RenderComponent(go.get()));
-	go->AddComponent(new TextComponent(go.get(), "Player 1:", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go = new GameObject();
+	go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "Player 1:", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
 	go->SetPosition(5.f, 300.f);
 	scene.Add(go);
 
 
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new RenderComponent(go.get()));
-	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
-	go->AddComponent(new PlayerScoreDisplayComponent(go.get(), peterComp));
+	go = new GameObject();
+	go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerScoreDisplayComponent(go, peterComp));
 	go->SetPosition(5.f, 330.f);
 	scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new RenderComponent(go.get()));
-	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
-	go->AddComponent(new PlayerLivesDisplayComponent(go.get(), peterComp));
+	go = new GameObject();
+	go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerLivesDisplayComponent(go, peterComp));
 	go->SetPosition(5.f, 360.f);
 	scene.Add(go);
 
 
 
 	//make a peter pepper2 and the corresponding displays
-	go = std::make_shared<GameObject>();
-	peterComp = go->AddComponent(new PeterPepperComponent(go.get(), 3, ControllerButton::ButtonX, ControllerButton::ButtonY));
+	go = new GameObject();
+	peterComp = go->AddComponent(new PeterPepperComponent(go, 3, ControllerButton::ButtonX, ControllerButton::ButtonY));
 	scene.Add(go);
 
-	peterComp->AddObserver(&AchievementSystem::GetInstance());
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new RenderComponent(go.get()));
-	go->AddComponent(new TextComponent(go.get(), "Player 2:", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go = new GameObject();
+	go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "Player 2:", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
 	go->SetPosition(520.f, 300.f);
 	scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new RenderComponent(go.get()));
-	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
-	go->AddComponent(new PlayerScoreDisplayComponent(go.get(), peterComp));
+	go = new GameObject();
+	go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerScoreDisplayComponent(go, peterComp));
 	go->SetPosition(520.f, 330.f);
 	scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	go->AddComponent(new RenderComponent(go.get()));
-	go->AddComponent(new TextComponent(go.get(), "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
-	go->AddComponent(new PlayerLivesDisplayComponent(go.get(), peterComp));
+	go = new GameObject();
+	go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "SAMPLETEXT", ResourceManager::GetInstance().LoadFont("Lingua.otf", 20)));
+	go->AddComponent(new PlayerLivesDisplayComponent(go, peterComp));
 	go->SetPosition(520.f, 360.f);
 	scene.Add(go);
 
 	
 
-
-
-	auto pParent = std::make_shared<GameObject>();
-	scene.Add(pParent);
-
-	auto pChild1 = std::make_shared<GameObject>(pParent.get());
-	scene.Add(pChild1);
-
-	auto pChild2 = std::make_shared<GameObject>(pParent.get());
-	scene.Add(pChild2);
 
 }
 
@@ -208,7 +191,7 @@ void dae::Minigin::Run()
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
 		auto& time = Time::GetInstance();
-		CSteamAchievements::GetInstance();
+
 
 
 
@@ -216,7 +199,7 @@ void dae::Minigin::Run()
 		bool doContinue = true;
 		while (doContinue)
 		{
-			SteamAPI_RunCallbacks();
+
 			//PROCESS TIME
 			time.ProcessTime();
 

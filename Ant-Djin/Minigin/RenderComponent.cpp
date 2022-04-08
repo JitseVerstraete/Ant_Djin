@@ -30,8 +30,7 @@ void dae::RenderComponent::SetTexture(const std::string& filename)
 	m_pTexture = ResourceManager::GetInstance().LoadTexture(filename);
 }
  
-void dae::RenderComponent::SetTexture(std::shared_ptr<Texture2D>& tex)
+void dae::RenderComponent::SetTexture(Texture2D* tex)
 {
-	m_pTexture.reset();
-	m_pTexture.swap(tex);
+	m_pTexture = tex;
 }

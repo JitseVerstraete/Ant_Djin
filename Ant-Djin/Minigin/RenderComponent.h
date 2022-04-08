@@ -14,9 +14,9 @@ namespace dae
 		void Render() const override;
 
 		void SetTexture(const std::string& filePath);
-		void SetTexture(std::shared_ptr<Texture2D>& tex);
+		void SetTexture(Texture2D* tex);
 
 	private:
-		std::shared_ptr<Texture2D> m_pTexture{};
+		Texture2D* m_pTexture{};
 	};
 }

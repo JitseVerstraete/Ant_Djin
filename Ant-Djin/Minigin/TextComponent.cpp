@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 
-dae::TextComponent::TextComponent(GameObject* pGo, const std::string& text, std::shared_ptr<Font> font)
+dae::TextComponent::TextComponent(GameObject* pGo, const std::string& text, Font* font)
 	: Component(pGo)
 	, m_Text{ text }
 	, m_NeedsUpdate{ true }
@@ -43,7 +43,7 @@ void dae::TextComponent::Update()
 				throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 			}
 			SDL_FreeSurface(surf);
-			auto newTex = std::make_shared<Texture2D>(texture);
+			auto newTex = new Texture2D(texture);
 
 			renComp->SetTexture(newTex);
 
