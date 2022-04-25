@@ -32,6 +32,9 @@
     <Filter Include="Observer Pattern">
       <UniqueIdentifier>{790220cb-7c76-49ed-8823-944c54b7576d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{f136ba70-fb63-4ed2-b0e6-2a2aedb0d211}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -127,6 +130,9 @@
     <ClInclude Include="PlayerLivesDisplayComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -212,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="PlayerLivesDisplayComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
