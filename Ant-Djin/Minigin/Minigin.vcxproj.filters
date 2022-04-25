@@ -133,6 +133,9 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="LoggerSoundSystem.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -220,6 +223,9 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggerSoundSystem.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
