@@ -1,5 +1,6 @@
 Ant-Djin/.vs/**
 Ant-Djin/x64/**
+Ant-Djin/Win32/**
 Ant-Djin/Minigin/x64/**
 Ant-Djin/Minigin/Win32/**
 Ant-Djin/3rdParty/glm/glm/out/**
