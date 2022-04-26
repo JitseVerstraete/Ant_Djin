@@ -67,10 +67,38 @@ private:
 class SDLSoundSystem::SDLSoundSystemImpl
 {
 public:
-
-	void Play(uint16_t , float )
+	SDLSoundSystemImpl()
 	{
-		
+		int result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 8, 1024);
+
+		if (result != 0)
+		{
+			std::cout << "Failed to open audio: " << Mix_GetError() << std::endl;
+		}
+	}
+
+	~SDLSoundSystemImpl()
+	{
+		Mix_Quit();
+	}
+
+
+	void Play(uint16_t id)
+	{
+		auto it = m_Clips.find(id);
+		if (it != m_Clips.end())
+		{
+			if (!it->second.IsLoaded())
+			{
+				it->second.Load();
+			}
+			it->second.Play();
+		}
+		else
+		{
+			std::cerr << "Sound with id " << id << " was not found!\n";
+		}
+
 	}
 
 	void RegisterSound(uint16_t id, const std::string& filePath)
@@ -96,9 +124,9 @@ SDLSoundSystem::~SDLSoundSystem()
 	delete m_pImpl;
 }
 
-void SDLSoundSystem::Play(uint16_t id, float volume)
+void SDLSoundSystem::Play(uint16_t id)
 {
-	m_pImpl->Play(id, volume);
+	m_pImpl->Play(id);
 }
 
 void SDLSoundSystem::RegisterSound(uint16_t id, const std::string& filePath)

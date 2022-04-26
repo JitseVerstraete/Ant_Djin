@@ -8,7 +8,7 @@ public:
 	LoggerSoundSystem(SoundSystem* ss): m_ss{ss} {}
 	
 
-	void Play(uint16_t id, float volume);
+	void Play(uint16_t id) override;
 	void RegisterSound(uint16_t id, const std::string& filePath);
 
 private:

@@ -65,7 +65,8 @@ void dae::Minigin::LoadGame() const
 
 	
 	SDLSoundSystem soundSys{};
-	soundSys.RegisterSound(0, "pling.wav");
+	soundSys.RegisterSound(0, "../Data/pling.wav");
+	
 
 
 	std::cout << "CONTROLS INSTRUCTIONS:\n";
@@ -79,6 +80,7 @@ void dae::Minigin::LoadGame() const
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
 	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
+	
 	scene.Add(go);
 	
 
@@ -103,7 +105,7 @@ void dae::Minigin::LoadGame() const
 	*/
 
 
-	/*
+	
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = new GameObject();
@@ -172,7 +174,7 @@ void dae::Minigin::LoadGame() const
 	go->SetPosition(520.f, 360.f);
 	scene.Add(go);
 
-	*/
+	
 	
 
 

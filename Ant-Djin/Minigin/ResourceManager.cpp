@@ -51,18 +51,37 @@ void dae::ResourceManager::CleanUpFonts()
 	}
 }
 
-dae::Texture2D* dae::ResourceManager::LoadTexture(const std::string& file) const
+dae::Texture2D* dae::ResourceManager::LoadTexture(const std::string& file)
 {
+	//if the texture allready exists in the map of textures, return it
+	auto it = m_pTextures.find(file);
+	if (it != m_pTextures.end())
+		return it->second;
+	
+
+	//load the texture
 	const auto fullPath = m_DataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
-	if (texture == nullptr) 
+	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return new Texture2D(texture);
+
+	//add the texture to the map and return it
+	dae::Texture2D* tex2D{ new Texture2D(texture) };
+	m_pTextures.insert({ file, tex2D });
+	return tex2D;
 }
 
-dae::Font* dae::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
+dae::Font* dae::ResourceManager::LoadFont(const std::string& file, unsigned int size) 
 {
-	return new Font(m_DataPath + file, size);
+	std::string fontCodeName{ file + std::to_string(size) };
+	auto it = m_pFonts.find(fontCodeName);
+	if (it != m_pFonts.end())
+		return it->second;
+
+	Font* pFont = new Font(m_DataPath + file, size);
+	m_pFonts.insert({ fontCodeName , pFont });
+
+	return pFont;
 }

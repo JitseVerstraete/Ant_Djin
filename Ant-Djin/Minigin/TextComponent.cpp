@@ -9,7 +9,7 @@ dae::TextComponent::TextComponent(GameObject* pGo, const std::string& text, Font
 	: Component(pGo)
 	, m_Text{ text }
 	, m_NeedsUpdate{ true }
-	, m_Font{ font }
+	, m_pFont{ font }
 {
 }
 
@@ -29,10 +29,8 @@ void dae::TextComponent::Update()
 
 		}
 		else
-
 		{
-
-			const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
+			const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
 			if (surf == nullptr)
 			{
 				throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -45,7 +43,7 @@ void dae::TextComponent::Update()
 			SDL_FreeSurface(surf);
 			auto newTex = new Texture2D(texture);
 
-			renComp->SetTexture(newTex);
+			renComp->SetTexture(newTex, true);
 
 
 		}

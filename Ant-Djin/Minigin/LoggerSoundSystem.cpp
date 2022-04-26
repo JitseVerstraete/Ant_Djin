@@ -1,9 +1,9 @@
 #include "MiniginPCH.h"
 #include "LoggerSoundSystem.h"
 
-void LoggerSoundSystem::Play(uint16_t id, float volume)
+void LoggerSoundSystem::Play(uint16_t id)
 {
-	m_ss->Play(id, volume);
+	m_ss->Play(id);
 	std::cout << "Played sound with id: " << id << std::endl;
 }
 

@@ -7,8 +7,10 @@ public:
 	~SDLSoundSystem();
 
 
-	void Play(uint16_t id, float volume);
-	void RegisterSound(uint16_t id, const std::string& filePath);
+	void Play(uint16_t id) override;
+	void RegisterSound(uint16_t id, const std::string& filePath) override;
+	void SetSoundVolume(int volume);
+	void GetSoundVolume(int volume);
 
 private:
 	class SDLSoundSystemImpl;

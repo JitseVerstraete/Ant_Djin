@@ -15,8 +15,8 @@ namespace dae
 		void CleanUpTextures();
 		void CleanUpFonts();
 
-		Texture2D* LoadTexture(const std::string& file) const;
-		Font* LoadFont(const std::string& file, unsigned int size) const;
+		Texture2D* LoadTexture(const std::string& file);
+		Font* LoadFont(const std::string& file, unsigned int size);
 	private:
 		friend class Singleton<ResourceManager>;
 		ResourceManager() = default;
