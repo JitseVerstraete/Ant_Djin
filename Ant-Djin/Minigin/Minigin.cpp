@@ -14,6 +14,7 @@
 #include "PeterPepperComponent.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "PlayerLivesDisplayComponent.h"
+#include "SDLSoundSystem.h"
 
 using namespace std;
 
@@ -62,12 +63,16 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
+	
+	SDLSoundSystem soundSys{};
+	soundSys.RegisterSound(0, "pling.wav");
+
+
 	std::cout << "CONTROLS INSTRUCTIONS:\n";
 	std::cout << "Player 1 Die:	Button A\n";
 	std::cout << "Player 1 Give 100 Points: Button B\n";
 	std::cout << "Player 2 Die:	Button X\n";
 	std::cout << "Player 2 Give 100 Points: Button Y\n";
-
 
 	//add background
 	auto go = new GameObject();
@@ -75,8 +80,10 @@ void dae::Minigin::LoadGame() const
 	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
 	scene.Add(go);
-	/*
+	
 
+
+	/*
 	//add dae logo
 	go = std::make_shared<GameObject>();
 	renComp = go->AddComponent(new RenderComponent());
@@ -95,6 +102,8 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 	*/
 
+
+	/*
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = new GameObject();
@@ -163,6 +172,7 @@ void dae::Minigin::LoadGame() const
 	go->SetPosition(520.f, 360.f);
 	scene.Add(go);
 
+	*/
 	
 
 

@@ -2,16 +2,16 @@
 #include "SoundSystem.h"
 class SDLSoundSystem : public SoundSystem
 {
-
-	SoundSystem* m_ss;
 public:
-	SDLSoundSystem(SoundSystem* ss) : m_ss{ ss } {}
+	SDLSoundSystem();
+	~SDLSoundSystem();
 
 
 	void Play(uint16_t id, float volume);
 	void RegisterSound(uint16_t id, const std::string& filePath);
 
 private:
-
+	class SDLSoundSystemImpl;
+	SDLSoundSystemImpl* m_pImpl;
 
 };
