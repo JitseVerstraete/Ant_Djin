@@ -13,6 +13,14 @@ dae::TextComponent::TextComponent(GameObject* pGo, const std::string& text, Font
 {
 }
 
+dae::TextComponent::~TextComponent()
+{
+	if (m_pTempTexture)
+	{
+		delete m_pTempTexture;
+	}
+}
+
 
 void dae::TextComponent::Update()
 {
@@ -43,8 +51,14 @@ void dae::TextComponent::Update()
 			SDL_FreeSurface(surf);
 			auto newTex = new Texture2D(texture);
 
-			renComp->SetTexture(newTex, true);
 
+			if (m_pTempTexture)
+			{
+				delete m_pTempTexture;
+			}
+
+			m_pTempTexture = newTex;
+			renComp->SetTexture(m_pTempTexture);
 
 		}
 
