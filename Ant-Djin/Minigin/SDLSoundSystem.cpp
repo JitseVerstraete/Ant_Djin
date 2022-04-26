@@ -6,6 +6,11 @@
 #include <map>
 #include <queue>
 
+//todo: loading and playing on a different threads with event queue
+//todo: make the sound system a service (service loacator)
+
+
+
 class SDLSoundClip
 {
 public:
