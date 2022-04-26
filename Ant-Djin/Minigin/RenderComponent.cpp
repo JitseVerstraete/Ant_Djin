@@ -30,7 +30,10 @@ void dae::RenderComponent::SetTexture(const std::string& filename)
 	m_pTexture = ResourceManager::GetInstance().LoadTexture(filename);
 }
  
-void dae::RenderComponent::SetTexture(Texture2D* tex)
+void dae::RenderComponent::SetTexture(Texture2D* tex, bool deletePrevious)
 {
+	if (deletePrevious && m_pTexture)
+		delete m_pTexture;
+
 	m_pTexture = tex;
 }

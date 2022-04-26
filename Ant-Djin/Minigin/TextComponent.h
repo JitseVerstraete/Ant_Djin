@@ -18,11 +18,10 @@ namespace dae
 
 
 		
-
 	private:
 		bool m_NeedsUpdate = true;
 		std::string m_Text;
-		std::shared_ptr<Font> m_Font;
+		Font* m_pFont;
 
 	};
 }
