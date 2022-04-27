@@ -1,14 +1,10 @@
 #include "MiniginPCH.h"
 #include "LoggerSoundSystem.h"
 
-void LoggerSoundSystem::Play(uint16_t id)
+
+void LoggerSoundSystem::Play(std::string path, int volume, bool looping)
 {
-	m_ss->Play(id);
-	std::cout << "Played sound with id: " << id << std::endl;
+	m_ss->Play(path, volume, looping);
+	std::cout << "Played sound with path: " << path << std::endl;
 }
 
-void LoggerSoundSystem::RegisterSound(uint16_t id, const std::string& filePath)
-{
-	m_ss->RegisterSound(id, filePath);
-	std::cout << "Registered sound with id:  " << id << std::endl;
-}

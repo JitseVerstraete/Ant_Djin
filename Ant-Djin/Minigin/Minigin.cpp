@@ -65,9 +65,8 @@ void dae::Minigin::LoadGame() const
 
 	
 	SDLSoundSystem soundSys{};
-	soundSys.RegisterSound(0, "../Data/pling.wav");
-	
 
+	
 
 	std::cout << "CONTROLS INSTRUCTIONS:\n";
 	std::cout << "Player 1 Die:	Button A\n";
@@ -173,10 +172,6 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(new PlayerLivesDisplayComponent(go, peterComp));
 	go->SetPosition(520.f, 360.f);
 	scene.Add(go);
-
-	
-	
-
 
 }
 

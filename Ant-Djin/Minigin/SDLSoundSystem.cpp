@@ -9,7 +9,12 @@
 //todo: loading and playing on a different threads with event queue
 //todo: make the sound system a service (service loacator)
 
-
+struct PlayRequest
+{
+	std::string path;
+	int volume;
+	bool looping;
+};
 
 class SDLSoundClip
 {
@@ -22,10 +27,10 @@ public:
 
 	~SDLSoundClip()
 	{
-		/*
+		
 		if (IsLoaded())
 			Mix_FreeChunk(m_pChunk);
-		*/
+		
 	}
 
 	void Load()
@@ -88,8 +93,11 @@ public:
 	}
 
 
-	void Play(uint16_t id)
+	void Play(std::string path, int volume, bool loop)
 	{
+
+		PlayRequest request{ path, volume, loop };
+		/*
 		auto it = m_Clips.find(id);
 		if (it != m_Clips.end())
 		{
@@ -103,17 +111,15 @@ public:
 		{
 			std::cerr << "Sound with id " << id << " was not found!\n";
 		}
+		*/
 
 	}
 
-	void RegisterSound(uint16_t id, const std::string& filePath)
-	{
-		m_Clips.insert(std::pair<uint16_t, SDLSoundClip>(id, SDLSoundClip(filePath)));
-	}
 
 
 private:
 	std::map<uint16_t, SDLSoundClip> m_Clips{};
+	std::queue<PlayRequest> m_Requests{};
 
 };
 
@@ -129,12 +135,8 @@ SDLSoundSystem::~SDLSoundSystem()
 	delete m_pImpl;
 }
 
-void SDLSoundSystem::Play(uint16_t id)
+void SDLSoundSystem::Play(std::string path, int volume, bool looping)
 {
-	m_pImpl->Play(id);
+	m_pImpl->Play(path, volume, looping);
 }
 
-void SDLSoundSystem::RegisterSound(uint16_t id, const std::string& filePath)
-{
-	m_pImpl->RegisterSound(id, filePath);
-}

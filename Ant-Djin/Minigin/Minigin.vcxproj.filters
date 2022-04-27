@@ -32,8 +32,11 @@
     <Filter Include="Observer Pattern">
       <UniqueIdentifier>{790220cb-7c76-49ed-8823-944c54b7576d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{f136ba70-fb63-4ed2-b0e6-2a2aedb0d211}</UniqueIdentifier>
+    <Filter Include="Services">
+      <UniqueIdentifier>{d870bddc-cd54-4b77-832f-ee8a3093811c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services\Sound Systems">
+      <UniqueIdentifier>{0cd9a121-c34d-4cb8-8146-adb2c4881967}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -130,14 +133,20 @@
     <ClInclude Include="PlayerLivesDisplayComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="SoundSystem.h">
-      <Filter>Sound</Filter>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Services</Filter>
     </ClInclude>
     <ClInclude Include="LoggerSoundSystem.h">
-      <Filter>Sound</Filter>
+      <Filter>Services\Sound Systems</Filter>
     </ClInclude>
     <ClInclude Include="SDLSoundSystem.h">
-      <Filter>Sound</Filter>
+      <Filter>Services\Sound Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Services\Sound Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultSoundSystem.h">
+      <Filter>Services\Sound Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -225,14 +234,20 @@
     <ClCompile Include="PlayerLivesDisplayComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="SoundSystem.cpp">
-      <Filter>Sound</Filter>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Services</Filter>
     </ClCompile>
     <ClCompile Include="LoggerSoundSystem.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Services\Sound Systems</Filter>
     </ClCompile>
     <ClCompile Include="SDLSoundSystem.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Services\Sound Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>Services\Sound Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultSoundSystem.cpp">
+      <Filter>Services\Sound Systems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

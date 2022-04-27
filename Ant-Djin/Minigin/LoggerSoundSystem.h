@@ -7,9 +7,7 @@ class LoggerSoundSystem : public SoundSystem
 public:
 	LoggerSoundSystem(SoundSystem* ss): m_ss{ss} {}
 	
-
-	void Play(uint16_t id) override;
-	void RegisterSound(uint16_t id, const std::string& filePath);
+	void Play(std::string path, int volume, bool looping) override;
 
 private:
 
