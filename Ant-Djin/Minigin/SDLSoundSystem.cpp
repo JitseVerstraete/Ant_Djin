@@ -92,12 +92,14 @@ public:
 		: m_Thread{ std::jthread(&SDLSoundSystemImpl::HandlePlayRequests, this) }
 		, m_Quitting{ false }
 	{
-		int result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 8, 1024);
+		int result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
 
 		if (result != 0)
 		{
 			std::cout << "Failed to open audio: " << Mix_GetError() << std::endl;
 		}
+
+		Mix_AllocateChannels(32);
 	}
 
 	~SDLSoundSystemImpl()
@@ -150,6 +152,7 @@ private:
 				if (foundClip != m_Clips.end())
 				{
 					foundClip->second->Play(request.volume, request.looping);
+					continue;
 				}
 
 				SDLSoundClip* pClip{ new SDLSoundClip(request.path) };

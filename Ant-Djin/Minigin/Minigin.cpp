@@ -72,49 +72,33 @@ void dae::Minigin::LoadGame() const
 #endif 
 
 
+	std::cout << "\nCONTROLS INSTRUCTIONS\n===============================\n";
+	std::cout << "Press the A-buton to play a sound\n";
 
-	ServiceLocator::GetInstance().GetSoundSystem()->Play("../Data/pling.wav", 30, true);
-
-
-	/*
-	std::cout << "CONTROLS INSTRUCTIONS:\n";
-	std::cout << "Player 1 Die:	Button A\n";
-	std::cout << "Player 1 Give 100 Points: Button B\n";
-	std::cout << "Player 2 Die:	Button X\n";
-	std::cout << "Player 2 Give 100 Points: Button Y\n";
-	*/
 
 	//add background
 	auto go = new GameObject();
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
 	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
-
 	scene.Add(go);
 
-
-
-	/*
 	//add dae logo
-	go = std::make_shared<GameObject>();
-	renComp = go->AddComponent(new RenderComponent());
+	go = new GameObject();
+	renComp = go->AddComponent(new RenderComponent(go));
 	texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	renComp->SetTexture(texture);
 	go->SetPosition(216, 180);
 	scene.Add(go);
 
-	//add the demo text
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go = std::make_shared<GameObject>();
-	renComp = go->AddComponent<RenderComponent>();
-	TextComponent* texComp = go->AddComponent<TextComponent>();
-	texComp->Init("Programming 4 Assignment", font);
-	go->SetPosition(80, 20);
+	//add the instructions text
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
+	go = new GameObject();
+	renComp = go->AddComponent(new RenderComponent(go));
+	go->AddComponent(new TextComponent(go, "Press the A-button to play a sound", font));
+	go->SetPosition(110, 50);
 	scene.Add(go);
-	*/
-
-
-
+	
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = new GameObject();
@@ -125,9 +109,16 @@ void dae::Minigin::LoadGame() const
 	scene.Add(go);
 
 
+	/*
+	std::cout << "CONTROLS INSTRUCTIONS:\n";
+	std::cout << "Player 1 Die:	Button A\n";
+	std::cout << "Player 1 Give 100 Points: Button B\n";
+	std::cout << "Player 2 Die:	Button X\n";
+	std::cout << "Player 2 Give 100 Points: Button Y\n";
+	*/
 
-
-
+	/* Events code (not needed now)
+	* 
 	//make a peter pepper1 and the corresponding displays
 	go = new GameObject();
 	auto peterComp = go->AddComponent(new PeterPepperComponent(go, 3, ControllerButton::ButtonA, ControllerButton::ButtonB));
@@ -182,7 +173,7 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(new PlayerLivesDisplayComponent(go, peterComp));
 	go->SetPosition(520.f, 360.f);
 	scene.Add(go);
-
+	 */
 }
 
 void dae::Minigin::Cleanup()
@@ -224,6 +215,11 @@ void dae::Minigin::Run()
 
 			//PROCESS INPUT
 			doContinue = input.ProcessInput();
+
+			if (input.IsPressed(ControllerButton::ButtonA, ButtonMode::Pressed, 0))
+			{
+				ServiceLocator::GetInstance().GetSoundSystem()->Play("../Data/pling.wav", 30, false);
+			}
 
 			//FIXED UPDATE 
 			lag += time.GetElapsed();
