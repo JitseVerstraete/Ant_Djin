@@ -5,6 +5,9 @@
 
 #include <map>
 #include <queue>
+#include <condition_variable>
+#include <thread>
+#include <mutex>
 
 //todo: loading and playing on a different threads with event queue
 //todo: make the sound system a service (service loacator)
@@ -27,26 +30,33 @@ public:
 
 	~SDLSoundClip()
 	{
-		
+
 		if (IsLoaded())
 			Mix_FreeChunk(m_pChunk);
-		
+
 	}
 
-	void Load()
+	bool Load()
 	{
+		if (IsLoaded()) return true;
+
 		m_pChunk = Mix_LoadWAV(m_Path.c_str());
 		if (m_pChunk == nullptr)
 		{
 			std::cerr << "audioclip " << m_Path << " failed to load, SDL_mixer error: " << Mix_GetError() << std::endl;
+			return false;
 		}
+		return true;
 	}
 
-	bool Play()
+	bool Play(int volume, bool looping)
 	{
 		if (!IsLoaded()) return false;
 
-		int channel{ Mix_PlayChannel(-1, m_pChunk, 0) };
+		SetVolume(volume);
+		int loops = looping ? -1 : 0;
+
+		int channel{ Mix_PlayChannel(-1, m_pChunk, loops) };
 		return channel == -1 ? false : true;
 	}
 
@@ -61,6 +71,7 @@ public:
 		if (IsLoaded())
 			return Mix_VolumeChunk(m_pChunk, -1);
 	}
+
 
 	bool IsLoaded()
 	{
@@ -78,6 +89,8 @@ class SDLSoundSystem::SDLSoundSystemImpl
 {
 public:
 	SDLSoundSystemImpl()
+		: m_Thread{ std::jthread(&SDLSoundSystemImpl::HandlePlayRequests, this) }
+		, m_Quitting{ false }
 	{
 		int result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 8, 1024);
 
@@ -89,7 +102,14 @@ public:
 
 	~SDLSoundSystemImpl()
 	{
-		Mix_Quit();
+		for (auto clipPair : m_Clips)
+		{
+			delete clipPair.second;
+		}
+
+		m_Quitting = true;
+		m_Cv.notify_all();
+		Mix_CloseAudio();
 	}
 
 
@@ -97,29 +117,57 @@ public:
 	{
 
 		PlayRequest request{ path, volume, loop };
-		/*
-		auto it = m_Clips.find(id);
-		if (it != m_Clips.end())
-		{
-			if (!it->second.IsLoaded())
-			{
-				it->second.Load();
-			}
-			it->second.Play();
-		}
-		else
-		{
-			std::cerr << "Sound with id " << id << " was not found!\n";
-		}
-		*/
-
+		m_Requests.emplace(PlayRequest(path, volume, loop));
+		m_Cv.notify_one();
 	}
 
 
 
 private:
-	std::map<uint16_t, SDLSoundClip> m_Clips{};
+	std::map<std::string, SDLSoundClip*> m_Clips{};
 	std::queue<PlayRequest> m_Requests{};
+	std::condition_variable m_Cv{};
+	std::mutex m_Mutex{};
+	std::jthread m_Thread;
+	bool m_Quitting{ false };
+
+
+	//private functions
+	void HandlePlayRequests()
+	{
+		while (!m_Quitting)
+		{
+			std::unique_lock lk{ m_Mutex };
+
+
+			if (m_Requests.size() > 0)
+			{
+				PlayRequest request = m_Requests.front();
+				m_Requests.pop();
+
+
+				auto foundClip = m_Clips.find(request.path);
+				if (foundClip != m_Clips.end())
+				{
+					foundClip->second->Play(request.volume, request.looping);
+				}
+
+				SDLSoundClip* pClip{ new SDLSoundClip(request.path) };
+				if (pClip->Load())
+				{
+					pClip->Play(request.volume, request.looping);
+					m_Clips.insert({ request.path, pClip });
+				}
+
+			}
+			else
+			{
+				m_Cv.wait(lk);
+			}
+
+			lk.unlock();
+		}
+	}
 
 };
 

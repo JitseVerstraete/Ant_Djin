@@ -5,6 +5,6 @@
 void LoggerSoundSystem::Play(std::string path, int volume, bool looping)
 {
 	m_ss->Play(path, volume, looping);
-	std::cout << "Played sound with path: " << path << std::endl;
+	std::cout << "LOGGER SOUND SYSTEM: Called Play on sound with path: " << path << std::endl;
 }
 

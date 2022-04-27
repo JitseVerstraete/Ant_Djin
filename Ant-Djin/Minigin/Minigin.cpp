@@ -1,5 +1,6 @@
 #include "MiniginPCH.h"
 #include "Minigin.h"
+#include "ServiceLocator.h"
 #include <thread>
 #include "InputManager.h"
 #include "SceneManager.h"
@@ -15,6 +16,7 @@
 #include "PlayerScoreDisplayComponent.h"
 #include "PlayerLivesDisplayComponent.h"
 #include "SDLSoundSystem.h"
+#include "LoggerSoundSystem.h"
 
 using namespace std;
 
@@ -63,25 +65,33 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	
-	SDLSoundSystem soundSys{};
+#ifdef _DEBUG
+	ServiceLocator::GetInstance().RegisterSoundSystem(new LoggerSoundSystem(new SDLSoundSystem()));
+#else
+	ServiceLocator::GetInstance().RegisterSoundSystem(new SDLSoundSystem());
+#endif 
 
-	
 
+
+	ServiceLocator::GetInstance().GetSoundSystem()->Play("../Data/pling.wav", 30, true);
+
+
+	/*
 	std::cout << "CONTROLS INSTRUCTIONS:\n";
 	std::cout << "Player 1 Die:	Button A\n";
 	std::cout << "Player 1 Give 100 Points: Button B\n";
 	std::cout << "Player 2 Die:	Button X\n";
 	std::cout << "Player 2 Give 100 Points: Button Y\n";
+	*/
 
 	//add background
 	auto go = new GameObject();
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
 	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
-	
+
 	scene.Add(go);
-	
+
 
 
 	/*
@@ -104,7 +114,7 @@ void dae::Minigin::LoadGame() const
 	*/
 
 
-	
+
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = new GameObject();
@@ -116,7 +126,7 @@ void dae::Minigin::LoadGame() const
 
 
 
-	
+
 
 	//make a peter pepper1 and the corresponding displays
 	go = new GameObject();
@@ -178,6 +188,7 @@ void dae::Minigin::LoadGame() const
 void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
+	ServiceLocator::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
@@ -190,6 +201,7 @@ void dae::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 	Time::GetInstance().Init(0.016f); //set the fixed timestep to 16ms
+	ServiceLocator::GetInstance();
 
 	LoadGame();
 

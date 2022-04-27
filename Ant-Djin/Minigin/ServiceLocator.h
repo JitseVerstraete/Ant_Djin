@@ -10,6 +10,11 @@ namespace dae
 	class ServiceLocator : public Singleton<ServiceLocator>
 	{
 	public:
+		ServiceLocator();
+
+
+		void Destroy();
+
 		SoundSystem* GetSoundSystem() const;
 		void RegisterSoundSystem(SoundSystem* pSoundSystem);
 

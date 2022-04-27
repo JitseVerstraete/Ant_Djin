@@ -1,6 +1,6 @@
 #pragma once
 #include "SoundSystem.h"
-class LoggerSoundSystem : public SoundSystem
+class LoggerSoundSystem final : public SoundSystem
 {
 
 	SoundSystem* m_ss;

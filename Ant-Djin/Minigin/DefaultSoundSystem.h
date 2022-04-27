@@ -2,7 +2,7 @@
 #include "SoundSystem.h"
 
 //empty sound system (does nothing, but is used as a fallback if no sound system in registered in service locator)
-class DefaultSoundSystem : public SoundSystem
+class DefaultSoundSystem final : public SoundSystem
 {
 public:
 	DefaultSoundSystem() = default;
