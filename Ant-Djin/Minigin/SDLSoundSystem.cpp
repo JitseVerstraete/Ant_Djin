@@ -119,6 +119,7 @@ public:
 	{
 
 		PlayRequest request{ path, volume, loop };
+		std::unique_lock lock{ m_Mutex };
 		m_Requests.emplace(PlayRequest(path, volume, loop));
 		m_Cv.notify_one();
 	}
@@ -141,36 +142,45 @@ private:
 		{
 			std::unique_lock lk{ m_Mutex };
 
-
 			if (m_Requests.size() > 0)
 			{
 				PlayRequest request = m_Requests.front();
 				m_Requests.pop();
 
+				lk.unlock();
 
-				auto foundClip = m_Clips.find(request.path);
-				if (foundClip != m_Clips.end())
-				{
-					foundClip->second->Play(request.volume, request.looping);
-					continue;
-				}
-
-				SDLSoundClip* pClip{ new SDLSoundClip(request.path) };
-				if (pClip->Load())
-				{
-					pClip->Play(request.volume, request.looping);
-					m_Clips.insert({ request.path, pClip });
-				}
-
+				LoadAndPlaySound(request);
 			}
 			else
 			{
 				m_Cv.wait(lk);
 			}
-
-			lk.unlock();
 		}
 	}
+
+
+	void LoadAndPlaySound(PlayRequest request)
+	{
+		auto foundClip = m_Clips.find(request.path);
+		if (foundClip != m_Clips.end())
+		{
+			foundClip->second->Play(request.volume, request.looping);
+		}
+		else
+		{
+			SDLSoundClip* pClip{ new SDLSoundClip(request.path) };
+			if (pClip->Load())
+			{
+				pClip->Play(request.volume, request.looping);
+				m_Clips.insert({ request.path, pClip });
+			}
+		}
+
+
+
+	}
+
+
 
 };
 
