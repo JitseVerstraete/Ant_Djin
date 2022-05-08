@@ -12,7 +12,8 @@ dae::ServiceLocator::ServiceLocator()
 
 void dae::ServiceLocator::Destroy()
 {
-	delete m_pSoundSystem;
+	if (m_pSoundSystem != &m_DefaultSoundSystem)
+		delete m_pSoundSystem;
 	//delete all other future systems encapsulated under this service locator
 }
 

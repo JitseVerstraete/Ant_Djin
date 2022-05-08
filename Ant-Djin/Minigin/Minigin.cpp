@@ -1,5 +1,9 @@
 #include "MiniginPCH.h"
 #include "Minigin.h"
+#include "BaseGame.h"
+
+
+
 #include "ServiceLocator.h"
 #include <thread>
 #include "InputManager.h"
@@ -19,6 +23,17 @@
 #include "LoggerSoundSystem.h"
 
 using namespace std;
+
+dae::Minigin::Minigin(BaseGame* pGame)
+{
+	assert(pGame);
+	m_pGame = pGame;
+}
+
+dae::Minigin::~Minigin()
+{
+	delete m_pGame;
+}
 
 void PrintSDLVersion()
 {
@@ -194,7 +209,7 @@ void dae::Minigin::Run()
 	Time::GetInstance().Init(0.016f); //set the fixed timestep to 16ms
 	ServiceLocator::GetInstance();
 
-	LoadGame();
+	m_pGame->LoadGame();
 
 	{
 		auto& renderer = Renderer::GetInstance();

@@ -38,6 +38,9 @@
     <Filter Include="Services\Sound Systems">
       <UniqueIdentifier>{0cd9a121-c34d-4cb8-8146-adb2c4881967}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{918283e2-aa47-40bd-8011-74974a85b6b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="DefaultSoundSystem.h">
       <Filter>Services\Sound Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGame.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

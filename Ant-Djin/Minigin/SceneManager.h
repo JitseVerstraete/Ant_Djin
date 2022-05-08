@@ -1,5 +1,8 @@
 #pragma once
 #include "Singleton.h"
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace dae
 {
