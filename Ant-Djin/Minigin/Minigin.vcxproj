@@ -262,7 +262,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="XBox360Controller.h" />
   </ItemGroup>
@@ -338,7 +338,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\SDL2_mixer.dll" "
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="XBox360Controller.cpp" />
   </ItemGroup>

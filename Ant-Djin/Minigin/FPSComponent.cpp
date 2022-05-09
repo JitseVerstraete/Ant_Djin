@@ -1,6 +1,6 @@
 #include "MiniginPCH.h"
 #include "FPSComponent.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "GameObject.h"
 #include "TextComponent.h"
 #include <iomanip>

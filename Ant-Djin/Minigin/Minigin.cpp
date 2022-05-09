@@ -9,7 +9,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
-#include "Time.h"
+#include "GameTime.h"
 #include "ResourceManager.h"
 #include "RenderComponent.h"
 #include "TextComponent.h"

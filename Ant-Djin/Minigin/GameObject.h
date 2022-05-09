@@ -2,11 +2,11 @@
 #include "Transform.h"
 #include "Component.h"
 
+#include <iostream>
 
 
 namespace dae
 {
-
 	class GameObject final
 	{
 	public:

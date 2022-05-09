@@ -10,6 +10,7 @@
 #include "RenderComponent.h"
 #include "ResourceManager.h"
 
+#include <iostream>
 
 #include "Scene.h"
 
@@ -27,10 +28,10 @@ void BurgerTimeGame::LoadGame()
 	ServiceLocator::GetInstance().RegisterSoundSystem(new SDLSoundSystem());
 #endif 
 
-	/*
+	
 	std::cout << "\nCONTROLS INSTRUCTIONS\n===============================\n";
 	std::cout << "Press the A-buton to play a sound\n";
-	*/
+	
 
 
 	//add background

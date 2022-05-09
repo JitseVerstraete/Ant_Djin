@@ -85,7 +85,7 @@
     <ClInclude Include="Transform.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="GameTime.h">
       <Filter>Singletons</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
@@ -198,7 +198,7 @@
     <ClCompile Include="Transform.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="GameTime.cpp">
       <Filter>Singletons</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
