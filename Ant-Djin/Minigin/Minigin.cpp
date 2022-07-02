@@ -78,7 +78,7 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	Scene* pScene = SceneManager::GetInstance().CreateScene("Demo");
 
 #ifdef _DEBUG
 	ServiceLocator::GetInstance().RegisterSoundSystem(new LoggerSoundSystem(new SDLSoundSystem()));
@@ -96,7 +96,7 @@ void dae::Minigin::LoadGame() const
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
 	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
-	scene.Add(go);
+	pScene->Add(go);
 
 	//add dae logo
 	go = new GameObject();
@@ -104,7 +104,7 @@ void dae::Minigin::LoadGame() const
 	texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	renComp->SetTexture(texture);
 	go->SetPosition(216, 180);
-	scene.Add(go);
+	pScene->Add(go);
 
 	//add the instructions text
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
@@ -112,7 +112,7 @@ void dae::Minigin::LoadGame() const
 	renComp = go->AddComponent(new RenderComponent(go));
 	go->AddComponent(new TextComponent(go, "Press the A-button to play a sound", font));
 	go->SetPosition(110, 50);
-	scene.Add(go);
+	pScene->Add(go);
 	
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
@@ -121,7 +121,7 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
 	go->AddComponent(new FPSComponent(go));
 	go->SetPosition(0, 0);
-	scene.Add(go);
+	pScene->Add(go);
 
 
 	/*
@@ -218,8 +218,6 @@ void dae::Minigin::Run()
 		auto& time = Time::GetInstance();
 
 
-
-
 		float lag{};
 		bool doContinue = true;
 		while (doContinue)
@@ -230,11 +228,6 @@ void dae::Minigin::Run()
 
 			//PROCESS INPUT
 			doContinue = input.ProcessInput();
-
-			if (input.IsPressed(ControllerButton::ButtonA, ButtonMode::Pressed, 0))
-			{
-				ServiceLocator::GetInstance().GetSoundSystem()->Play("../Data/pling.wav", 30, false);
-			}
 
 			//FIXED UPDATE 
 			lag += time.GetElapsed();

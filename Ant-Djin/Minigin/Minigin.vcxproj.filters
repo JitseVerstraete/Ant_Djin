@@ -20,9 +20,6 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{a425b3fc-3806-4c92-a85a-0a4f5aa41e5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Singletons">
-      <UniqueIdentifier>{0181b10a-d1f3-45ca-ac8b-f3981721fc9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{085e57d5-061f-4434-813d-9b815a054734}</UniqueIdentifier>
     </Filter>
@@ -40,6 +37,9 @@
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{918283e2-aa47-40bd-8011-74974a85b6b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Singleton Pattern">
+      <UniqueIdentifier>{0181b10a-d1f3-45ca-ac8b-f3981721fc9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -71,22 +71,13 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.h">
-      <Filter>Singletons</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Singletons</Filter>
+      <Filter>Singleton Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Singletons</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Singletons</Filter>
+      <Filter>Singleton Pattern</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTime.h">
-      <Filter>Singletons</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
       <Filter>Components</Filter>
@@ -154,6 +145,15 @@
     <ClInclude Include="BaseGame.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -186,20 +186,11 @@
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Singletons</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Singletons</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Singletons</Filter>
+      <Filter>Singleton Pattern</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTime.cpp">
-      <Filter>Singletons</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
       <Filter>Components</Filter>
@@ -254,6 +245,15 @@
     </ClCompile>
     <ClCompile Include="DefaultSoundSystem.cpp">
       <Filter>Services\Sound Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

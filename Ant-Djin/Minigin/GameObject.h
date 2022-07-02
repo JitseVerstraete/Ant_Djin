@@ -19,6 +19,7 @@ namespace dae
 		template <typename T> void RemoveComponent();
 		template <typename T> T* GetComponent();
 
+
 		//hirearchy
 		void AddChild(GameObject* childObject) { m_pChildren.push_back(childObject); }
 		std::vector<GameObject*> Getchildren() const { return m_pChildren; }

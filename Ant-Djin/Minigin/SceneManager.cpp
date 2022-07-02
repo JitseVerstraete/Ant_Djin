@@ -4,31 +4,44 @@
 
 void dae::SceneManager::Update()
 {
-	for(auto& scene : m_Scenes)
+	if (m_pActiveScene)
 	{
-		scene->Update();
+		m_pActiveScene->Update();
 	}
 }
 
 void dae::SceneManager::FixedUpdate()
 {
-	for (auto& scene : m_Scenes)
+	if (m_pActiveScene)
 	{
-		scene->FixedUpdate();
+		m_pActiveScene->FixedUpdate();
 	}
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto& scene : m_Scenes)
+	if (m_pActiveScene)
 	{
-		scene->Render();
+		m_pActiveScene->Render();
 	}
 }
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+void dae::SceneManager::SetActiveScene(Scene* pScene)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_Scenes.push_back(scene);
-	return *scene;
+	m_pActiveScene = pScene;
+}
+
+dae::Scene* dae::SceneManager::CreateScene(const std::string& name)
+{
+
+	auto foundScene = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&name](dae::Scene* s) -> bool {return s->GetName() == name; });
+	if (foundScene != m_Scenes.end())
+	{
+		std::cout << "A SCENE WITH THAT NAME ALREADY EXISTS! Returned existing scene";
+		return *foundScene;
+	}
+	Scene* pScene = new Scene(name);
+	m_Scenes.push_back(pScene);
+	if (m_pActiveScene == nullptr) m_pActiveScene = pScene;
+	return pScene;
 }
