@@ -12,6 +12,7 @@
 #include "RenderComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
+#include "MoveComponent.h"
 
 #include <iostream>
 
@@ -31,7 +32,7 @@ void TronGame::LoadGame()
 #else
 	ServiceLocator::GetInstance().RegisterSoundSystem(new SDLSoundSystem());
 #endif 
-	
+
 
 	////SCENE 1
 
@@ -49,7 +50,8 @@ void TronGame::LoadGame()
 	renComp = go->AddComponent(new RenderComponent(go));
 	texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	renComp->SetTexture(texture);
-	go->SetPosition(216, 180);
+	go->AddComponent(new MoveComponent(go));
+	go->GetTransform().SetLocalPosition({ 216, 180, 0.f });
 	pScene1->Add(go);
 
 	//add the instructions text
@@ -57,7 +59,7 @@ void TronGame::LoadGame()
 	go = new GameObject();
 	renComp = go->AddComponent(new RenderComponent(go));
 	go->AddComponent(new TextComponent(go, "This is Scene 1", font));
-	go->SetPosition(110, 50);
+	go->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
 	pScene1->Add(go);
 
 	//add the fps counter
@@ -66,7 +68,7 @@ void TronGame::LoadGame()
 	go->AddComponent(new RenderComponent(go));
 	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
 	go->AddComponent(new FPSComponent(go));
-	go->SetPosition(0, 0);
+	go->GetTransform().SetLocalPosition({ 0.f, 0.f, 0.f });
 	pScene1->Add(go);
 
 

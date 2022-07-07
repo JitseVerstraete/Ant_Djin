@@ -17,7 +17,7 @@ namespace dae
 		void SetAttachedGameObject(GameObject* pGO);
 		GameObject* GetGameObject() const;
 
-	private:
+	protected:
 		GameObject* m_pAttachedGameObject = nullptr; //No ownership on this pointer
 	};
 

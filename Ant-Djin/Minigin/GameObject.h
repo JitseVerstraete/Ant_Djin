@@ -3,6 +3,7 @@
 #include "Component.h"
 
 #include <iostream>
+#include <vector>
 
 
 namespace dae
@@ -27,8 +28,7 @@ namespace dae
 
 
 		//transform manip
-		void SetPosition(float x, float y);
-		Transform GetTransform() const { return m_Transform; }
+		Transform& GetTransform() { return m_Transform; }
 
 
 		GameObject(GameObject* pParent = nullptr);

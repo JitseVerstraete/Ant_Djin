@@ -21,8 +21,8 @@ void dae::RenderComponent::FixedUpdate()
 
 void dae::RenderComponent::Render() const
 {
-	auto pos = GetGameObject()->GetTransform().GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
+	auto pos = GetGameObject()->GetTransform().GetWorldPosition();
+	Renderer::GetInstance().RenderTexture(*m_pTexture, pos);
 }
 
 void dae::RenderComponent::SetTexture(const std::string& filename)

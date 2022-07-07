@@ -16,7 +16,7 @@ void dae::FPSComponent::Update()
 	TextComponent* textComp = GetGameObject()->GetComponent<TextComponent>();
 
 	m_FrameCounter++;
-	m_UpdateTimer += Time::GetInstance().GetElapsed();
+	m_UpdateTimer += GameTime::GetInstance().GetElapsed();
 
 	if (m_UpdateTimer > m_SecondsPerUpdate)
 	{

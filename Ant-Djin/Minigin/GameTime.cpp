@@ -3,14 +3,14 @@
 
 using namespace std::chrono;
 
-void dae::Time::Init(float fixedTimeStep)
+void dae::GameTime::Init(float fixedTimeStep)
 {
 	m_LastTimePoint = high_resolution_clock::now();
 	m_AccumulatedTime = 0.f;
 	m_FixedTimeStep = fixedTimeStep;
 }
 
-void dae::Time::ProcessTime()
+void dae::GameTime::ProcessTime()
 {
 	m_CurrentTimePoint = high_resolution_clock::now();
 	m_DeltaTime = duration<float>(m_CurrentTimePoint - m_LastTimePoint).count();

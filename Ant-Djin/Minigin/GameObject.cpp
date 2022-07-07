@@ -4,6 +4,7 @@
 #include "Component.h"
 
 dae::GameObject::GameObject(GameObject* pParent)
+	:m_Transform{this}
 {
 	m_pParent = pParent;
 	if (m_pParent != nullptr)
@@ -52,7 +53,3 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::SetPosition(float x, float y)
-{
-	m_Transform.SetPosition(x, y, 0.0f);
-}

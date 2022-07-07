@@ -78,13 +78,17 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
+	//THIS FUNCTION IS OBSOLETE!
+
+
+	/*
 	Scene* pScene = SceneManager::GetInstance().CreateScene("Demo");
 
 #ifdef _DEBUG
 	ServiceLocator::GetInstance().RegisterSoundSystem(new LoggerSoundSystem(new SDLSoundSystem()));
 #else
 	ServiceLocator::GetInstance().RegisterSoundSystem(new SDLSoundSystem());
-#endif 
+#endif
 
 
 	std::cout << "\nCONTROLS INSTRUCTIONS\n===============================\n";
@@ -103,7 +107,7 @@ void dae::Minigin::LoadGame() const
 	renComp = go->AddComponent(new RenderComponent(go));
 	texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	renComp->SetTexture(texture);
-	go->SetPosition(216, 180);
+	go->GetTransform().pos = { 216.f, 180.f, 0.f };
 	pScene->Add(go);
 
 	//add the instructions text
@@ -111,20 +115,19 @@ void dae::Minigin::LoadGame() const
 	go = new GameObject();
 	renComp = go->AddComponent(new RenderComponent(go));
 	go->AddComponent(new TextComponent(go, "Press the A-button to play a sound", font));
-	go->SetPosition(110, 50);
+	go->GetTransform().pos = { 110.f, 50.f, 0.f };
 	pScene->Add(go);
-	
+
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = new GameObject();
 	go->AddComponent(new RenderComponent(go));
 	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
 	go->AddComponent(new FPSComponent(go));
-	go->SetPosition(0, 0);
+	go->GetTransform().pos = { 0.f, 0.f, 0.f };
 	pScene->Add(go);
 
 
-	/*
 	std::cout << "CONTROLS INSTRUCTIONS:\n";
 	std::cout << "Player 1 Die:	Button A\n";
 	std::cout << "Player 1 Give 100 Points: Button B\n";
@@ -133,7 +136,7 @@ void dae::Minigin::LoadGame() const
 	*/
 
 	/* Events code (not needed now)
-	* 
+	*
 	//make a peter pepper1 and the corresponding displays
 	go = new GameObject();
 	auto peterComp = go->AddComponent(new PeterPepperComponent(go, 3, ControllerButton::ButtonA, ControllerButton::ButtonB));
@@ -206,7 +209,7 @@ void dae::Minigin::Run()
 
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
-	Time::GetInstance().Init(0.016f); //set the fixed timestep to 16ms
+	GameTime::GetInstance().Init(0.016f); //set the fixed timestep to 16ms
 	ServiceLocator::GetInstance();
 
 	m_pGame->LoadGame();
@@ -215,7 +218,7 @@ void dae::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-		auto& time = Time::GetInstance();
+		auto& time = GameTime::GetInstance();
 
 
 		float lag{};
