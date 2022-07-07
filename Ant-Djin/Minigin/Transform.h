@@ -1,15 +1,16 @@
 #pragma once
 
 #pragma warning(push)
-#pragma warning(disable:4201)   
+#pragma warning(disable:4201)    
 #include<glm/glm.hpp>
 #pragma warning (pop)
 
-#include <vector>
+#include <set>
 
 namespace dae
 {
 	class GameObject;
+		
 
 	class Transform final
 	{
@@ -39,7 +40,8 @@ namespace dae
 		void SetWorldRotation(float degrees);
 
 
-		//hierarchy functions (add child, remove child...)
+		//hierarchy functions (add child)
+		void SetParent(Transform* pParent, bool keepWorldTransform); //sets parent, removes itself as child from previous parent, set as child for new parent & update transform
 
 
 	private:
@@ -59,14 +61,23 @@ namespace dae
 		//game object to which this transform belongs
 		GameObject* m_pGameObject; 
 
+
+
 		//parent-child stuff
 		Transform* m_pParent;
-		std::vector<Transform*> m_pChildren;
+		std::set<Transform*> m_pChildren;
+	
 
 
 		void SetPositionDirty();
 		void SetRotationDirty();
 		void SetScaleDirty();
 
+		//hierarchy helpers
+		void RemoveChild(Transform* pToRemove); 
+		void AddChild(Transform* pToAdd);
+
 	};
+
 }
+

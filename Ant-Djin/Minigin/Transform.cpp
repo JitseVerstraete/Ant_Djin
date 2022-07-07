@@ -115,9 +115,34 @@ void dae::Transform::SetLocalRotation(float degrees)
 	SetRotationDirty();
 }
 
-void dae::Transform::SetWorldRotation(float /*degrees*/)
+	void dae::Transform::SetWorldRotation(float /*degrees*/)
+	{
+		//todo: yet to implement
+	}
+
+void dae::Transform::SetParent(Transform* pParent, bool keepWorldTransform)
 {
-	//todo: yet to implement
+	//remove itself from children of previous parent
+	if (m_pParent) m_pParent->RemoveChild(this);
+
+	//set the given partent as the current parent
+	m_pParent = pParent;
+
+	//add this Transform to the list of children of new parent
+	m_pParent->AddChild(this);
+
+	//update transform
+	if (keepWorldTransform)
+	{
+	
+	}
+	else
+	{
+
+	}
+
+
+
 }
 
 
@@ -149,3 +174,16 @@ void dae::Transform::SetScaleDirty()
 		if (child) child->SetScaleDirty();
 	}
 }
+
+void dae::Transform::RemoveChild(Transform* pToRemove)
+{
+	//erase the given transform from the list of children
+	m_pChildren.erase(pToRemove);
+	
+}
+
+void dae::Transform::AddChild(Transform* pToAdd)
+{
+	m_pChildren.insert(pToAdd);
+}
+
