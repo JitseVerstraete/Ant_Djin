@@ -17,6 +17,8 @@ namespace dae
 	private:
 		const float m_MoveSpeed = 100.f;
 		int m_moveDir = -1;
+
+		const float m_RotSpeed = 45.f;
 		
 	};
 

@@ -22,5 +22,6 @@ void dae::MoveComponent::Update()
 
 	float movement = m_moveDir * m_MoveSpeed * GameTime::GetInstance().GetElapsed();
 	m_pAttachedGameObject->GetTransform().Translate( vec3{movement, 0.f, 0.f});
+	m_pAttachedGameObject->GetTransform().Rotate(GameTime::GetInstance().GetElapsed() * m_RotSpeed);
 
 }

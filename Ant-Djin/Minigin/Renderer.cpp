@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
+#include "Transform.h"
 
 /* //IMGUI INCLUDES
 #include "imgui.h"
@@ -75,18 +76,18 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const glm::vec3& pos, float angle, const glm::vec2& scale) const
+void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform) const
 {
 	//todo: use the depth to sort all textures from 
 
 
 	SDL_FRect dst{};
-	dst.x = pos.x;
-	dst.y = pos.y;
+	dst.x = transform.GetWorldPosition().x;
+	dst.y = transform.GetWorldPosition().y;
 
 	int w{}, h{};
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &w, &h);
-	dst.w = w * scale.x;
-	dst.h = h * scale.y;
-	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle , nullptr, SDL_FLIP_NONE);
+	dst.w = w * transform.GetWorldScale().x;
+	dst.h = h * transform.GetWorldScale().y;
+	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, transform.GetWorldRotation(), nullptr, SDL_FLIP_NONE);
 }

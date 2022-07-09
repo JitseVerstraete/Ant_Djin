@@ -27,12 +27,12 @@ namespace dae
 
 		//scale functions
 		const glm::vec2& GetLocalScale() const;
-		const glm::vec2& GetWorldScale() const;
+		const glm::vec2& GetWorldScale();
 
 		void SetScale(const glm::vec2& scale);
 		
 		//rotation functions
-		float GetWorldRotation() const;
+		float GetWorldRotation() ;
 		float GetLocalRotation() const;
 
 		void Rotate(float deltaDegrees);
@@ -41,7 +41,7 @@ namespace dae
 
 
 		//hierarchy functions (add child)
-		void SetParent(Transform* pParent, bool keepWorldTransform); //sets parent, removes itself as child from previous parent, set as child for new parent & update transform
+		void SetParent(Transform* pParent, bool keepWorldTransform = true); //sets parent, removes itself as child from previous parent, set as child for new parent & update transform
 
 
 	private:

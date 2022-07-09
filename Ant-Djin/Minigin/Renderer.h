@@ -3,6 +3,7 @@
 
 namespace dae
 {
+	class Transform;
 	class Texture2D;
 	/**
 	 * Simple RAII wrapper for the SDL renderer
@@ -17,7 +18,7 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, const glm::vec3& pos = glm::vec3{0.f, 0.f, 0.f}, float angle = 0.f, const glm::vec2& scale = glm::vec2{1.f, 1.f}) const;
+		void RenderTexture(const Texture2D& texture, Transform& transform) const;
 
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 

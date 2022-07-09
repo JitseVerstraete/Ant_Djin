@@ -46,13 +46,13 @@ void TronGame::LoadGame()
 
 
 	//add dae logo
-	go = new GameObject();
-	renComp = go->AddComponent(new RenderComponent(go));
+	GameObject* parentObject = new GameObject();
+	renComp = parentObject->AddComponent(new RenderComponent(parentObject));
 	texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	renComp->SetTexture(texture);
-	go->AddComponent(new MoveComponent(go));
-	go->GetTransform().SetLocalPosition({ 216, 180, 0.f });
-	pScene1->Add(go);
+	parentObject->AddComponent(new MoveComponent(parentObject));
+	parentObject->GetTransform().SetLocalPosition({ 216, 180, 0.f });
+	pScene1->Add(parentObject);
 
 	//add the instructions text
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
@@ -60,6 +60,7 @@ void TronGame::LoadGame()
 	renComp = go->AddComponent(new RenderComponent(go));
 	go->AddComponent(new TextComponent(go, "This is Scene 1", font));
 	go->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
+	go->GetTransform().SetParent(&parentObject->GetTransform());
 	pScene1->Add(go);
 
 	//add the fps counter

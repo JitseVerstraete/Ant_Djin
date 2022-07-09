@@ -25,17 +25,22 @@ const glm::vec3& dae::Transform::GetLocalPosition() const
 
 const glm::vec3& dae::Transform::GetWorldPosition()
 {
-	if (!m_positionDirty) return m_WorldPos;
-	else
+	if (m_positionDirty)
 	{
 		//calculate new world pos
-		if (m_pParent == nullptr) return m_LocalPos;
+		if (m_pParent == nullptr)
+		{
+			m_WorldPos = m_LocalPos;
+		}
 		else
 		{
-			m_pParent->GetWorldPosition();
+
+			m_WorldPos = m_pParent->GetWorldPosition() + m_LocalPos;
 		}
+		m_positionDirty = false;
 
 	}
+
 	return m_WorldPos;
 }
 
@@ -62,16 +67,19 @@ const glm::vec2& dae::Transform::GetLocalScale() const
 	return m_LocalScale;
 }
 
-const glm::vec2& dae::Transform::GetWorldScale() const
+const glm::vec2& dae::Transform::GetWorldScale()
 {
-	if (!m_scaleDirty) return m_WorldScale;
-	else
+	if (m_scaleDirty)
 	{
+		m_scaleDirty = false;
 		//calculate new world pos
-		if (m_pParent == nullptr) return m_LocalScale;
+		if (m_pParent == nullptr)
+		{
+			m_WorldScale = m_LocalScale;
+		}
 		else
 		{
-			m_pParent->GetWorldScale();
+			m_WorldScale = m_LocalScale * m_pParent->GetWorldScale();
 		}
 	}
 	return m_WorldScale;
@@ -83,16 +91,19 @@ void dae::Transform::SetScale(const glm::vec2& scale)
 	SetScaleDirty();
 }
 
-float dae::Transform::GetWorldRotation() const
+float dae::Transform::GetWorldRotation()
 {
-	if (!m_rotationDirty) return m_WorldRot;
-	else
+	if (m_rotationDirty)
 	{
+		m_scaleDirty = false;
 		//calculate new world pos
-		if (m_pParent == nullptr) return m_LocalRot;
+		if (m_pParent == nullptr)
+		{
+			m_WorldRot = m_LocalRot;
+		}
 		else
 		{
-			m_pParent->GetWorldRotation();
+			m_WorldRot = m_LocalRot = m_pParent->GetWorldRotation();
 		}
 	}
 	return m_WorldRot;
@@ -115,10 +126,10 @@ void dae::Transform::SetLocalRotation(float degrees)
 	SetRotationDirty();
 }
 
-	void dae::Transform::SetWorldRotation(float /*degrees*/)
-	{
-		//todo: yet to implement
-	}
+void dae::Transform::SetWorldRotation(float /*degrees*/)
+{
+	//todo: yet to implement
+}
 
 void dae::Transform::SetParent(Transform* pParent, bool keepWorldTransform)
 {
@@ -134,15 +145,8 @@ void dae::Transform::SetParent(Transform* pParent, bool keepWorldTransform)
 	//update transform
 	if (keepWorldTransform)
 	{
-	
+		Translate(-m_pParent->GetWorldPosition());
 	}
-	else
-	{
-
-	}
-
-
-
 }
 
 
@@ -179,7 +183,7 @@ void dae::Transform::RemoveChild(Transform* pToRemove)
 {
 	//erase the given transform from the list of children
 	m_pChildren.erase(pToRemove);
-	
+
 }
 
 void dae::Transform::AddChild(Transform* pToAdd)
