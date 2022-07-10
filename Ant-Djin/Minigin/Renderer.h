@@ -19,6 +19,10 @@ namespace dae
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, Transform& transform) const;
+		void DrawRectangle(glm::ivec2 pos, glm::ivec2 dim, const glm::uvec4& color, bool fill= true);
+		void DrawLine(glm::ivec2 pos1, glm::ivec2 pos2, const glm::uvec4& color);
+
+		
 
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 

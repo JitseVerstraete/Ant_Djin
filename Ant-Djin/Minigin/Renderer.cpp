@@ -3,6 +3,8 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 #include "Transform.h"
+#include "SDL.h"
+
 
 /* //IMGUI INCLUDES
 #include "imgui.h"
@@ -91,3 +93,32 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform
 	dst.h = h * transform.GetWorldScale().y;
 	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, transform.GetWorldRotation(), nullptr, SDL_FLIP_NONE);
 }
+
+void dae::Renderer::DrawRectangle(glm::ivec2 pos, glm::ivec2 dim, const glm::uvec4& color, bool fill)
+{
+	SDL_SetRenderDrawColor(GetSDLRenderer(), static_cast<Uint8>(color.r), static_cast<Uint8>(color.g), static_cast<Uint8>(color.b), static_cast<Uint8>(color.a));
+	SDL_Rect rect{};
+	rect.x = pos.x;
+	rect.y = pos.y;
+	rect.w = dim.x;
+	rect.h = dim.y;
+
+	if (fill)
+	{
+		SDL_RenderFillRect(GetSDLRenderer(), &rect);
+	}
+	else
+	{
+		SDL_RenderDrawRect(GetSDLRenderer(), &rect);
+	}
+}
+
+void dae::Renderer::DrawLine(glm::ivec2 pos1, glm::ivec2 pos2, const glm::uvec4& color)
+{
+	SDL_SetRenderDrawColor(GetSDLRenderer(), static_cast<Uint8>(color.r), static_cast<Uint8>(color.g), static_cast<Uint8>(color.b), static_cast<Uint8>(color.a));
+	SDL_RenderDrawLine(GetSDLRenderer(), pos1.x, pos1.y, pos2.x, pos2.y);
+}
+
+
+
+
