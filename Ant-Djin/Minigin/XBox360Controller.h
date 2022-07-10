@@ -21,13 +21,6 @@ namespace dae
 		ButtonY
 	};
 
-	enum class ButtonMode
-	{
-		Down,
-		Pressed,
-		Released
-	};
-
 	class XBox360Controller
 	{
 	public:

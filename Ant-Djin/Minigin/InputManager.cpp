@@ -9,6 +9,16 @@ dae::InputManager::InputManager()
 	{
 		m_Controllers.insert({ i, new XBox360Controller(i) });
 	}
+
+	memset(m_PreviousKeyboardState, 0, sizeof(Uint8) * SDL_NUM_SCANCODES);
+	memcpy(m_CurrentKeyboardState, SDL_GetKeyboardState(nullptr), sizeof(Uint8) * SDL_NUM_SCANCODES);
+
+
+	m_PreviousMouseState = 0;
+	m_CurrentMouseState = SDL_GetMouseState(&m_CurrentMousePos.x, &m_CurrentMousePos.y);
+
+	m_PrevMousePos = m_CurrentMousePos;
+
 }
 
 dae::InputManager::~InputManager()
@@ -36,15 +46,28 @@ bool dae::InputManager::ProcessInput()
 		controller.second->ProcessInput();
 	}
 
+
+	memcpy(m_PreviousKeyboardState, m_CurrentKeyboardState, sizeof(Uint8) * SDL_NUM_SCANCODES);
+	memcpy(m_CurrentKeyboardState, SDL_GetKeyboardState(nullptr), sizeof(Uint8) * SDL_NUM_SCANCODES);
+
+	m_PrevMousePos = m_CurrentMousePos;
+	m_PreviousMouseState = m_CurrentMouseState;
+	m_CurrentMouseState = SDL_GetMouseState(&m_CurrentMousePos.x, &m_CurrentMousePos.y);
+
+	m_DeltaMousePos = m_CurrentMousePos - m_PrevMousePos;
+
 	SDL_Event e{};
 	while (SDL_PollEvent(&e))
 	{
-		if (e.type == SDL_QUIT)
+		switch (e.type)
 		{
+		case SDL_QUIT:
 			return false;
+			break;
+		default:
+			break;
 		}
 	}
-
 
 	return true;
 
@@ -65,7 +88,7 @@ bool dae::InputManager::IsPressed(ControllerButton button, ButtonMode bMode, int
 {
 	switch (bMode)
 	{
-	case dae::ButtonMode::Down:
+	case dae::ButtonMode::HeldDown:
 		return m_Controllers.at(controllerIndex)->IsDown(button);
 		break;
 
@@ -81,4 +104,56 @@ bool dae::InputManager::IsPressed(ControllerButton button, ButtonMode bMode, int
 		return false;
 		break;
 	}
+}
+
+bool dae::InputManager::IsPressed(SDL_Scancode button, ButtonMode mode)
+{
+	bool currentButton{};
+	bool prevButton{};
+	currentButton = m_CurrentKeyboardState[button];
+	prevButton = m_PreviousKeyboardState[button];
+
+
+	switch (mode)
+	{
+	case dae::ButtonMode::HeldDown:
+		return currentButton && prevButton;
+		break;
+	case dae::ButtonMode::Pressed:
+		return currentButton && !prevButton;
+		break;
+	case dae::ButtonMode::Released:
+		return !currentButton && prevButton;
+		break;
+	default:
+		break;
+	}
+
+
+	return false;
+}
+
+bool dae::InputManager::IsPressed(MouseButton button, ButtonMode mode)
+{
+	bool currentButton{};
+	bool prevButton{};
+	currentButton = m_CurrentMouseState & SDL_BUTTON(static_cast<int>(button));
+	prevButton = m_PreviousMouseState & SDL_BUTTON(static_cast<int>(button));
+
+	switch (mode)
+	{
+	case dae::ButtonMode::HeldDown:
+		return currentButton && prevButton;
+		break;
+	case dae::ButtonMode::Pressed:
+		return currentButton && !prevButton;
+		break;
+	case dae::ButtonMode::Released:
+		return !currentButton && prevButton;
+		break;
+	default:
+		break;
+	}
+	
+	return false;
 }
