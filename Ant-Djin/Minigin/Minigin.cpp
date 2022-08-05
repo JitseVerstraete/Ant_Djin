@@ -14,8 +14,6 @@
 #include "RenderComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
-#include "GameObject.h"
-#include "Scene.h"
 #include "PeterPepperComponent.h"
 #include "PlayerScoreDisplayComponent.h"
 #include "PlayerLivesDisplayComponent.h"

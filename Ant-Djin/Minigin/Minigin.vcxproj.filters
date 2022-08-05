@@ -61,7 +61,7 @@
     <ClInclude Include="MiniginPCH.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="GameScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
@@ -177,7 +177,7 @@
     <ClCompile Include="MiniginPCH.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
+    <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">

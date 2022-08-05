@@ -1,6 +1,6 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
-#include "Scene.h"
+#include "GameScene.h"
 
 void dae::SceneManager::Update()
 {
@@ -26,22 +26,36 @@ void dae::SceneManager::Render()
 	}
 }
 
-void dae::SceneManager::SetActiveScene(Scene* pScene)
+void dae::SceneManager::SetActiveScene(GameScene* pScene)
 {
 	m_pActiveScene = pScene;
 }
 
-dae::Scene* dae::SceneManager::CreateScene(const std::string& name)
+dae::GameScene* dae::SceneManager::CreateEmptyScene(const std::string& name)
 {
 
-	auto foundScene = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&name](dae::Scene* s) -> bool {return s->GetName() == name; });
+	auto foundScene = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&name](dae::GameScene* s) -> bool {return s->GetName() == name; });
 	if (foundScene != m_Scenes.end())
 	{
-		std::cout << "A SCENE WITH THAT NAME ALREADY EXISTS! Returned existing scene";
-		return *foundScene;
+		std::cout << "A SCENE WITH THAT NAME ALREADY EXISTS!";
+		return nullptr;
 	}
-	Scene* pScene = new Scene(name);
+	GameScene* pScene = new GameScene(name);
 	m_Scenes.push_back(pScene);
 	if (m_pActiveScene == nullptr) m_pActiveScene = pScene;
 	return pScene;
+}
+
+void dae::SceneManager::AddScene(GameScene* pScene)
+{
+	auto foundScene = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&name = pScene->GetName()](dae::GameScene* s) -> bool {return s->GetName() == name; });
+	if (foundScene != m_Scenes.end())
+	{
+		std::cout << "A SCENE WITH THAT NAME ALREADY EXISTS!";
+		return;
+	}
+
+	m_Scenes.push_back(pScene);
+	pScene->Initialize();
+	if (m_pActiveScene == nullptr) m_pActiveScene = pScene;
 }

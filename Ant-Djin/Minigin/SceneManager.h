@@ -6,13 +6,14 @@
 
 namespace dae
 {
-	class Scene;
+	class GameScene;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene* CreateScene(const std::string& name);
-		Scene* GetScene(std::string name);
-		void SetActiveScene(Scene* pScene);
+		GameScene* CreateEmptyScene(const std::string& name);
+		void AddScene(GameScene* pScene);
+		GameScene* GetScene(std::string name);
+		void SetActiveScene(GameScene* pScene);
 
 		void Update();
 		void FixedUpdate();
@@ -22,7 +23,7 @@ namespace dae
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-		std::vector<Scene*> m_Scenes;
-		Scene* m_pActiveScene = nullptr;
+		std::vector<GameScene*> m_Scenes;
+		GameScene* m_pActiveScene = nullptr;
 	};
 }

@@ -1,13 +1,15 @@
 #include "MiniginPCH.h"
-#include "Scene.h"
+#include "GameScene.h"
 #include "GameObject.h"
 
 using namespace dae;
 
 
-Scene::Scene(const std::string& name) : m_Name(name) {}
+GameScene::GameScene(const std::string& name) : m_Name(name) 
+{
+}
 
-Scene::~Scene()
+GameScene::~GameScene()
 {
 	for (GameObject* pGO : m_Objects)
 	{
@@ -15,12 +17,17 @@ Scene::~Scene()
 	}
 }
 
-void Scene::Add(GameObject* pObject)
+void GameScene::Add(GameObject* pObject)
 {
 	m_Objects.push_back(pObject);
 }
 
-void Scene::Update()
+void dae::GameScene::Initialize()
+{
+	//body to be overriden
+}
+
+void GameScene::Update()
 {
 	for(auto& object : m_Objects)
 	{
@@ -28,7 +35,7 @@ void Scene::Update()
 	}
 }
 
-void dae::Scene::FixedUpdate()
+void GameScene::FixedUpdate()
 {
 	for (auto& object : m_Objects)
 	{
@@ -36,7 +43,7 @@ void dae::Scene::FixedUpdate()
 	}
 }
 
-void Scene::Render() const
+void GameScene::Render() const
 {
 	for (const auto& object : m_Objects)
 	{
