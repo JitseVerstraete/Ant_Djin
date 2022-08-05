@@ -24,14 +24,15 @@ namespace dae
 		friend SceneManager;
 
 		virtual void Initialize();
+		virtual void SceneUpdate(){}
 
 		void Update();
 		void FixedUpdate();
 		void Render() const;
 
+
 		std::string m_Name;
 		std::vector <GameObject*> m_Objects{};
 
-	
 	};
 }

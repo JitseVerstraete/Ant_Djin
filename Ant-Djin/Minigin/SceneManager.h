@@ -13,7 +13,7 @@ namespace dae
 		GameScene* CreateEmptyScene(const std::string& name);
 		void AddScene(GameScene* pScene);
 		GameScene* GetScene(std::string name);
-		void SetActiveScene(GameScene* pScene);
+		void SetActiveScene(const std::string& sceneName);
 
 		void Update();
 		void FixedUpdate();

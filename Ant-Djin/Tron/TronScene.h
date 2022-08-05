@@ -1,15 +1,16 @@
 #pragma once
 #include "GameScene.h"
-class TestScene : public dae::GameScene
+class TronScene : public dae::GameScene
 {
 public:
-	TestScene() :GameScene("TestScene") {}
+	TronScene(const std::string& name) :GameScene(name) {}
 
 protected:
 
 	void Initialize() override;
 
 private:
-
+	
 };
+
 

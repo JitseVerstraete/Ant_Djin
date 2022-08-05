@@ -6,7 +6,6 @@
 
 #include "ServiceLocator.h"
 #include <thread>
-#include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "GameTime.h"

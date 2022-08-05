@@ -1,4 +1,4 @@
-#include "TestScene.h"
+#include "TronScene.h"
 #include "GameObject.h"
 #include "RenderComponent.h"
 #include "ResourceManager.h"
@@ -8,7 +8,7 @@
 
 using namespace dae;
 
-void TestScene::Initialize()
+void TronScene::Initialize()
 {
 
 
@@ -31,12 +31,12 @@ void TestScene::Initialize()
 
 	//add the instructions text
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
-	go = new GameObject();
-	renComp = go->AddComponent(new RenderComponent(go));
-	go->AddComponent(new TextComponent(go, "This is Scene 1", font));
-	go->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
-	go->GetTransform().SetParent(&parentObject->GetTransform());
-	Add(go);
+	auto titleObject = new GameObject();
+	renComp = titleObject->AddComponent(new RenderComponent(titleObject));
+	titleObject->AddComponent(new TextComponent(titleObject, "This is " + m_Name, font));
+	titleObject->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
+	titleObject->GetTransform().SetParent(&parentObject->GetTransform());
+	Add(titleObject);
 
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
@@ -46,5 +46,6 @@ void TestScene::Initialize()
 	go->AddComponent(new FPSComponent(go));
 	go->GetTransform().SetLocalPosition({ 0.f, 0.f, 0.f });
 	Add(go);
+
 
 }

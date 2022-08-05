@@ -8,6 +8,8 @@ void dae::SceneManager::Update()
 	{
 		m_pActiveScene->Update();
 	}
+
+	m_pActiveScene->SceneUpdate();
 }
 
 void dae::SceneManager::FixedUpdate()
@@ -26,9 +28,16 @@ void dae::SceneManager::Render()
 	}
 }
 
-void dae::SceneManager::SetActiveScene(GameScene* pScene)
+void dae::SceneManager::SetActiveScene(const std::string& sceneName)
 {
-	m_pActiveScene = pScene;
+
+	auto foundScene = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&sceneName](dae::GameScene* s) -> bool {return s->GetName() == sceneName; });
+	if (foundScene != m_Scenes.end())
+	{
+		m_pActiveScene = *foundScene;
+	}
+
+
 }
 
 dae::GameScene* dae::SceneManager::CreateEmptyScene(const std::string& name)

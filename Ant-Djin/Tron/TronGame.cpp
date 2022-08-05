@@ -8,7 +8,7 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 
-//components
+//components includes
 #include "RenderComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
@@ -16,7 +16,7 @@
 
 #include <iostream>
 
-#include "TestScene.h"
+#include "MenuScene.h"
 
 
 
@@ -32,9 +32,8 @@ void TronGame::LoadGame()
 	ServiceLocator::GetInstance().RegisterSoundSystem(new SDLSoundSystem());
 #endif 
 
-
 	////SCENE 1
-	SceneManager::GetInstance().AddScene(new TestScene());
+	SceneManager::GetInstance().AddScene(new MenuScene());
 
 
 

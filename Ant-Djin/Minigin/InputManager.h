@@ -5,6 +5,7 @@
 #include "Command.h"
 #include "XBox360Controller.h"
 #include "Singleton.h"
+#include "SDL_keyboard.h"
 
 
 namespace dae

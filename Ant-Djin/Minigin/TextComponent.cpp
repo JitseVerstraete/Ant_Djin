@@ -11,6 +11,8 @@ dae::TextComponent::TextComponent(GameObject* pGo, const std::string& text, Font
 	, m_NeedsUpdate{ true }
 	, m_pFont{ font }
 {
+	//update it initially when it gets created
+	Update();
 }
 
 dae::TextComponent::~TextComponent()
