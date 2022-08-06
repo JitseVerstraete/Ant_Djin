@@ -5,6 +5,7 @@
 #include "MoveComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
+#include "TankComponent.h"
 
 using namespace dae;
 
@@ -21,21 +22,21 @@ void TronScene::Initialize()
 
 
 	//add dae logo
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
 	GameObject* parentObject = new GameObject();
 	renComp = parentObject->AddComponent(new RenderComponent(parentObject));
-	texture = ResourceManager::GetInstance().LoadTexture("logo.png");
-	renComp->SetTexture(texture);
-	parentObject->AddComponent(new MoveComponent(parentObject));
+	parentObject->AddComponent(new TextComponent(parentObject, "tank", font));
+	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
+	//renComp->SetTexture(texture);
+	parentObject->AddComponent(new TankComponent(parentObject));
 	parentObject->GetTransform().SetLocalPosition({ 216, 180, 0.f });
 	Add(parentObject);
 
 	//add the instructions text
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
 	auto titleObject = new GameObject();
 	renComp = titleObject->AddComponent(new RenderComponent(titleObject));
 	titleObject->AddComponent(new TextComponent(titleObject, "This is " + m_Name, font));
 	titleObject->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
-	titleObject->GetTransform().SetParent(&parentObject->GetTransform());
 	Add(titleObject);
 
 	//add the fps counter

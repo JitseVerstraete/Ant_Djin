@@ -36,6 +36,9 @@
     <ClCompile Include="MenuScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="TankComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TronGame.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="MenuScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="TankComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
