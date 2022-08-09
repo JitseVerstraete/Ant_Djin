@@ -35,6 +35,4 @@ void TronGame::LoadGame()
 	////SCENE 1
 	SceneManager::GetInstance().AddScene(new MenuScene());
 
-
-
 }

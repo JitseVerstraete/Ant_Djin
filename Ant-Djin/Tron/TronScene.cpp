@@ -24,7 +24,9 @@ void TronScene::Initialize()
 
 	//add the maze
 	go = new GameObject();
-	go->AddComponent(new MazeComponent(go));
+	go->AddComponent(new MazeComponent(go, 640));
+	go->GetTransform().Translate({ 0, 100 , 0});
+
 	Add(go);
 	
 

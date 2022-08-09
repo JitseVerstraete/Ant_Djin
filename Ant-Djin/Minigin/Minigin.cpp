@@ -21,7 +21,9 @@
 
 using namespace std;
 
-dae::Minigin::Minigin(BaseGame* pGame)
+dae::Minigin::Minigin(BaseGame* pGame, int width, int height)
+	:m_Width{ width }
+	, m_Height{ height }
 {
 	assert(pGame);
 	m_pGame = pGame;
@@ -58,8 +60,8 @@ void dae::Minigin::Initialize()
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		m_Width,
+		m_Height,
 		SDL_WINDOW_OPENGL
 	);
 	if (m_Window == nullptr)
@@ -68,6 +70,9 @@ void dae::Minigin::Initialize()
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+
+
+	m_pGame->SetWindowDimensions(m_Width, m_Height);
 }
 
 /**
