@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.h"
 
+#include <SDL.h>
 namespace dae
 {
 	class Transform;

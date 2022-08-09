@@ -49,6 +49,9 @@
 ///
 /// @ingroup core
 
+
+#pragma warning(disable:4201)    
+
 #include "detail/_fixes.hpp"
 
 #pragma once

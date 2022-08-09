@@ -6,19 +6,27 @@
 #include "TextComponent.h"
 #include "FPSComponent.h"
 #include "TankComponent.h"
+#include "MazeComponent.h"
 
 using namespace dae;
 
 void TronScene::Initialize()
 {
 
-
+	
 	//add background
 	auto go = new GameObject();
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
 	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
+	//Add(go);
+
+
+	//add the maze
+	go = new GameObject();
+	go->AddComponent(new MazeComponent(go));
 	Add(go);
+	
 
 
 	//add dae logo
