@@ -2,13 +2,17 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "GameTime.h"
+#include "MazeComponent.h"
 
 using namespace dae;
 
-TankComponent::TankComponent(dae::GameObject* pGo)
+TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze)
 	: Component(pGo)
+	, m_Maze{ maze }
 {
 	//todo: setup what sprite should be used, what commands should be made (and sent where)
+	auto spawnpos = maze->GetSpawnPoint()->GetGameObject()->GetTransform().GetWorldPosition();
+	GetGameObject()->GetTransform().SetLocalPosition({ spawnpos.x, spawnpos.y, 0 });
 }
 
 void TankComponent::Update()

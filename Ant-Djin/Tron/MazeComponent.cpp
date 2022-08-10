@@ -2,27 +2,44 @@
 #include "Renderer.h"
 #include <iostream>
 #include "GameObject.h"
+#include "SceneManager.h"
+#include "GameScene.h"
 
 using namespace dae;
 
+
+
+
+NodeComponent::NodeComponent(GameObject* pGo, int x, int y)
+	:Component(pGo)
+{
+	GetGameObject()->GetTransform().SetLocalPosition({ x, y, 0 });
+}
+
+
+//maze stuff
 MazeComponent::MazeComponent(GameObject* pGo, int size) : Component(pGo), m_MazeDimensions{ size }
 {
 	//initialize everything to do with the maze (load in from file perhaps)
-	Node* testNode1 = new Node(20, 100);
-	Node* testNode2 = new Node(200, 100);
-	Node* testNode3 = new Node(200, 180);
+	GameObject* go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
+	NodeComponent* testNode1 = go->AddComponent(new NodeComponent(go, 70, 100));
+	go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+
+	go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
+	NodeComponent* testNode2 = go->AddComponent(new NodeComponent(go, 300, 100));
+	go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+
+	go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
+	NodeComponent* testNode3 = go->AddComponent(new NodeComponent(go, 300, 250));
+	go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 
 	AddNode(testNode1);
-	AddNode(testNode2);
+	AddNode(testNode2); 
 	AddNode(testNode3);
 
 	AddConnection(testNode1, testNode2);
 	AddConnection(testNode2, testNode3);
 
-	for (Node* pNode : m_pNodes)
-	{
-		std::cout << (*pNode) << std::endl;
-	}
 }
 
 MazeComponent::~MazeComponent()
@@ -40,16 +57,20 @@ void MazeComponent::FixedUpdate()
 
 void MazeComponent::Render() const
 {
+	
 	//render background
-	glm::ivec2 pos = GetGameObject()->GetTransform().GetWorldPosition();
-	Renderer::GetInstance().DrawRectangle({ pos.x, pos.y }, { m_MazeDimensions, m_MazeDimensions }, { 0, 170, 0, 255 });
+	Renderer::GetInstance().DrawRectangle({ GetGameObject()->GetTransform().GetWorldPosition().x,GetGameObject()->GetTransform().GetWorldPosition().y }, { m_MazeDimensions, m_MazeDimensions }, { 0, 170, 0, 255 });
+	
 
 	//render pathways
 	for (Connection con : m_Connections)
 	{
-		int rectWidth{ m_PathWidth * 2 + abs(con.first->pos.x - con.second->pos.x) };
-		int rechtHeight{ m_PathWidth * 2 + abs(con.first->pos.y - con.second->pos.y) };
-		Renderer::GetInstance().DrawRectangle({ con.first->pos.x - m_PathWidth + pos.x, con.first->pos.y - m_PathWidth + pos.y }, {rectWidth, rechtHeight}, { 0, 0, 0, 255 });
+		glm::ivec3 firstPos = con.first->GetGameObject()->GetTransform().GetWorldPosition();
+		glm::ivec3 secondPos = con.second->GetGameObject()->GetTransform().GetWorldPosition();
+
+		int rectWidth{ m_PathWidth * 2 + abs(firstPos.x - secondPos.x) };
+		int rechtHeight{ m_PathWidth * 2 + abs(firstPos.y - secondPos.y) };
+		Renderer::GetInstance().DrawRectangle({ firstPos.x - m_PathWidth , firstPos.y - m_PathWidth }, { rectWidth, rechtHeight }, { 0, 0, 0, 255 });
 	}
 
 	//render nodes
@@ -58,20 +79,23 @@ void MazeComponent::Render() const
 	//render connection lines
 	for (Connection con : m_Connections)
 	{
-		Renderer::GetInstance().DrawLine(con.first->pos + pos, con.second->pos + pos, { 255, 0, 0, 255 });
+		Renderer::GetInstance().DrawLine(	glm::ivec2( con.first->GetGameObject()->GetTransform().GetWorldPosition()), 
+											glm::ivec2(con.second->GetGameObject()->GetTransform().GetWorldPosition()),
+											{ 255, 0, 0, 255 });
 	}
 }
 
-void MazeComponent::AddNode(Node* pNode)
+void MazeComponent::AddNode(NodeComponent* pNode)
 {
 	m_pNodes.emplace_back(pNode);
 }
 
-void MazeComponent::AddConnection(Node* first, Node* second)
+void MazeComponent::AddConnection(NodeComponent* first, NodeComponent* second)
 {
-
-	bool xSame{ first->pos.x == second->pos.x };
-	bool ySame{ first->pos.y == second->pos.y };
+	glm::ivec3 firstPos = first->GetGameObject()->GetTransform().GetLocalPosition();
+	glm::ivec3 secondPos = second->GetGameObject()->GetTransform().GetLocalPosition();
+	bool xSame{ firstPos.x == secondPos.x };
+	bool ySame{ firstPos.y == secondPos.y };
 
 	//check if the nodes are aligned horizontally or vertically
 	if (!xSame && !ySame)
@@ -81,7 +105,7 @@ void MazeComponent::AddConnection(Node* first, Node* second)
 	}
 
 	//check if the nodes have a different pos
-	if (first->pos == second->pos)
+	if (firstPos == secondPos)
 	{
 		std::cout << "Connection not possible, nodes have the same position";
 		return;
@@ -94,7 +118,7 @@ void MazeComponent::AddConnection(Node* first, Node* second)
 
 	if (xSame)
 	{
-		if (first->pos.y < second->pos.y)
+		if (firstPos.y < secondPos.y)
 		{
 			first->pDownNode = second;
 			second->pUpNode = first;
@@ -107,7 +131,7 @@ void MazeComponent::AddConnection(Node* first, Node* second)
 	}
 	else if (ySame)
 	{
-		if (first->pos.x < second->pos.x)
+		if (firstPos.x < secondPos.x)
 		{
 			first->pRightNode = second;
 			second->pLeftNode = first;
@@ -123,3 +147,4 @@ void MazeComponent::AddConnection(Node* first, Node* second)
 
 
 }
+

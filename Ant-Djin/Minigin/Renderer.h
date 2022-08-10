@@ -19,7 +19,7 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, Transform& transform) const;
+		void RenderTexture(const Texture2D& texture, Transform& transform, glm::fvec2 offset = {0.f, 0.f}) const;
 		void DrawRectangle(glm::ivec2 pos, glm::ivec2 dim, const glm::uvec4& color, bool fill= true);
 		void DrawLine(glm::ivec2 pos1, glm::ivec2 pos2, const glm::uvec4& color);
 

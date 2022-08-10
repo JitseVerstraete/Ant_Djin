@@ -15,48 +15,47 @@ void TronScene::Initialize()
 
 	
 	//add background
-	auto go = new GameObject();
+	auto go = AddGameObject();
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
 	Texture2D* texture = ResourceManager::GetInstance().LoadTexture("background.jpg");
 	renComp->SetTexture(texture);
-	//Add(go);
+
 
 
 	//add the maze
-	go = new GameObject();
-	go->AddComponent(new MazeComponent(go, 640));
+	go = AddGameObject();
+	auto mazeComp = go->AddComponent(new MazeComponent(go, 640));
 	go->GetTransform().Translate({ 0, 100 , 0});
 
-	Add(go);
+
 	
 
 
-	//add dae logo
+	//add tank
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
-	GameObject* parentObject = new GameObject();
-	renComp = parentObject->AddComponent(new RenderComponent(parentObject));
+	GameObject* parentObject = AddGameObject();
+	renComp = parentObject->AddComponent(new RenderComponent(parentObject, {0.5f, 0.5f}));
 	parentObject->AddComponent(new TextComponent(parentObject, "tank", font));
 	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	//renComp->SetTexture(texture);
-	parentObject->AddComponent(new TankComponent(parentObject));
-	parentObject->GetTransform().SetLocalPosition({ 216, 180, 0.f });
-	Add(parentObject);
+	parentObject->AddComponent(new TankComponent(parentObject, mazeComp));
+
 
 	//add the instructions text
-	auto titleObject = new GameObject();
+	auto titleObject = AddGameObject();
 	renComp = titleObject->AddComponent(new RenderComponent(titleObject));
 	titleObject->AddComponent(new TextComponent(titleObject, "This is " + m_Name, font));
 	titleObject->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
-	Add(titleObject);
+
 
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
-	go = new GameObject();
+	go = AddGameObject();
 	go->AddComponent(new RenderComponent(go));
 	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
 	go->AddComponent(new FPSComponent(go));
 	go->GetTransform().SetLocalPosition({ 0.f, 0.f, 0.f });
-	Add(go);
+
 
 
 }

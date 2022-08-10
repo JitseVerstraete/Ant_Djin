@@ -3,14 +3,9 @@
 #include "Renderer.h"
 #include "Component.h"
 
-dae::GameObject::GameObject(GameObject* pParent)
+dae::GameObject::GameObject()
 	:m_Transform{this}
 {
-	m_pParent = pParent;
-	if (m_pParent != nullptr)
-	{
-		m_pParent->AddChild(this);
-	}
 }
 
 dae::GameObject::~GameObject()

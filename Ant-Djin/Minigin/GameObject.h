@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include "GameScene.h"
 
 
 namespace dae
@@ -21,17 +22,11 @@ namespace dae
 		template <typename T> T* GetComponent();
 
 
-		//hirearchy
-		void AddChild(GameObject* childObject) { m_pChildren.push_back(childObject); }
-		std::vector<GameObject*> Getchildren() const { return m_pChildren; }
-		GameObject* GetParent() const { return m_pParent; }
-
 
 		//transform manip
 		Transform& GetTransform() { return m_Transform; }
 
 
-		GameObject(GameObject* pParent = nullptr);
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -39,14 +34,11 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		friend GameObject* GameScene::AddGameObject();
+		GameObject(); // constructor private, you can only make game object through adding them in the scene
 		Transform m_Transform;
 
 		std::vector<Component*> m_pComponents;
-
-		//scenegraph structure
-		std::vector<GameObject*> m_pChildren;
-		GameObject* m_pParent;
-
 
 	};
 

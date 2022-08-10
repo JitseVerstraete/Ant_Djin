@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+
 namespace dae
 {
 	class GameScene;
@@ -14,6 +15,7 @@ namespace dae
 		void AddScene(GameScene* pScene);
 		GameScene* GetScene(std::string name);
 		void SetActiveScene(const std::string& sceneName);
+		GameScene* GetActiveScene() { return m_pActiveScene; }
 
 		void Update();
 		void FixedUpdate();

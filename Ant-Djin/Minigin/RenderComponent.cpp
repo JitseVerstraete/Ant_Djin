@@ -4,8 +4,9 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-dae::RenderComponent::RenderComponent(GameObject* pGo)
+dae::RenderComponent::RenderComponent(GameObject* pGo, glm::fvec2 offset)
 	:Component(pGo)
+	, m_Offset{ offset }
 {
 }
 
@@ -22,7 +23,7 @@ void dae::RenderComponent::FixedUpdate()
 void dae::RenderComponent::Render() const
 {
 	auto pos = GetGameObject()->GetTransform().GetWorldPosition();
-	Renderer::GetInstance().RenderTexture(*m_pTexture, GetGameObject()->GetTransform());
+	Renderer::GetInstance().RenderTexture(*m_pTexture, GetGameObject()->GetTransform(), m_Offset);
 }
 
 void dae::RenderComponent::SetTexture(const std::string& filename)

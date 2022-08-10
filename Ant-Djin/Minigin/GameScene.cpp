@@ -17,9 +17,11 @@ GameScene::~GameScene()
 	}
 }
 
-void GameScene::Add(GameObject* pObject)
+GameObject* GameScene::AddGameObject()
 {
-	m_Objects.push_back(pObject);
+	GameObject* pNewObject = new GameObject();
+	m_Objects.push_back(pNewObject);
+	return pNewObject;
 }
 
 void dae::GameScene::Initialize()

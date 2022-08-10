@@ -8,7 +8,7 @@ namespace dae
 	{
 	public:
 		explicit GameScene(const std::string& name);
-		void Add(GameObject* pObject);
+		GameObject* AddGameObject();
 
 
 
