@@ -13,7 +13,6 @@ using namespace dae;
 void TronScene::Initialize()
 {
 
-	
 	//add background
 	auto go = AddGameObject();
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
@@ -48,6 +47,7 @@ void TronScene::Initialize()
 	titleObject->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
 
 
+	
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = AddGameObject();
@@ -55,6 +55,7 @@ void TronScene::Initialize()
 	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
 	go->AddComponent(new FPSComponent(go));
 	go->GetTransform().SetLocalPosition({ 0.f, 0.f, 0.f });
+	
 
 
 

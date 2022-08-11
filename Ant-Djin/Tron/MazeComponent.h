@@ -5,8 +5,17 @@
 #include <iostream>
 #include <string>
 #include "GameObject.h"
+#include <iomanip>
+#include <map>
 
 
+enum class Direction
+{
+	North,
+	South,
+	East,
+	West
+};
 
 class dae::GameObject;
 class NodeComponent : public dae::Component
@@ -14,40 +23,61 @@ class NodeComponent : public dae::Component
 public:
 	NodeComponent(dae::GameObject* pGo, int x, int y);
 
-	NodeComponent* pLeftNode = nullptr;
-	NodeComponent* pRightNode = nullptr;
-	NodeComponent* pUpNode = nullptr;
-	NodeComponent* pDownNode = nullptr;
-
 
 	void Update() override {}
 	void FixedUpdate() override {}
 	void Render() const override {}
-	
 
-	/*
+
+	void AddNeighbor(NodeComponent* node, Direction dir);
+	NodeComponent* GetNeighbor(Direction dir);
+
+
+
+
 	friend std::ostream& operator<<(std::ostream& out, const NodeComponent* node)
-	{	
-		
-		out << "Node:" + std::to_string(node.pos.x) + ", " + std::to_string(node.pos.y) << std::endl;
-		out << (node.pLeftNode ? "Node Left!\n" : "");
-		out << (node.pRightNode ? "Node right!\n" : "");
-		out << (node.pDownNode ? "Node down!\n" : "");
-		out << (node.pUpNode ? "Node up!\n" : "");
-	
+	{
+		std::cout << std::setprecision(2) << std::fixed;
+		auto pos = node->GetGameObject()->GetTransform().GetWorldPosition();
+		out << "Node:" << pos.x << ", " << pos.y << std::endl;
+		if (node->m_NeighborNodes.find(Direction::West) != node->m_NeighborNodes.end()) out << "NODE LEFT\n";
+		if (node->m_NeighborNodes.find(Direction::East) != node->m_NeighborNodes.end()) out << "NODE RIGHT\n";
+		if (node->m_NeighborNodes.find(Direction::South) != node->m_NeighborNodes.end()) out << "NODE DOWN\n";
+		if (node->m_NeighborNodes.find(Direction::North) != node->m_NeighborNodes.end()) out << "NODE UP\n";
+
 
 		return out;
 	}
-	*/
+
+
+private:
+	std::map<Direction, NodeComponent*> m_NeighborNodes;
 
 };
 
+
 struct Connection
 {
-	Connection(NodeComponent* first, NodeComponent* second) :first{ first }, second{ second } {}
+
+	enum class Alignment
+	{
+		Horizontal,
+		Vertical
+	};
+
+	Connection(NodeComponent* first, NodeComponent* second, Alignment a) :first{ first }, second{ second }, alignment{ a } {}
 
 	NodeComponent* first;
 	NodeComponent* second;
+
+	Alignment alignment;
+
+	bool Equals(NodeComponent* node1, NodeComponent* node2)
+	{
+		if (node1 == first && node2 == second) return true;
+		if (node2 == first && node1 == second) return true;
+		return false;
+	}
 };
 
 class MazeComponent final : public dae::Component
@@ -64,6 +94,8 @@ public:
 	void AddNode(NodeComponent* pNode);
 	void AddConnection(NodeComponent* first, NodeComponent* second);
 
+	Connection* GetConnection(NodeComponent* node1, NodeComponent* node2);
+
 
 	//get movement options given a current position
 
@@ -72,16 +104,14 @@ public:
 
 private:
 
+	//general settings
 	const int m_MazeDimensions{};
-	const int m_PathWidth{15};
-	
+	const int m_PathWidth{ 15 };
 
 
-	//nodes
+	//nodes & connections
 	std::vector<NodeComponent*> m_pNodes;
-
-	//connections (only for rendering purposes)
-	std::vector<Connection> m_Connections;
+	std::vector<Connection*> m_Connections;
 
 
 };

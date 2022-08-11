@@ -1,9 +1,8 @@
 #pragma once
 #include "Component.h"
+#include <glm/glm.hpp>
+#include "MazeComponent.h"
 
-
-
-class MazeComponent;
 class TankComponent : public dae::Component
 {
 public:
@@ -18,6 +17,13 @@ private:
 
 	float m_Speed = 50.f;
 	MazeComponent* m_Maze;
+
+	Direction m_CurrentMovement{};
+	glm::ivec2 m_MovementInput;
+
+	Connection* m_CurrentConnection{ nullptr };
+
+	NodeComponent* m_pStartNode;
 
 };
 

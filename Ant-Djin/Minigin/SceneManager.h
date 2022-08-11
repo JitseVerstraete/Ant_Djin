@@ -11,6 +11,8 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
+		void Destroy();
+
 		GameScene* CreateEmptyScene(const std::string& name);
 		void AddScene(GameScene* pScene);
 		GameScene* GetScene(std::string name);

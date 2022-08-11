@@ -200,6 +200,7 @@ void dae::Minigin::Cleanup()
 {
 	Renderer::GetInstance().Destroy();
 	ServiceLocator::GetInstance().Destroy();
+	SceneManager::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();

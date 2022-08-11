@@ -40,6 +40,22 @@ void dae::SceneManager::SetActiveScene(const std::string& sceneName)
 
 }
 
+void dae::SceneManager::Destroy()
+{
+
+	for (GameScene* scene : m_Scenes)
+	{
+		delete scene;
+	}
+
+	/*
+	if (m_pActiveScene != nullptr)
+	{
+		delete m_pActiveScene;
+	}
+	*/
+}
+
 dae::GameScene* dae::SceneManager::CreateEmptyScene(const std::string& name)
 {
 
