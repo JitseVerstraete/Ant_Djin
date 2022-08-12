@@ -80,9 +80,6 @@ void dae::Renderer::Destroy()
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform, glm::fvec2 offset) const
 {
-	//todo: use the depth to sort all textures from 
-
-
 	SDL_FRect dst{};
 	dst.x = transform.GetWorldPosition().x;
 	dst.y = transform.GetWorldPosition().y;
@@ -98,6 +95,26 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform
 	dst.x -= dst.w * offset.x;
 	dst.y -= dst.h * offset.y;
 	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, transform.GetWorldRotation(), nullptr, SDL_FLIP_NONE);
+}
+
+void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform, SDL_Rect* source, glm::fvec2 offset) const
+{
+	SDL_FRect dst{};
+	dst.x = transform.GetWorldPosition().x;
+	dst.y = transform.GetWorldPosition().y;
+
+
+
+	int w{}, h{};
+	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &w, &h);
+	dst.w = w * transform.GetWorldScale().x;
+	dst.h = h * transform.GetWorldScale().y;
+
+
+	dst.x -= dst.w * offset.x;
+	dst.y -= dst.h * offset.y;
+	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), source, &dst, transform.GetWorldRotation(), nullptr, SDL_FLIP_NONE);
+
 }
 
 void dae::Renderer::DrawRectangle(glm::ivec2 pos, glm::ivec2 dim, const glm::uvec4& color, bool fill)

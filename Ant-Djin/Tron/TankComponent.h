@@ -21,9 +21,11 @@ private:
 	Direction m_CurrentMovement{};
 	glm::ivec2 m_MovementInput;
 
-	Connection* m_CurrentConnection{ nullptr };
+	//data used to navigate the maze
+	Connection* m_pCurrentConnection{ nullptr }; 
+	NodeComponent* m_pCurrentNode; 
 
-	NodeComponent* m_pStartNode;
 
+	void ArrivedAtNode(NodeComponent* node);
 };
 

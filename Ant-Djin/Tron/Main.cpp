@@ -10,7 +10,7 @@
 
 int main()
 {
-    dae::Minigin engine{new TronGame(), 640, 740};
+    dae::Minigin engine{new TronGame(), 640, 680};
     engine.Run();
     return 0;
 }

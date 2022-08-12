@@ -142,7 +142,7 @@ void dae::Transform::SetParent(Transform* pParent, bool keepWorldTransform)
 	//add this Transform to the list of children of new parent
 	m_pParent->AddChild(this);
 
-	//update transform
+	//update transform   
 	if (keepWorldTransform)
 	{
 		Translate(-m_pParent->GetWorldPosition());

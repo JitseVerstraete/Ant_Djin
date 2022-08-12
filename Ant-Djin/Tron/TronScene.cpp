@@ -23,18 +23,19 @@ void TronScene::Initialize()
 
 	//add the maze
 	go = AddGameObject();
-	auto mazeComp = go->AddComponent(new MazeComponent(go, 640));
-	go->GetTransform().Translate({ 0, 100 , 0});
+	auto mazeComp = go->AddComponent(new MazeComponent(go, "../Data/Levels/TestLevel.json"));
+	go->GetTransform().Translate({ 0, 100 , 0 });
 
 
-	
+
 
 
 	//add tank
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
 	GameObject* parentObject = AddGameObject();
-	renComp = parentObject->AddComponent(new RenderComponent(parentObject, {0.5f, 0.5f}));
-	parentObject->AddComponent(new TextComponent(parentObject, "tank", font));
+	
+	renComp = parentObject->AddComponent(new RenderComponent(parentObject, glm::fvec2{ 0.5f, 0.5f }));
+	renComp->SetTexture(ResourceManager::GetInstance().LoadTexture("RedTank.png"));
 	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	//renComp->SetTexture(texture);
 	parentObject->AddComponent(new TankComponent(parentObject, mazeComp));
@@ -47,7 +48,7 @@ void TronScene::Initialize()
 	titleObject->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });
 
 
-	
+
 	//add the fps counter
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = AddGameObject();
@@ -55,7 +56,7 @@ void TronScene::Initialize()
 	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
 	go->AddComponent(new FPSComponent(go));
 	go->GetTransform().SetLocalPosition({ 0.f, 0.f, 0.f });
-	
+
 
 
 

@@ -5,10 +5,14 @@
 #include "SceneManager.h"
 #include "GameScene.h"
 #include <algorithm>
+#include "document.h"
+#include "istreamwrapper.h"
+#include <fstream>
+
 
 
 using namespace dae;
-
+using rapidjson::Document;
 
 
 
@@ -20,13 +24,13 @@ NodeComponent::NodeComponent(GameObject* pGo, int x, int y)
 
 void NodeComponent::AddNeighbor(NodeComponent* node, Direction dir)
 {
-	if (m_NeighborNodes.find(dir) == m_NeighborNodes.end())
+	if (m_NeighborNodes.find(dir) != m_NeighborNodes.end())
 	{
 		std::cout << "trying to add a neighbor node to a node that already has a neighbor in the specified direction\n";
 		return;
 	}
 
-	m_NeighborNodes.insert({dir, node});
+	m_NeighborNodes.insert({ dir, node });
 
 }
 
@@ -38,39 +42,10 @@ NodeComponent* NodeComponent::GetNeighbor(Direction dir)
 }
 
 //maze stuff
-MazeComponent::MazeComponent(GameObject* pGo, int size) : Component(pGo), m_MazeDimensions{ size }
+MazeComponent::MazeComponent(dae::GameObject* pGo, std::string filePath)
+	:Component(pGo)
 {
-	//initialize everything to do with the maze (load in from file perhaps)
-	GameObject* go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
-	NodeComponent* testNode1 = go->AddComponent(new NodeComponent(go, 70, 100));
-	go->GetTransform().SetParent(&GetGameObject()->GetTransform());
-
-	go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
-	NodeComponent* testNode2 = go->AddComponent(new NodeComponent(go, 300, 100));
-	go->GetTransform().SetParent(&GetGameObject()->GetTransform());
-
-	go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
-	NodeComponent* testNode3 = go->AddComponent(new NodeComponent(go, 300, 250));
-	go->GetTransform().SetParent(&GetGameObject()->GetTransform());
-
-	go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
-	NodeComponent* testNode4 = go->AddComponent(new NodeComponent(go, 500, 100));
-	go->GetTransform().SetParent(&GetGameObject()->GetTransform());
-
-	AddNode(testNode1);
-	AddNode(testNode2);
-	AddNode(testNode3);
-	AddNode(testNode4);
-
-	AddConnection(testNode1, testNode2);
-	AddConnection(testNode2, testNode3);
-	AddConnection(testNode2, testNode4);
-
-	for (NodeComponent* pNode : m_pNodes)
-	{
-		std::cout << pNode << std::endl;
-	}
-
+	ParseLevelFile(filePath);
 }
 
 MazeComponent::~MazeComponent()
@@ -141,7 +116,7 @@ void MazeComponent::AddConnection(NodeComponent* node1, NodeComponent* node2)
 	//check if the nodes have a different pos
 	if (pos1 == pos2)
 	{
-		std::cout << "Connection not possible, nodes have the same position";
+		std::cout << "Connection not possible, nodes have the same position\n";
 		return;
 	}
 
@@ -164,7 +139,7 @@ void MazeComponent::AddConnection(NodeComponent* node1, NodeComponent* node2)
 
 		firstNode->AddNeighbor(secondNode, Direction::South);
 		secondNode->AddNeighbor(firstNode, Direction::North);
-		alignment = Connection::Alignment::Horizontal;
+		alignment = Connection::Alignment::Vertical;
 	}
 	else if (ySame)
 	{
@@ -181,7 +156,7 @@ void MazeComponent::AddConnection(NodeComponent* node1, NodeComponent* node2)
 
 		firstNode->AddNeighbor(secondNode, Direction::East);
 		secondNode->AddNeighbor(firstNode, Direction::West);
-		alignment = Connection::Alignment::Vertical;
+		alignment = Connection::Alignment::Horizontal;
 	}
 
 	//add the node to the maze
@@ -194,5 +169,61 @@ Connection* MazeComponent::GetConnection(NodeComponent* node1, NodeComponent* no
 
 	if (it == m_Connections.end()) return nullptr;
 	else return (*it);
+}
+
+void MazeComponent::ParseLevelFile(std::string path)
+{
+
+	if (std::ifstream is{ path })
+	{
+		rapidjson::IStreamWrapper isw{ is };
+		Document doc{};
+		doc.ParseStream(isw);
+
+		assert(doc.IsObject());
+		using rapidjson::Value;
+
+
+
+
+		//general info
+		m_MazeDimensions = doc["dimensions"].GetInt();
+		m_PathWidth = doc["pathWidth"].GetInt();
+
+
+		//parse nodes
+		Value nodes{};
+		nodes = doc["nodes"];
+		GameObject* go;
+		int x, y;
+		for (auto it = nodes.Begin(); it != nodes.End(); it++)
+		{
+			x = (*it)[0].GetInt();
+			y = (*it)[1].GetInt();
+
+			go = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
+			auto node = go->AddComponent(new NodeComponent(go, x, y));
+			go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+			AddNode(node);
+		}
+		
+		//parse connections
+		Value connections{};
+		connections = doc["connections"];
+		for (auto it = connections.Begin(); it != connections.End(); it++)
+		{
+			int index1{ (*it)[0].GetInt() };
+			int index2{ (*it)[1].GetInt() };
+			AddConnection(m_pNodes[index1], m_pNodes[index2]);
+		}
+
+		for (NodeComponent* pNode : m_pNodes)
+		{
+			std::cout << pNode << std::endl;
+		}
+
+	}
+
+
 }
 

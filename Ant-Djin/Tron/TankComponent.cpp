@@ -11,8 +11,8 @@ TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze)
 	: Component(pGo)
 	, m_Maze{ maze }
 {
-	//todo: setup what sprite should be used, what commands should be made (and sent where)
-	auto spawnpos = maze->GetSpawnPoint()->GetGameObject()->GetTransform().GetWorldPosition();
+	m_pCurrentNode = maze->GetSpawnPoint();
+	auto spawnpos = m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition();
 	GetGameObject()->GetTransform().SetLocalPosition({ spawnpos.x, spawnpos.y, 0 });
 
 }
@@ -33,16 +33,137 @@ void TankComponent::Update()
 	}
 
 
+	if (m_pCurrentConnection)
+	{
 
-	//////selecte the movement direction, based on what node you are going to (and where you came from)
-	
-	//when on a connection
-	//(when pressing input in the opposite direction, change direction, otherwise keep moving in the current direction)
 
-	//when on a node
-	//if there is input to take a turn, set the new connection.
-	
-	
+
+		auto tankPos = GetGameObject()->GetTransform().GetWorldPosition();
+
+		//check if the tank has arrived at a node (and set the position to that node)
+		switch (m_pCurrentConnection->alignment)
+		{
+		case Connection::Alignment::Horizontal:
+			if (tankPos.x > m_pCurrentConnection->second->GetGameObject()->GetTransform().GetWorldPosition().x)
+			{
+				ArrivedAtNode(m_pCurrentConnection->second);
+			}
+			else if (tankPos.x < m_pCurrentConnection->first->GetGameObject()->GetTransform().GetWorldPosition().x)
+			{
+				ArrivedAtNode(m_pCurrentConnection->first);
+			}
+
+			break;
+		case Connection::Alignment::Vertical:
+			if (tankPos.y > m_pCurrentConnection->second->GetGameObject()->GetTransform().GetWorldPosition().y)
+			{
+				ArrivedAtNode(m_pCurrentConnection->second);
+			}
+			else if (tankPos.y < m_pCurrentConnection->first->GetGameObject()->GetTransform().GetWorldPosition().y)
+			{
+				ArrivedAtNode(m_pCurrentConnection->first);
+			}
+			break;
+		default:
+			break;
+		}
+
+	}
+	else
+	{
+		//===========================
+		//try to set a new connection
+		//===========================
+		if (m_CurrentMovement == Direction::East || m_CurrentMovement == Direction::West)
+		{
+			//check the north/south inputs first
+			if (m_MovementInput.y == 1 && m_pCurrentNode->GetNeighbor(Direction::North) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::North));
+				m_CurrentMovement = Direction::North;
+
+			}
+			else if (m_MovementInput.y == -1 && m_pCurrentNode->GetNeighbor(Direction::South) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::South));
+				m_CurrentMovement = Direction::South;
+
+			}
+			else if (m_MovementInput.x == 1 && m_pCurrentNode->GetNeighbor(Direction::East) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::East));
+				m_CurrentMovement = Direction::East;
+
+			}
+			else if (m_MovementInput.x == -1 && m_pCurrentNode->GetNeighbor(Direction::West) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::West));
+				m_CurrentMovement = Direction::West;
+
+			}
+
+
+		}
+		else
+		{
+			//check the east/west inputs first
+
+			if (m_MovementInput.x == 1 && m_pCurrentNode->GetNeighbor(Direction::East) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::East));
+				m_CurrentMovement = Direction::East;
+
+			}
+			else if (m_MovementInput.x == -1 && m_pCurrentNode->GetNeighbor(Direction::West) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::West));
+				m_CurrentMovement = Direction::West;
+
+			}
+			else if (m_MovementInput.y == 1 && m_pCurrentNode->GetNeighbor(Direction::North) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::North));
+				m_CurrentMovement = Direction::North;
+
+			}
+			else if (m_MovementInput.y == -1 && m_pCurrentNode->GetNeighbor(Direction::South) != nullptr)
+			{
+				m_pCurrentConnection = m_Maze->GetConnection(m_pCurrentNode, m_pCurrentNode->GetNeighbor(Direction::South));
+				m_CurrentMovement = Direction::South;
+
+			}
+		}
+
+	}
+
+
+
+	if (m_pCurrentConnection)
+	{
+
+		switch (m_pCurrentConnection->alignment)
+		{
+		case Connection::Alignment::Horizontal:
+			if (m_MovementInput.x < 0) m_CurrentMovement = Direction::West;
+			if (m_MovementInput.x > 0) m_CurrentMovement = Direction::East;
+
+			break;
+		case Connection::Alignment::Vertical:
+			if (m_MovementInput.y < 0) m_CurrentMovement = Direction::South;
+			if (m_MovementInput.y > 0) m_CurrentMovement = Direction::North;
+
+			break;
+		default:
+			break;
+		}
+
+	}
+	else return;
+
+
+
+
+
 
 	//move the tank based on the movement direction
 	float xMove{};
@@ -78,3 +199,13 @@ void TankComponent::FixedUpdate()
 void TankComponent::Render() const
 {
 }
+
+//the tank has arrived at a node, the connection is removed
+void TankComponent::ArrivedAtNode(NodeComponent* node)
+{
+	m_pCurrentNode = node;
+	GetGameObject()->GetTransform().SetWorldPosition(m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition());
+	m_pCurrentConnection = nullptr;
+}
+
+

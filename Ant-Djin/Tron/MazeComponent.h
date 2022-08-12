@@ -83,7 +83,7 @@ struct Connection
 class MazeComponent final : public dae::Component
 {
 public:
-	MazeComponent(dae::GameObject* pGo, int size);
+	MazeComponent(dae::GameObject* pGo, std::string filePath);
 	~MazeComponent();
 
 	void Update() override;
@@ -105,13 +105,15 @@ public:
 private:
 
 	//general settings
-	const int m_MazeDimensions{};
-	const int m_PathWidth{ 15 };
+	int m_MazeDimensions{};
+	int m_PathWidth{ 15 };
 
 
 	//nodes & connections
 	std::vector<NodeComponent*> m_pNodes;
 	std::vector<Connection*> m_Connections;
+
+	void ParseLevelFile(std::string path);
 
 
 };
