@@ -1,10 +1,13 @@
 #pragma once
 #include "Texture2D.h"
 #include "Component.h"
+#include <string>
 #include <SDL.h>
+#include <glm/glm.hpp>
 
 namespace dae
 {
+	class GameObject;
 	class RenderComponent : public Component
 	{
 	public:
@@ -21,12 +24,19 @@ namespace dae
 		void SetSourceRect(const SDL_Rect& source);
 		void SetDestRect(const SDL_FRect& dest);
 
+		void SetHorizontalFlip(bool value);
+		void SetVerticalFlip(bool value);
+		
+
 	private:
 		Texture2D* m_pTexture{};
 		glm::fvec2 m_Offset{};
 
 		SDL_Rect* m_SourceRect{};
 		SDL_FRect* m_DestRect{};
+
+		bool m_HorizontalFlip{};
+		bool m_VerticalFlip{};
 
 	};
 }

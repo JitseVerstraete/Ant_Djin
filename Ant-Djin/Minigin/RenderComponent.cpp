@@ -33,9 +33,11 @@ void dae::RenderComponent::FixedUpdate()
 void dae::RenderComponent::Render() const
 {
 	auto pos = GetGameObject()->GetTransform().GetWorldPosition();
+	SDL_RendererFlip flip{};
+	if (m_HorizontalFlip) flip = SDL_RendererFlip(flip + SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	if (m_VerticalFlip) flip = SDL_RendererFlip(flip + SDL_RendererFlip::SDL_FLIP_VERTICAL);
 
-
-	Renderer::GetInstance().RenderTexture(*m_pTexture, GetGameObject()->GetTransform(), m_SourceRect, m_Offset);
+	Renderer::GetInstance().RenderTexture(*m_pTexture, GetGameObject()->GetTransform(), m_SourceRect, m_DestRect, flip, m_Offset);
 
 
 }
@@ -73,3 +75,14 @@ void dae::RenderComponent::SetDestRect(const SDL_FRect& dest)
 		(*m_DestRect) = dest;
 	}
 }
+
+void dae::RenderComponent::SetHorizontalFlip(bool value)
+{
+	m_HorizontalFlip = value;
+}
+
+void dae::RenderComponent::SetVerticalFlip(bool value)
+{
+	m_VerticalFlip = value;
+}
+

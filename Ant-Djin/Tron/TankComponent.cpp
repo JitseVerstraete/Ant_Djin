@@ -3,22 +3,51 @@
 #include "InputManager.h"
 #include "GameTime.h"
 #include "MazeComponent.h"
-
+#include "RenderComponent.h"
 
 using namespace dae;
 
-TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze)
+TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer)
 	: Component(pGo)
 	, m_Maze{ maze }
+	, m_Renderer{renderer}
 {
 	m_pCurrentNode = maze->GetSpawnPoint();
 	auto spawnpos = m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition();
 	GetGameObject()->GetTransform().SetLocalPosition({ spawnpos.x, spawnpos.y, 0 });
 
+
+	m_Renderer->SetDestRect({ 0, 0, 32, 32 });
+
 }
 
 void TankComponent::Update()
 {
+	//update renderer settings
+	switch (m_CurrentMovement)
+	{
+	case Direction::North:
+		m_Renderer->SetSourceRect({ 32, 0, 32, 32 });
+		m_Renderer->SetVerticalFlip(false);
+		break;
+	case Direction::South:
+		m_Renderer->SetSourceRect({ 32, 0, 32, 32 });
+		m_Renderer->SetVerticalFlip(true);
+		break;
+	case Direction::East:
+		m_Renderer->SetSourceRect({ 0, 0, 32, 32 });
+		m_Renderer->SetHorizontalFlip(false);
+		break;
+	case Direction::West:
+		m_Renderer->SetSourceRect({ 0, 0, 32, 32 });
+		m_Renderer->SetHorizontalFlip(true);
+		break;
+	default:
+		break;
+	}
+
+
+
 	m_MovementInput = { 0, 0 };
 
 	if (InputManager::GetInstance().IsPressed(SDL_SCANCODE_DOWN, ButtonMode::HeldDown)) m_MovementInput.y += -1;
@@ -35,9 +64,6 @@ void TankComponent::Update()
 
 	if (m_pCurrentConnection)
 	{
-
-
-
 		auto tankPos = GetGameObject()->GetTransform().GetWorldPosition();
 
 		//check if the tank has arrived at a node (and set the position to that node)
@@ -189,6 +215,9 @@ void TankComponent::Update()
 	}
 
 	GetGameObject()->GetTransform().Translate({ xMove, yMove, 0.f });
+
+
+
 
 }
 

@@ -95,7 +95,7 @@ float dae::Transform::GetWorldRotation()
 {
 	if (m_rotationDirty)
 	{
-		m_scaleDirty = false;
+		m_rotationDirty = false;
 		//calculate new world pos
 		if (m_pParent == nullptr)
 		{
@@ -103,7 +103,7 @@ float dae::Transform::GetWorldRotation()
 		}
 		else
 		{
-			m_WorldRot = m_LocalRot = m_pParent->GetWorldRotation();
+			m_WorldRot = m_LocalRot + m_pParent->GetWorldRotation();
 		}
 	}
 	return m_WorldRot;
@@ -147,6 +147,11 @@ void dae::Transform::SetParent(Transform* pParent, bool keepWorldTransform)
 	{
 		Translate(-m_pParent->GetWorldPosition());
 	}
+	else
+	{
+		SetPositionDirty();
+	}
+	
 }
 
 

@@ -42,6 +42,9 @@
     <ClCompile Include="MazeComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="GunComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TronGame.h">
@@ -60,6 +63,9 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="MazeComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GunComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

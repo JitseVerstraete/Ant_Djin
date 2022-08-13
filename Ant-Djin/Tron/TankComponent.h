@@ -1,13 +1,14 @@
 #pragma once
 #include "Component.h"
 #include <glm/glm.hpp>
+#include "RenderComponent.h"
 #include "MazeComponent.h"
 
 class TankComponent : public dae::Component
 {
 public:
 	class GameObject;
-	TankComponent(dae::GameObject* pGo, MazeComponent* maze);
+	TankComponent(dae::GameObject* pGo, MazeComponent* maze, dae::RenderComponent* renderer);
 
 	void Update() override;
 	void FixedUpdate() override;
@@ -17,6 +18,7 @@ private:
 
 	float m_Speed = 50.f;
 	MazeComponent* m_Maze;
+	dae::RenderComponent* m_Renderer;
 
 	Direction m_CurrentMovement{};
 	glm::ivec2 m_MovementInput;

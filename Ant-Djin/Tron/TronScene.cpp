@@ -7,6 +7,7 @@
 #include "FPSComponent.h"
 #include "TankComponent.h"
 #include "MazeComponent.h"
+#include "GunComponent.h"
 
 using namespace dae;
 
@@ -38,7 +39,13 @@ void TronScene::Initialize()
 	renComp->SetTexture(ResourceManager::GetInstance().LoadTexture("RedTank.png"));
 	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	//renComp->SetTexture(texture);
-	parentObject->AddComponent(new TankComponent(parentObject, mazeComp));
+	parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp));
+
+	//add tank gun
+	GameObject* gun{ AddGameObject() };
+	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
+	auto gunRender = gun->AddComponent(new RenderComponent(gun, {0.5, 0.5}));
+	gun->AddComponent(new GunComponent(gun, gunRender));
 
 
 	//add the instructions text

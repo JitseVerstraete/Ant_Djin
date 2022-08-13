@@ -80,24 +80,10 @@ void dae::Renderer::Destroy()
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform, glm::fvec2 offset) const
 {
-	SDL_FRect dst{};
-	dst.x = transform.GetWorldPosition().x;
-	dst.y = transform.GetWorldPosition().y;
-
-	
-
-	int w{}, h{};
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &w, &h);
-	dst.w = w * transform.GetWorldScale().x;
-	dst.h = h * transform.GetWorldScale().y;
-
-
-	dst.x -= dst.w * offset.x;
-	dst.y -= dst.h * offset.y;
-	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, transform.GetWorldRotation(), nullptr, SDL_FLIP_NONE);
+	RenderTexture(texture, transform, nullptr, nullptr, SDL_RendererFlip::SDL_FLIP_NONE, offset);
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform, SDL_Rect* source, glm::fvec2 offset) const
+void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform, SDL_Rect* source, SDL_FRect* destination, SDL_RendererFlip flip, glm::fvec2 offset) const
 {
 	SDL_FRect dst{};
 	dst.x = transform.GetWorldPosition().x;
@@ -106,14 +92,22 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, Transform& transform
 
 
 	int w{}, h{};
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &w, &h);
+	if (destination)
+	{
+		w = (int)std::round(destination->w);
+		h = (int)std::round(destination->h);
+	}
+	else
+	{
+		SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &w, &h);
+	}
 	dst.w = w * transform.GetWorldScale().x;
 	dst.h = h * transform.GetWorldScale().y;
 
 
 	dst.x -= dst.w * offset.x;
 	dst.y -= dst.h * offset.y;
-	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), source, &dst, transform.GetWorldRotation(), nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyExF(GetSDLRenderer(), texture.GetSDLTexture(), source, &dst, transform.GetWorldRotation(), nullptr, flip);
 
 }
 
