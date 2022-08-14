@@ -235,6 +235,9 @@ void dae::Minigin::Run()
 			//PROCESS INPUT
 			doContinue = input.ProcessInput();
 
+			//PROCESS CURRENT SCENE (SWITCHING, ADDING/REMOVING OBJECTS)
+			sceneManager.ProcessScene();
+
 			//FIXED UPDATE 
 			lag += time.GetElapsed();
 			while (lag >= time.GetFixedTimeStep())

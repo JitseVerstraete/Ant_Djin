@@ -28,32 +28,34 @@ void dae::SceneManager::Render()
 	}
 }
 
-void dae::SceneManager::SetActiveScene(const std::string& sceneName)
+void dae::SceneManager::ProcessScene()
 {
-
+	//switch scenes if a new one if requested
+	auto sceneName{ m_switchSceneName };
 	auto foundScene = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&sceneName](dae::GameScene* s) -> bool {return s->GetName() == sceneName; });
 	if (foundScene != m_Scenes.end())
 	{
 		m_pActiveScene = *foundScene;
 	}
+	m_switchScene = false;
 
+	m_pActiveScene->ProcessAddQueue();
+	m_pActiveScene->ProcessRemoveQueue();
 
+}
+
+void dae::SceneManager::SetActiveScene(const std::string& sceneName)
+{
+	m_switchScene = true;
+	m_switchSceneName = sceneName;
 }
 
 void dae::SceneManager::Destroy()
 {
-
 	for (GameScene* scene : m_Scenes)
 	{
 		delete scene;
 	}
-
-	/*
-	if (m_pActiveScene != nullptr)
-	{
-		delete m_pActiveScene;
-	}
-	*/
 }
 
 dae::GameScene* dae::SceneManager::CreateEmptyScene(const std::string& name)

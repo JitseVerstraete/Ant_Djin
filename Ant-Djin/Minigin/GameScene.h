@@ -14,6 +14,10 @@ namespace dae
 
 		const std::string& GetName() { return m_Name; }
 
+
+		void ProcessAddQueue();
+		void ProcessRemoveQueue();
+
 		virtual ~GameScene();
 		GameScene(const GameScene& other) = delete;
 		GameScene(GameScene&& other) = delete;
@@ -32,7 +36,9 @@ namespace dae
 
 
 		std::string m_Name;
-		std::vector <GameObject*> m_Objects{};
+		std::vector <GameObject*> m_Objects;
 
+		std::vector<GameObject*> m_AddQueue;
+		std::vector<GameObject*> m_RemoveQueue;
 	};
 }

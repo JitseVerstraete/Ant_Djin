@@ -14,6 +14,7 @@ using namespace dae;
 void TronScene::Initialize()
 {
 
+
 	//add background
 	auto go = AddGameObject();
 	RenderComponent* renComp = go->AddComponent(new RenderComponent(go));
@@ -31,6 +32,7 @@ void TronScene::Initialize()
 
 
 
+	
 	//add tank
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
 	GameObject* parentObject = AddGameObject();
@@ -66,5 +68,6 @@ void TronScene::Initialize()
 
 
 
+	
 
 }

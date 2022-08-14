@@ -23,7 +23,6 @@ class NodeComponent : public dae::Component
 public:
 	NodeComponent(dae::GameObject* pGo, int x, int y);
 
-
 	void Update() override {}
 	void FixedUpdate() override {}
 	void Render() const override {}

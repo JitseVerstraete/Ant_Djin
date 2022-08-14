@@ -3,8 +3,6 @@
 #include "RenderComponent.h"
 
 
-
-
 class GunComponent : public dae::Component
 {
 public:
@@ -15,13 +13,16 @@ public:
 	void FixedUpdate() {}
 	void Render() const {}
 
+
+	void Shoot();
+
 private:
+
 	float m_Cooldown;
 	float m_ShotTimer;
 
-	float m_Angle;
+	float m_BulletSpeed{100};
+
 	float m_RotationSpeed{90};
-
-
 
 };

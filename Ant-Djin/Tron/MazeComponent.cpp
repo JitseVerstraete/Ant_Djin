@@ -96,7 +96,7 @@ void MazeComponent::Render() const
 
 void MazeComponent::AddNode(NodeComponent* pNode)
 {
-	m_pNodes.emplace_back(pNode);
+	m_pNodes.push_back(pNode);
 }
 
 void MazeComponent::AddConnection(NodeComponent* node1, NodeComponent* node2)
@@ -190,7 +190,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 		m_MazeDimensions = doc["dimensions"].GetInt();
 		m_PathWidth = doc["pathWidth"].GetInt();
 
-
+		
 		//parse nodes
 		Value nodes{};
 		nodes = doc["nodes"];
@@ -206,6 +206,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 			go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 			AddNode(node);
 		}
+
 		
 		//parse connections
 		Value connections{};
@@ -216,12 +217,8 @@ void MazeComponent::ParseLevelFile(std::string path)
 			int index2{ (*it)[1].GetInt() };
 			AddConnection(m_pNodes[index1], m_pNodes[index2]);
 		}
-
-		for (NodeComponent* pNode : m_pNodes)
-		{
-			std::cout << pNode << std::endl;
-		}
-
+		
+		
 	}
 
 

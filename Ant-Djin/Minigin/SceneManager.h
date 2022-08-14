@@ -19,6 +19,10 @@ namespace dae
 		void SetActiveScene(const std::string& sceneName);
 		GameScene* GetActiveScene() { return m_pActiveScene; }
 
+
+		void ProcessScene();
+
+
 		void Update();
 		void FixedUpdate();
 		void Render();
@@ -29,5 +33,9 @@ namespace dae
 		SceneManager() = default;
 		std::vector<GameScene*> m_Scenes;
 		GameScene* m_pActiveScene = nullptr;
+
+		bool m_switchScene;
+		std::string m_switchSceneName;
 	};
 }
+ 
