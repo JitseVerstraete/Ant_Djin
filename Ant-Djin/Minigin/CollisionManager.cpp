@@ -12,7 +12,7 @@ void dae::CollisionManager::ProcessCollisions()
 
 	//compare every collider against every other one and make records of the collisions
 	
-
+	std::cout << "number of colliders: " << m_Colliders.size() << std::endl;
 
 	//call the OnCollision function of every colliding game objects
 
@@ -36,39 +36,3 @@ void dae::CollisionManager::RemoveCollider(dae::ColliderComponent* collider)
 
 }
 
-dae::Shape::Shape(int left, int top, int width, int height, GameObject* object)
-	:m_Left{ left }, m_Top{ top }, m_Width{ width }, m_Height{ height }, m_LinkedObject{ object }
-{}
-
-bool dae::Shape::Overlaps(const Shape& other)
-{
-	
-
-	bool xAligned{ ValInRange(GetWorldLeft(), other.GetWorldLeft(), other.GetWorldLeft() + other.m_Width)
-				|| ValInRange(other.GetWorldLeft(), GetWorldLeft(), GetWorldLeft() + m_Width) };
-
-	bool yAligned{ ValInRange(GetWorldTop(), other.GetWorldTop(), other.GetWorldTop() + other.m_Height)
-				|| ValInRange(other.GetWorldTop(), GetWorldTop(), GetWorldTop() + m_Height) };
-
-	return xAligned && yAligned;
-}
-
-int dae::Shape::GetWorldLeft() const
-{
-	return  m_Left + (int)m_LinkedObject->GetTransform().GetWorldPosition().x;
-}
-
-int dae::Shape::GetWorldTop() const
-{
-	return m_Top + (int)m_LinkedObject->GetTransform().GetWorldPosition().y;
-}
-
-int dae::Shape::GetWidth() const 
-{
-	return m_Width;
-}
-
-int dae::Shape::GetHeight() const
-{
-	return m_Height;
-}

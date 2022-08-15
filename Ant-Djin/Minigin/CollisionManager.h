@@ -21,6 +21,18 @@ namespace dae
 		{
 			return (collider1 == other.collider1 && collider2 == other.collider2) || (collider1 == other.collider2 && collider2 == other.collider1);
 		}
+
+		bool Contains(ColliderComponent* comp) { return collider1 == comp || collider2 == comp; }
+
+		//when given one of the two components in the record, return the other one
+		ColliderComponent* GetOtherCollider(ColliderComponent* collider) 
+		{
+			if (collider == collider1) return collider2;
+			if (collider == collider2) return collider1;
+			return nullptr;
+		}
+
+
 	};
 
 	enum class CollisionType
@@ -30,36 +42,8 @@ namespace dae
 		Exit
 	};
 
-	class Shape
-	{
-	public:
-		Shape(int left, int top, int width, int height, GameObject* object);
 
-
-		bool Overlaps(const Shape& other);
-
-		int GetWorldLeft()const;
-		int GetWorldTop()const;
-		int GetWidth()const;
-		int GetHeight()const;
-
-
-	private:
-
-		int m_Left;
-		int m_Top;
-		int m_Width;
-		int m_Height;
-
-		GameObject* m_LinkedObject;
-		bool ValInRange(int val, int min, int max)
-		{
-			return val >= min && val <= max;
-		}
-	};
-
-
-	class CollisionManager final : public Singleton<CollisionManager>
+	class CollisionManager final
 	{
 	public:
 		void ProcessCollisions();
@@ -68,8 +52,10 @@ namespace dae
 
 
 	private:
+		friend class GameScene;
 		CollisionManager() = default;
-		friend Singleton<CollisionManager>;
+		CollisionManager(const CollisionManager& other) = delete;
+		CollisionManager(const CollisionManager&& other) = delete;
 
 		std::vector<ColliderComponent*> m_Colliders;
 

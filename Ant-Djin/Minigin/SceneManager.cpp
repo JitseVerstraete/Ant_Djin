@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "SceneManager.h"
 #include "GameScene.h"
+#include "CollisionManager.h"
 
 void dae::SceneManager::Update()
 {
@@ -41,6 +42,8 @@ void dae::SceneManager::ProcessScene()
 
 	m_pActiveScene->ProcessAddQueue();
 	m_pActiveScene->ProcessRemoveQueue();
+
+	m_pActiveScene->m_CollisionManager->ProcessCollisions();
 
 }
 

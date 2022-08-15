@@ -26,6 +26,7 @@ namespace dae
 		//transform manip
 		Transform& GetTransform() { return m_Transform; }
 
+		GameScene* GetScene() { return m_Scene; }
 
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -39,6 +40,7 @@ namespace dae
 		Transform m_Transform;
 
 		std::vector<Component*> m_pComponents;
+		GameScene* m_Scene;
 
 	};
 

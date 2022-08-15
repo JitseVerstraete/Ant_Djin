@@ -41,6 +41,9 @@
     <Filter Include="Singleton Pattern">
       <UniqueIdentifier>{0181b10a-d1f3-45ca-ac8b-f3981721fc9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collisions">
+      <UniqueIdentifier>{0ef490e3-dc34-4be7-bc95-d112447ae126}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -158,7 +161,10 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
-      <Filter>Singleton Pattern</Filter>
+      <Filter>Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes.h">
+      <Filter>Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -265,7 +271,7 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
-      <Filter>Singleton Pattern</Filter>
+      <Filter>Collisions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

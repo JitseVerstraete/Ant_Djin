@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "GameScene.h"
 #include "GameObject.h"
+#include "CollisionManager.h"
 
 using namespace dae;
 
@@ -10,6 +11,7 @@ GameScene::GameScene(const std::string& name)
 	, m_Objects{}
 	, m_AddQueue{}
 	, m_RemoveQueue{}
+	, m_CollisionManager{new CollisionManager()}
 {
 }
 
@@ -43,11 +45,14 @@ GameScene::~GameScene()
 	{
 		delete pGO;
 	}
+
+	delete m_CollisionManager;
 }
 
 GameObject* GameScene::AddGameObject()
 {
 	GameObject* pNewObject = new GameObject();
+	pNewObject->m_Scene = this;
 	m_AddQueue.push_back(pNewObject);
 	return pNewObject;
 }

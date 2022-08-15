@@ -1,9 +1,11 @@
 #pragma once
 #include "SceneManager.h"
 
+
 namespace dae
 {
 	class GameObject;
+	class CollisionManager;
 	class GameScene
 	{
 	public:
@@ -13,6 +15,8 @@ namespace dae
 
 
 		const std::string& GetName() { return m_Name; }
+		
+		CollisionManager* GetCollisionManager() { return m_CollisionManager; }
 
 
 		void ProcessAddQueue();
@@ -40,5 +44,7 @@ namespace dae
 
 		std::vector<GameObject*> m_AddQueue;
 		std::vector<GameObject*> m_RemoveQueue;
+
+		CollisionManager* m_CollisionManager;
 	};
 }

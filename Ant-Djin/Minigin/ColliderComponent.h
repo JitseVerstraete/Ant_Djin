@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "CollisionManager.h"
+#include "Shapes.h"
 
 namespace dae
 {
@@ -15,8 +15,17 @@ namespace dae
 
 		const Shape& GetShape() { return m_Shape; };
 
+		bool Overlaps(ColliderComponent& other);
+
+		void Update() override;
+		void Render() const override;
+		void OnCollision(GameObject* other, CollisionType type) override;
+
 	private:
 		Shape m_Shape;
+		
+		bool overlapped{};
+
 
 	};
 
