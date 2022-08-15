@@ -20,4 +20,6 @@ void MenuScene::SceneUpdate()
 	else return;
 	SceneManager::GetInstance().AddScene(new TronScene(sceneName));
 	SceneManager::GetInstance().SetActiveScene(sceneName);
+
+
 }

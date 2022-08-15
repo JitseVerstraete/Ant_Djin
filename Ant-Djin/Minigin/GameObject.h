@@ -21,7 +21,7 @@ namespace dae
 		template <typename T> void RemoveComponent();
 		template <typename T> T* GetComponent();
 
-
+		void OnCollision(GameObject* other, CollisionType type);
 
 		//transform manip
 		Transform& GetTransform() { return m_Transform; }

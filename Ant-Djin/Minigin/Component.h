@@ -1,4 +1,5 @@
 #pragma once
+#include "CollisionManager.h"
 
 namespace dae
 {
@@ -10,9 +11,10 @@ namespace dae
 		Component(GameObject* pGo) :m_pAttachedGameObject{ pGo } {};
 		virtual ~Component() {};
 
-		virtual void Update() = 0;
-		virtual void FixedUpdate() = 0;
-		virtual void Render() const = 0;
+		virtual void Update() {};
+		virtual void FixedUpdate(){};
+		virtual void Render() const{};
+		virtual void OnCollision(GameObject* , CollisionType ){}
 
 		void SetAttachedGameObject(GameObject* pGO);
 		GameObject* GetGameObject() const;

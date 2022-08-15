@@ -8,6 +8,14 @@ dae::GameObject::GameObject()
 {
 }
 
+void dae::GameObject::OnCollision(GameObject* other, CollisionType type)
+{
+	for (Component* comp : m_pComponents)
+	{
+		comp->OnCollision(other, type);
+	}
+}
+
 dae::GameObject::~GameObject()
 {
 	for (dae::Component* pComp : m_pComponents)
