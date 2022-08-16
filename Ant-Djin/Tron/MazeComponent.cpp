@@ -90,7 +90,7 @@ void MazeComponent::Render() const
 	{
 		Renderer::GetInstance().DrawLine(glm::ivec2(con->first->GetGameObject()->GetTransform().GetWorldPosition()),
 			glm::ivec2(con->second->GetGameObject()->GetTransform().GetWorldPosition()),
-			{ 255, 0, 0, 255 });
+			{ 0, 0, 255, 255 });
 	}
 }
 

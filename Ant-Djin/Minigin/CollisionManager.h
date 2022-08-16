@@ -12,17 +12,19 @@ namespace dae
 	class ColliderComponent;
 	struct CollisionRecord
 	{
+		CollisionRecord(ColliderComponent* comp1, ColliderComponent* comp2) :collider1{ comp1 }, collider2{ comp2 }, overlap{ false }{}
+
 		ColliderComponent* collider1;
 		ColliderComponent* collider2;
 
 		bool overlap;
 
-		bool operator==(const CollisionRecord& other)
+		bool operator==(const CollisionRecord& other) const
 		{
 			return (collider1 == other.collider1 && collider2 == other.collider2) || (collider1 == other.collider2 && collider2 == other.collider1);
 		}
 
-		bool Contains(ColliderComponent* comp) { return collider1 == comp || collider2 == comp; }
+		bool Contains(ColliderComponent* comp) const { return collider1 == comp || collider2 == comp; }
 
 		//when given one of the two components in the record, return the other one
 		ColliderComponent* GetOtherCollider(ColliderComponent* collider) 

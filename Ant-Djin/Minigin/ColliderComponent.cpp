@@ -16,11 +16,11 @@ ColliderComponent::~ColliderComponent()
 	GetGameObject()->GetScene()->GetCollisionManager()->RemoveCollider(this);
 }
 
-bool dae::ColliderComponent::Overlaps(ColliderComponent& other)
+bool dae::ColliderComponent::Overlaps(const ColliderComponent* other) const
 {
 	auto posThis{ GetGameObject()->GetTransform().GetWorldPosition() };
-	auto posOther{ other.GetGameObject()->GetTransform().GetWorldPosition() };
-	return ShapesOverlapping(m_Shape, glm::vec2{ posThis.x, posThis.y }, other.GetShape(), glm::vec2{ posOther.x, posOther.y });
+	auto posOther{ other->GetGameObject()->GetTransform().GetWorldPosition() };
+	return ShapesOverlapping(m_Shape, glm::vec2{ posThis.x, posThis.y }, other->GetShape(), glm::vec2{ posOther.x, posOther.y });
 }
 
 void dae::ColliderComponent::Update()

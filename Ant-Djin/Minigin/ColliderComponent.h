@@ -13,9 +13,9 @@ namespace dae
 		ColliderComponent(dae::GameObject* pGo, const Shape& shape);
 		~ColliderComponent();
 
-		const Shape& GetShape() { return m_Shape; };
+		const Shape& GetShape() const { return m_Shape; };
 
-		bool Overlaps(ColliderComponent& other);
+		bool Overlaps(const ColliderComponent* other) const;
 
 		void Update() override;
 		void Render() const override;

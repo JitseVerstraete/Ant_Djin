@@ -6,6 +6,7 @@
 #include "InputManager.h"
 #include "BulletComponent.h"
 #include "SceneManager.h"
+#include "ColliderComponent.h"
 
 
 
@@ -40,4 +41,5 @@ void GunComponent::Shoot()
 	auto pGo = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
 	auto renComp = pGo->AddComponent(new RenderComponent(pGo, { 0.5, 0.5 }));
 	pGo->AddComponent(new BulletComponent(pGo, renComp, pos, vel));
+	pGo->AddComponent(new ColliderComponent(pGo, Shape(-5, -5, 10, 10)));
 }
