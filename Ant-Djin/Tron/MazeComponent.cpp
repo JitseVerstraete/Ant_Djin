@@ -8,6 +8,7 @@
 #include "document.h"
 #include "istreamwrapper.h"
 #include <fstream>
+#include "ColliderComponent.h"
 
 
 
@@ -190,7 +191,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 		m_MazeDimensions = doc["dimensions"].GetInt();
 		m_PathWidth = doc["pathWidth"].GetInt();
 
-		
+
 		//parse nodes
 		Value nodes{};
 		nodes = doc["nodes"];
@@ -207,7 +208,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 			AddNode(node);
 		}
 
-		
+
 		//parse connections
 		Value connections{};
 		connections = doc["connections"];
@@ -217,6 +218,70 @@ void MazeComponent::ParseLevelFile(std::string path)
 			int index2{ (*it)[1].GetInt() };
 			AddConnection(m_pNodes[index1], m_pNodes[index2]);
 		}
+
+		Value colliders{};
+		colliders = doc["colliders"];
+		for (auto it = colliders.Begin(); it != colliders.End(); it++)
+		{
+			Shape shape{};
+			auto originPos{ m_pNodes[(*it)[0].GetInt()]->GetGameObject()->GetTransform().GetLocalPosition() };
+			auto horiPos{ m_pNodes[(*it)[1].GetInt()]->GetGameObject()->GetTransform().GetLocalPosition() };
+			auto vertiPos{ m_pNodes[(*it)[2].GetInt()]->GetGameObject()->GetTransform().GetLocalPosition() };
+
+			float width{ horiPos.x - originPos.x };
+			float height{ vertiPos.y - originPos.y };
+
+			if (width < 0) originPos.x += width;
+			if (height < 0) originPos.y += height;
+
+			shape.left = (int)originPos.x + m_PathWidth;
+			shape.top = (int)originPos.y + m_PathWidth;
+			shape.width = (int)abs(width) - m_PathWidth * 2;
+			shape.height = (int)abs(height) - m_PathWidth * 2;
+
+			go = GetGameObject()->GetScene()->AddGameObject();
+			go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+
+			ColliderComponent* comp = new ColliderComponent(go, shape);
+			go->AddComponent(comp);
+		}
+
+		////add the 4 walls
+
+		const int outsideWallThickness = 50;
+		auto topLeft = m_pNodes[doc["topLeft"].GetInt()]->GetGameObject()->GetTransform().GetLocalPosition();
+		auto bottomRight = m_pNodes[doc["bottomRight"].GetInt()]->GetGameObject()->GetTransform().GetLocalPosition();
+
+		//top
+		Shape s{ int(topLeft.x - m_PathWidth * 2), int(topLeft.y - m_PathWidth - outsideWallThickness), m_MazeDimensions + m_PathWidth * 4, outsideWallThickness };
+		go = GetGameObject()->GetScene()->AddGameObject();
+		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+
+		ColliderComponent* comp = new ColliderComponent(go, s);
+		go->AddComponent(comp);
+
+		//bottom
+		s = Shape(int(topLeft.x - m_PathWidth * 2), int(bottomRight.y + m_PathWidth), m_MazeDimensions + m_PathWidth * 4, outsideWallThickness);
+		go = GetGameObject()->GetScene()->AddGameObject();
+		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+		comp = new ColliderComponent(go, s);
+		go->AddComponent(comp);
+
+
+		//left
+		s = Shape(int(topLeft.x - m_PathWidth - outsideWallThickness), int(topLeft.y - m_PathWidth * 2) ,outsideWallThickness , m_MazeDimensions + m_PathWidth * 4);
+		go = GetGameObject()->GetScene()->AddGameObject();
+		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+		comp = new ColliderComponent(go, s);
+		go->AddComponent(comp);
+
+		
+		//right
+		s = Shape(int(bottomRight.x + m_PathWidth), int(topLeft.y - m_PathWidth * 2) ,outsideWallThickness , m_MazeDimensions + m_PathWidth * 4);
+		go = GetGameObject()->GetScene()->AddGameObject();
+		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
+		comp = new ColliderComponent(go, s);
+		go->AddComponent(comp);
 		
 		
 	}

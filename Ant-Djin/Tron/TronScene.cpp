@@ -67,12 +67,4 @@ void TronScene::Initialize()
 	go->AddComponent(new FPSComponent(go));
 	go->GetTransform().SetLocalPosition({ 0.f, 0.f, 0.f });
 
-
-
-	go = AddGameObject();
-	go->AddComponent(new ColliderComponent(go, Shape(10, 10, 100, 100)));
-	go->GetTransform().Translate({ 150, 150, 0 });
-
-	
-
 }
