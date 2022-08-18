@@ -26,46 +26,52 @@ void BulletComponent::Update()
 
 void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 {
+	
 	if (type == CollisionType::Enter)
+	
 	{
-		//check what side of the collider the bullet hit, and bounce the bullet to the coorect direction
-		auto collider{ other->GetComponent<ColliderComponent>() };
-		if (collider)
+		if (other->m_Tag == "wall")
 		{
-			Shape colShape = collider->GetShape();
-			colShape.left += (int)other->GetTransform().GetWorldPosition().x;
-			colShape.top += (int)other->GetTransform().GetWorldPosition().y;
 
-			glm::vec3 ballPos{ GetGameObject()->GetTransform().GetWorldPosition() };
-			auto ballColl = GetGameObject()->GetComponent<ColliderComponent>();
-			if (!ballColl) return;
-			int ballrad{ ballColl->GetShape().width / 2 };
-
-			float xProximity{};
-			if (m_Velocity.x > 0)
+			//check what side of the collider the bullet hit, and bounce the bullet to the coorect direction
+			auto collider{ other->GetComponent<ColliderComponent>() };
+			if (collider)
 			{
-				xProximity = abs(colShape.left - (ballPos.x + ballrad));
+				Shape colShape = collider->GetShape();
+				colShape.left += (int)other->GetTransform().GetWorldPosition().x;
+				colShape.top += (int)other->GetTransform().GetWorldPosition().y;
+
+				glm::vec3 ballPos{ GetGameObject()->GetTransform().GetWorldPosition() };
+				auto ballColl = GetGameObject()->GetComponent<ColliderComponent>();
+				if (!ballColl) return;
+				int ballrad{ ballColl->GetShape().width / 2 };
+
+				float xProximity{};
+				if (m_Velocity.x > 0)
+				{
+					xProximity = abs(colShape.left - (ballPos.x + ballrad));
+				}
+				else
+				{
+					xProximity = abs((colShape.left + colShape.width) - (ballPos.x - ballrad));
+
+				}
+
+				float yProximity{};
+				if (m_Velocity.y > 0)
+				{
+					yProximity = abs(colShape.top - (ballPos.y + ballrad));
+				}
+				else
+				{
+					yProximity = abs((colShape.top + colShape.height) - (ballPos.y - ballrad));
+
+				}
+
+
+				if (xProximity < yProximity) m_Velocity.x = -m_Velocity.x;
+				if (xProximity > yProximity) m_Velocity.y = -m_Velocity.y;
 			}
-			else
-			{
-				xProximity = abs((colShape.left + colShape.width) - (ballPos.x - ballrad));
-
-			}
-
-			float yProximity{};
-			if (m_Velocity.y > 0)
-			{
-				yProximity = abs(colShape.top - (ballPos.y + ballrad));
-			}
-			else
-			{
-				yProximity = abs((colShape.top + colShape.height) - (ballPos.y - ballrad));
-
-			}
-
-
-			if (xProximity < yProximity) m_Velocity.x = -m_Velocity.x;
-			if (xProximity > yProximity) m_Velocity.y = -m_Velocity.y;
 		}
 	}
 }

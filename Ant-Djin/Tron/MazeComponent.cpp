@@ -240,6 +240,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 			shape.height = (int)abs(height) - m_PathWidth * 2;
 
 			go = GetGameObject()->GetScene()->AddGameObject();
+			go->m_Tag = "wall";
 			go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 
 			ColliderComponent* comp = new ColliderComponent(go, shape);
@@ -247,7 +248,6 @@ void MazeComponent::ParseLevelFile(std::string path)
 		}
 
 		////add the 4 walls
-
 		const int outsideWallThickness = 50;
 		auto topLeft = m_pNodes[doc["topLeft"].GetInt()]->GetGameObject()->GetTransform().GetLocalPosition();
 		auto bottomRight = m_pNodes[doc["bottomRight"].GetInt()]->GetGameObject()->GetTransform().GetLocalPosition();
@@ -255,6 +255,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 		//top
 		Shape s{ int(topLeft.x - m_PathWidth * 2), int(topLeft.y - m_PathWidth - outsideWallThickness), m_MazeDimensions + m_PathWidth * 4, outsideWallThickness };
 		go = GetGameObject()->GetScene()->AddGameObject();
+		go->m_Tag = "wall";
 		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 
 		ColliderComponent* comp = new ColliderComponent(go, s);
@@ -263,27 +264,30 @@ void MazeComponent::ParseLevelFile(std::string path)
 		//bottom
 		s = Shape(int(topLeft.x - m_PathWidth * 2), int(bottomRight.y + m_PathWidth), m_MazeDimensions + m_PathWidth * 4, outsideWallThickness);
 		go = GetGameObject()->GetScene()->AddGameObject();
+		go->m_Tag = "wall";
 		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 		comp = new ColliderComponent(go, s);
 		go->AddComponent(comp);
 
 
 		//left
-		s = Shape(int(topLeft.x - m_PathWidth - outsideWallThickness), int(topLeft.y - m_PathWidth * 2) ,outsideWallThickness , m_MazeDimensions + m_PathWidth * 4);
+		s = Shape(int(topLeft.x - m_PathWidth - outsideWallThickness), int(topLeft.y - m_PathWidth * 2), outsideWallThickness, m_MazeDimensions + m_PathWidth * 4);
 		go = GetGameObject()->GetScene()->AddGameObject();
+		go->m_Tag = "wall";
 		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 		comp = new ColliderComponent(go, s);
 		go->AddComponent(comp);
 
-		
+
 		//right
-		s = Shape(int(bottomRight.x + m_PathWidth), int(topLeft.y - m_PathWidth * 2) ,outsideWallThickness , m_MazeDimensions + m_PathWidth * 4);
+		s = Shape(int(bottomRight.x + m_PathWidth), int(topLeft.y - m_PathWidth * 2), outsideWallThickness, m_MazeDimensions + m_PathWidth * 4);
 		go = GetGameObject()->GetScene()->AddGameObject();
+		go->m_Tag = "wall";
 		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 		comp = new ColliderComponent(go, s);
 		go->AddComponent(comp);
-		
-		
+
+
 	}
 
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include <vector>
+#include <set>
 #include <iostream>
 
 
@@ -12,12 +13,11 @@ namespace dae
 	class ColliderComponent;
 	struct CollisionRecord
 	{
-		CollisionRecord(ColliderComponent* comp1, ColliderComponent* comp2) :collider1{ comp1 }, collider2{ comp2 }, overlap{ false }{}
+		CollisionRecord(ColliderComponent* comp1, ColliderComponent* comp2) :collider1{ comp1 }, collider2{ comp2 }{}
 
 		ColliderComponent* collider1;
 		ColliderComponent* collider2;
 
-		bool overlap;
 
 		bool operator==(const CollisionRecord& other) const
 		{
@@ -33,6 +33,8 @@ namespace dae
 			if (collider == collider2) return collider1;
 			return nullptr;
 		}
+
+		bool operator<(const CollisionRecord& other) const;
 
 
 	};
@@ -61,8 +63,10 @@ namespace dae
 
 		std::vector<ColliderComponent*> m_Colliders;
 
-		std::vector<CollisionRecord> m_CurrentCollisions;
-		std::vector<CollisionRecord> m_PreviousCollisions;
+		std::set<CollisionRecord> m_CurrentCollisions;
+		std::set<CollisionRecord> m_PreviousCollisions;
+
+		
 
 	};
 

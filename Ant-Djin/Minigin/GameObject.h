@@ -34,6 +34,8 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		std::string m_Tag;
+
 	private:
 		friend GameObject* GameScene::AddGameObject();
 		GameObject(); // constructor private, you can only make game object through adding them in the scene

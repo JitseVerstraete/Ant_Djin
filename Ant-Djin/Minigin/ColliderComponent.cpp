@@ -5,10 +5,12 @@
 #include "Renderer.h"
 
 using namespace dae;
+unsigned int ColliderComponent::m_ColliderCounter = 0;
 
 ColliderComponent::ColliderComponent(dae::GameObject* pGo, const Shape& shape) : Component(pGo), m_Shape{ shape }
 {
 	GetGameObject()->GetScene()->GetCollisionManager()->AddCollider(this);
+	m_Id = m_ColliderCounter++;
 }
 
 ColliderComponent::~ColliderComponent()
