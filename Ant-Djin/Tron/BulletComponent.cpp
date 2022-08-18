@@ -32,7 +32,6 @@ void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 	{
 		if (other->m_Tag == "wall")
 		{
-
 			//check what side of the collider the bullet hit, and bounce the bullet to the coorect direction
 			auto collider{ other->GetComponent<ColliderComponent>() };
 			if (collider)
@@ -70,7 +69,7 @@ void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 
 
 				if (xProximity < yProximity) m_Velocity.x = -m_Velocity.x;
-				if (xProximity > yProximity) m_Velocity.y = -m_Velocity.y;
+				if (xProximity >= yProximity) m_Velocity.y = -m_Velocity.y;
 			}
 		}
 	}

@@ -21,6 +21,11 @@ void dae::CollisionManager::ProcessCollisions()
 			//if the colliders are the same, skip
 			if (collider == compareWith) continue;
 
+			CollisionRecord newRec{ collider, compareWith };
+			if (std::find_if(m_CurrentCollisions.begin(), m_CurrentCollisions.end(), [&newRec](const CollisionRecord& rec) {return rec == newRec; }) != m_CurrentCollisions.end())
+			{
+				continue;
+			}
 
 			if (collider->Overlaps(compareWith))
 			{
@@ -53,10 +58,10 @@ void dae::CollisionManager::ProcessCollisions()
 	for (const CollisionRecord& record : m_PreviousCollisions)
 	{
 		bool currOverlap{ m_CurrentCollisions.find(record) != m_CurrentCollisions.end() };
-	
+
 		if (currOverlap) continue;
 
-		CollisionType type{CollisionType::Exit};
+		CollisionType type{ CollisionType::Exit };
 
 
 		//call the on collision 
@@ -90,13 +95,16 @@ void dae::CollisionManager::RemoveCollider(dae::ColliderComponent* collider)
 bool dae::CollisionRecord::operator<(const CollisionRecord& other) const
 {
 
-	if (collider1->GetId() == other.collider1->GetId())
+	if (*this == other) return false;
+
+
+	if (collider1->GetId() != other.collider1->GetId())
 	{
-		return collider2->GetId() < other.collider2->GetId();
+		return collider1->GetId() < other.collider1->GetId();
 	}
 	else
 	{
-		return collider1->GetId() < other.collider1->GetId();
+		return collider2->GetId() < other.collider2->GetId();
 	}
 
 }

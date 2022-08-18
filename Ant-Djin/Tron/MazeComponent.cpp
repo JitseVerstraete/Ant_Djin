@@ -219,6 +219,9 @@ void MazeComponent::ParseLevelFile(std::string path)
 			AddConnection(m_pNodes[index1], m_pNodes[index2]);
 		}
 
+
+		//parse colliders
+		
 		Value colliders{};
 		colliders = doc["colliders"];
 		for (auto it = colliders.Begin(); it != colliders.End(); it++)
@@ -246,6 +249,8 @@ void MazeComponent::ParseLevelFile(std::string path)
 			ColliderComponent* comp = new ColliderComponent(go, shape);
 			go->AddComponent(comp);
 		}
+		
+
 
 		////add the 4 walls
 		const int outsideWallThickness = 50;
@@ -260,7 +265,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 
 		ColliderComponent* comp = new ColliderComponent(go, s);
 		go->AddComponent(comp);
-
+		
 		//bottom
 		s = Shape(int(topLeft.x - m_PathWidth * 2), int(bottomRight.y + m_PathWidth), m_MazeDimensions + m_PathWidth * 4, outsideWallThickness);
 		go = GetGameObject()->GetScene()->AddGameObject();
@@ -286,6 +291,8 @@ void MazeComponent::ParseLevelFile(std::string path)
 		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 		comp = new ColliderComponent(go, s);
 		go->AddComponent(comp);
+		
+
 
 
 	}
