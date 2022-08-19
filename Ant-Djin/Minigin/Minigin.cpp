@@ -24,9 +24,9 @@ using namespace std;
 dae::Minigin::Minigin(BaseGame* pGame, int width, int height)
 	:m_Width{ width }
 	, m_Height{ height }
+	, m_pGame{pGame}
 {
 	assert(pGame);
-	m_pGame = pGame;
 }
 
 dae::Minigin::~Minigin()

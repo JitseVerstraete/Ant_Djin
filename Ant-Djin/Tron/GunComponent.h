@@ -3,7 +3,7 @@
 #include "RenderComponent.h"
 
 
-class GunComponent : public dae::Component
+class GunComponent final: public dae::Component
 {
 public:
 	GunComponent(dae::GameObject* pGo, dae::RenderComponent* render);

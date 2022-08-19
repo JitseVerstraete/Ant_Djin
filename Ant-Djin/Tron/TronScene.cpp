@@ -63,8 +63,8 @@ void TronScene::Initialize()
 	auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	go = AddGameObject();
 	go->AddComponent(new RenderComponent(go));
-	go->AddComponent(new TextComponent(go, "timer!", fpsFont));
-	go->AddComponent(new FPSComponent(go));
+	auto textComp = go->AddComponent(new TextComponent(go, "timer!", fpsFont));
+	go->AddComponent(new FPSComponent(go, textComp));
 	go->GetTransform().SetLocalPosition({ 0.f, 0.f, 0.f });
 
 }

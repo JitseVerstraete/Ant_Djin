@@ -8,18 +8,19 @@ namespace dae
 	class Component
 	{
 	public:
-		Component(GameObject* pGo) :m_pAttachedGameObject{ pGo } {};
-		virtual ~Component() {};
+		Component(GameObject* pGo);
+		virtual ~Component() = default;
 
-		virtual void Update() {};
-		virtual void FixedUpdate(){};
-		virtual void Render() const{};
-		virtual void OnCollision(GameObject* , CollisionType ){}
+		virtual void Update() {}
+		virtual void FixedUpdate() {}
+		virtual void Render() const {}
+		virtual void OnCollision(GameObject*, CollisionType) {}
 
-		void SetAttachedGameObject(GameObject* pGO);
 		GameObject* GetGameObject() const;
+		void SetAttachedGameObject(GameObject* go);
 
 	protected:
+
 		GameObject* m_pAttachedGameObject = nullptr; //No ownership on this pointer
 	};
 

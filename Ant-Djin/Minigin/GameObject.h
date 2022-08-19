@@ -50,7 +50,7 @@ namespace dae
 
 
 	template<typename T>
-	inline T* GameObject::AddComponent(T* pComponent)
+	T* GameObject::AddComponent(T* pComponent)
 	{
 		if (pComponent) m_pComponents.push_back(pComponent);
 		pComponent->SetAttachedGameObject(this);
@@ -58,7 +58,7 @@ namespace dae
 	}
 
 	template<typename T> //typename T are classes that derive from Component base class
-	inline T* GameObject::GetComponent()
+	T* GameObject::GetComponent()
 	{
 
 		for (Component* pComp : m_pComponents)
@@ -74,7 +74,7 @@ namespace dae
 	}
 
 	template<typename T>
-	inline void GameObject::RemoveComponent()
+	void GameObject::RemoveComponent()
 	{
 		std::cout << "REMOVE COMPONENT NOT YET IMPLEMENTED!!!!\n";
 		//todo: add the "remove component" implementation!

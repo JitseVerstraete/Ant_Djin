@@ -273,5 +273,6 @@
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="BaseGame.cpp" />
   </ItemGroup>
 </Project>

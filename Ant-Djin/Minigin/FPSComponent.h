@@ -3,10 +3,11 @@
 
 namespace dae
 {
-	class FPSComponent : public Component
+	class TextComponent;
+	class FPSComponent final : public Component
 	{
 	public:
-		FPSComponent(GameObject* pGo);
+		FPSComponent(GameObject* pGo, TextComponent* textComp);
 
 		void Update() override;
 		void FixedUpdate() override;
@@ -14,9 +15,10 @@ namespace dae
 
 
 	private:
-		float m_SecondsPerUpdate = 1.f;
-		float m_UpdateTimer = 0.f;
-		int m_FrameCounter = 0;
+		float m_SecondsPerUpdate ;
+		float m_UpdateTimer;
+		int m_FrameCounter;
 
+		TextComponent* m_pTextComp;
 	};
 }

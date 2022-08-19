@@ -5,22 +5,24 @@
 #include "TextComponent.h"
 #include <iomanip>
 
-dae::FPSComponent::FPSComponent(GameObject* pGo)
+dae::FPSComponent::FPSComponent(GameObject* pGo, TextComponent* textComp)
 	: Component(pGo)
 	, m_UpdateTimer{ m_SecondsPerUpdate }
+	, m_pTextComp{textComp}
+	, m_SecondsPerUpdate{1.f}
 {
 }
 
 void dae::FPSComponent::Update()
 {
-	TextComponent* textComp = GetGameObject()->GetComponent<TextComponent>();
+	
 
 	m_FrameCounter++;
 	m_UpdateTimer += GameTime::GetInstance().GetElapsed();
 
 	if (m_UpdateTimer > m_SecondsPerUpdate)
 	{
-		if (textComp == nullptr)
+		if (m_pTextComp == nullptr)
 		{
 			std::cout << "FPS COMPONENT CANT FIND A TEXTCOMPONENT ON THIS GAME OBJECT\n";
 		}
@@ -29,7 +31,7 @@ void dae::FPSComponent::Update()
 			std::stringstream ss{};
 			ss << std::fixed << std::setprecision(2) << "FPS: " << float(m_FrameCounter / m_UpdateTimer);
 
-			textComp->SetText(ss.str());
+			m_pTextComp->SetText(ss.str());
 			
 		}
 		m_UpdateTimer = 0.f;

@@ -4,7 +4,7 @@
 
 namespace dae
 {
-	class GameTime : public Singleton<GameTime>
+	class GameTime final : public Singleton<GameTime>
 	{
 	public:
 		
@@ -15,13 +15,15 @@ namespace dae
 		float GetFixedTimeStep() { return m_FixedTimeStep; }
 
 	private:
+		friend Singleton<GameTime>;
+		GameTime();
 
 		float m_DeltaTime;
 		float m_AccumulatedTime;
 
 		std::chrono::steady_clock::time_point m_CurrentTimePoint;
 		std::chrono::steady_clock::time_point m_LastTimePoint;
-		float m_FixedTimeStep = .016f; //standard value of 16 ms
+		float m_FixedTimeStep; 
 
 	};
 }

@@ -3,6 +3,13 @@
 
 using namespace std::chrono;
 
+
+dae::GameTime::GameTime()
+	:m_FixedTimeStep{ .016f }//standard value of 16 ms
+{
+
+}
+
 void dae::GameTime::Init(float fixedTimeStep)
 {
 	m_LastTimePoint = high_resolution_clock::now();
