@@ -21,6 +21,8 @@ void BulletComponent::Update()
 	float elapsed{ GameTime::GetInstance().GetElapsed() };
 	GetGameObject()->GetTransform().Translate({ m_Velocity.x * elapsed, m_Velocity.y * elapsed, 0 }
 	);
+
+	m_BouncedThisFrame = false;
 }
 
 
@@ -32,6 +34,7 @@ void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 	{
 		if (other->m_Tag == "wall")
 		{
+			if (m_BouncedThisFrame) return;
 			//check what side of the collider the bullet hit, and bounce the bullet to the coorect direction
 			auto collider{ other->GetComponent<ColliderComponent>() };
 			if (collider)
@@ -70,6 +73,8 @@ void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 
 				if (xProximity < yProximity) m_Velocity.x = -m_Velocity.x;
 				if (xProximity >= yProximity) m_Velocity.y = -m_Velocity.y;
+
+				m_BouncedThisFrame = true;
 			}
 		}
 	}

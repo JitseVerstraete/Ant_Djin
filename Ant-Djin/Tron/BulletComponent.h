@@ -19,5 +19,6 @@ public:
 
 private:
 	glm::fvec2 m_Velocity{};
+	bool m_BouncedThisFrame;
 };
 
