@@ -115,7 +115,7 @@ public:
 	}
 
 
-	void Play(std::string path, int volume, bool loop)
+	void Play(const std::string& path, int volume, bool loop)
 	{
 
 		PlayRequest request{ path, volume, loop };
@@ -196,7 +196,7 @@ SDLSoundSystem::~SDLSoundSystem()
 	delete m_pImpl;
 }
 
-void SDLSoundSystem::Play(std::string path, int volume, bool looping)
+void SDLSoundSystem::Play(const std::string& path, int volume, bool looping)
 {
 	m_pImpl->Play(path, volume, looping);
 }

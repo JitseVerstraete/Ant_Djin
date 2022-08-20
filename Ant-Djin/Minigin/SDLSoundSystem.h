@@ -7,7 +7,7 @@ public:
 	~SDLSoundSystem();
 
 
-	void Play(std::string path, int volume, bool looping) override;
+	void Play(const std::string& path, int volume, bool looping) override;
 
 
 private:

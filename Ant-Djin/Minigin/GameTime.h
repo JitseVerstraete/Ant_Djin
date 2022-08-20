@@ -8,7 +8,7 @@ namespace dae
 	{
 	public:
 		
-		void Init(float fixedTimeStep);
+		void Init(float fixedTimeStep = 0.016f);
 		void ProcessTime();
 		float GetElapsed() { return m_DeltaTime; }
 		float GetTotal() { return m_AccumulatedTime; }

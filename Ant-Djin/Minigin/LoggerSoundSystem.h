@@ -8,7 +8,7 @@ public:
 	LoggerSoundSystem(SoundSystem* ss): m_ss{ss} {}
 	~LoggerSoundSystem() { delete m_ss; }
 	
-	void Play(std::string path, int volume, bool looping) override;
+	void Play(const std::string& path, int volume, bool looping) override;
 
 private:
 

@@ -9,7 +9,7 @@ public:
 	~DefaultSoundSystem() = default;
 
 
-	void Play(std::string , int , bool ) override {};
+	void Play(const std::string& , int , bool ) override {};
 
 private:
 };

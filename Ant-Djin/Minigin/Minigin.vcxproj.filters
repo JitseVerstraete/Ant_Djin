@@ -118,9 +118,6 @@
     <ClInclude Include="XBox360Controller.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="PeterPepperComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="PeterObserver.h">
       <Filter>Observer Pattern</Filter>
     </ClInclude>
@@ -166,6 +163,7 @@
     <ClInclude Include="Shapes.h">
       <Filter>Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="PeterPepperComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Font.cpp">
@@ -234,9 +232,6 @@
     <ClCompile Include="XBox360Controller.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="PeterPepperComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerScoreDisplayComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -274,5 +269,6 @@
       <Filter>Collisions</Filter>
     </ClCompile>
     <ClCompile Include="BaseGame.cpp" />
+    <ClCompile Include="PeterPepperComponent.cpp" />
   </ItemGroup>
 </Project>

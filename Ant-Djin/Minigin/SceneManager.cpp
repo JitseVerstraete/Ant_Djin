@@ -89,3 +89,9 @@ void dae::SceneManager::AddScene(GameScene* pScene)
 	pScene->Initialize();
 	if (m_pActiveScene == nullptr) m_pActiveScene = pScene;
 }
+
+dae::GameScene* dae::SceneManager::GetScene(const std::string& )
+{
+	assert(false && "GetScene Function not implemented");
+	return nullptr;
+}
