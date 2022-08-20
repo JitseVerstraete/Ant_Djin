@@ -21,7 +21,7 @@ namespace dae
 		ButtonY
 	};
 
-	class XBox360Controller
+	class XBox360Controller final
 	{
 	public:
 		XBox360Controller(int index);

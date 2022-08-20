@@ -6,7 +6,8 @@
 
 namespace dae
 {
-	class TextComponent : public Component
+	class RenderComponent;
+	class TextComponent final : public Component
 	{
 	public:
 		TextComponent(GameObject* pGo, const std::string& text, Font* font);
@@ -25,7 +26,7 @@ namespace dae
 		std::string m_Text;
 		Font* m_pFont;
 		Texture2D* m_pTempTexture;
-		
+		RenderComponent* m_RenderComp;
 
 	};
 }

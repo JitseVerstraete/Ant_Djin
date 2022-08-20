@@ -32,8 +32,9 @@ void dae::TextComponent::Update()
 	{
 		const SDL_Color color = { 255,255,255 }; // only white text is supported now
 
-		RenderComponent* renComp = GetGameObject()->GetComponent<RenderComponent>();
-		if (renComp == nullptr)
+		if (!m_RenderComp) m_RenderComp = GetGameObject()->GetComponent<RenderComponent>();
+
+		if (m_RenderComp == nullptr)
 		{
 			std::cout << "TEXT COMPONENT COULDN'T FIND A RENDER COMPONENT\n";
 
@@ -60,7 +61,7 @@ void dae::TextComponent::Update()
 			}
 
 			m_pTempTexture = newTex;
-			renComp->SetTexture(m_pTempTexture);
+			m_RenderComp->SetTexture(m_pTempTexture);
 
 		}
 

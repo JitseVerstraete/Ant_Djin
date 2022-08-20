@@ -7,10 +7,9 @@
 namespace dae
 {
 
-	class ServiceLocator : public Singleton<ServiceLocator>
+	class ServiceLocator final : public Singleton<ServiceLocator>
 	{
 	public:
-		ServiceLocator();
 
 
 		void Destroy();
@@ -20,6 +19,7 @@ namespace dae
 
 	private:
 		friend Singleton<ServiceLocator>;
+		ServiceLocator();
 		SoundSystem* m_pSoundSystem = nullptr;
 		DefaultSoundSystem m_DefaultSoundSystem{};
 	};
