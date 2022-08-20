@@ -19,14 +19,25 @@ GunComponent::GunComponent(GameObject* pGo, dae::RenderComponent* render) : Comp
 
 void GunComponent::Update()
 {
-	int rotationInput{};
-	if (InputManager::GetInstance().IsPressed(SDL_Scancode::SDL_SCANCODE_COMMA, ButtonMode::HeldDown)) rotationInput -= 1;
-	if (InputManager::GetInstance().IsPressed(SDL_Scancode::SDL_SCANCODE_PERIOD, ButtonMode::HeldDown)) rotationInput += 1;
-	if (InputManager::GetInstance().IsPressed(SDL_Scancode::SDL_SCANCODE_RALT, ButtonMode::Pressed)) Shoot();
+	int rotationInput{m_RotInput};
+	if (m_ShootInput) Shoot();
 
 
 	//handle shooting logic
 	GetGameObject()->GetTransform().Rotate(GameTime::GetInstance().GetElapsed() * m_RotationSpeed * rotationInput);
+
+	m_RotInput = 0;
+
+}
+
+void GunComponent::AddRotationInput(int dir)
+{
+	m_RotInput += dir;
+}
+
+void GunComponent::SetShootInput()
+{
+	m_ShootInput = true;
 }
 
 void GunComponent::Shoot()

@@ -27,6 +27,19 @@ namespace dae
 		Thumb2 = 5
 	};
 
+	struct KeyboardButtonInfo
+	{
+		SDL_Scancode button;
+		dae::ButtonMode mode;
+	};
+
+	struct ControllerButtonInfo
+	{
+		ControllerButton button;
+		dae::ButtonMode mode;
+		int controllerIndex;
+	};
+
 	struct ControllerButtonCommand
 	{
 		ControllerButtonCommand(int index, ControllerButton button, ButtonMode mode, Command* command) :controllerIndex{ index }, button{ button }, mode{ mode }, pCommand{ command } {}

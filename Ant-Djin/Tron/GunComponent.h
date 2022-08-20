@@ -13,6 +13,8 @@ public:
 	void FixedUpdate() {}
 	void Render() const {}
 
+	void AddRotationInput(int dir);
+	void SetShootInput();
 
 	void Shoot();
 
@@ -24,5 +26,8 @@ private:
 	float m_BulletSpeed{100};
 
 	float m_RotationSpeed{90};
+
+	int m_RotInput;
+	bool m_ShootInput;
 
 };

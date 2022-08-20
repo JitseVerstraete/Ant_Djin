@@ -4,13 +4,17 @@
 #include "GameTime.h"
 #include "MazeComponent.h"
 #include "RenderComponent.h"
+#include "GunComponent.h"
+#include "TankControllerBase.h"
 
 using namespace dae;
 
-TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer)
+TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer, TankControllerBase* controller, GunComponent* gun)
 	: Component(pGo)
 	, m_Maze{ maze }
-	, m_Renderer{renderer}
+	, m_Renderer{ renderer }
+	, m_pGunComponent{ gun }
+	, m_pTankController{controller}
 {
 	m_pCurrentNode = maze->GetSpawnPoint();
 	auto spawnpos = m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition();
@@ -19,6 +23,13 @@ TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderCo
 
 	m_Renderer->SetDestRect({ 0, 0, 32, 32 });
 
+	m_pTankController->SetTankComponent(this);
+
+}
+
+TankComponent::~TankComponent()
+{
+	if(m_pTankController) delete m_pTankController;
 }
 
 void TankComponent::Update()
@@ -46,14 +57,15 @@ void TankComponent::Update()
 		break;
 	}
 
+	//update gun
 
 
+
+	//update movement
 	m_MovementInput = { 0, 0 };
 
-	if (InputManager::GetInstance().IsPressed(SDL_SCANCODE_DOWN, ButtonMode::HeldDown)) m_MovementInput.y += -1;
-	if (InputManager::GetInstance().IsPressed(SDL_SCANCODE_UP, ButtonMode::HeldDown))	m_MovementInput.y += 1;
-	if (InputManager::GetInstance().IsPressed(SDL_SCANCODE_LEFT, ButtonMode::HeldDown))m_MovementInput.x += -1;
-	if (InputManager::GetInstance().IsPressed(SDL_SCANCODE_RIGHT, ButtonMode::HeldDown))m_MovementInput.x += 1;
+	m_pTankController->ProcessControlls();
+
 
 	if (m_MovementInput == glm::ivec2{ 0, 0 })
 	{
@@ -162,8 +174,6 @@ void TankComponent::Update()
 
 	}
 
-
-
 	if (m_pCurrentConnection)
 	{
 
@@ -185,11 +195,6 @@ void TankComponent::Update()
 
 	}
 	else return;
-
-
-
-
-
 
 	//move the tank based on the movement direction
 	float xMove{};
@@ -235,6 +240,29 @@ void TankComponent::ArrivedAtNode(NodeComponent* node)
 	m_pCurrentNode = node;
 	GetGameObject()->GetTransform().SetWorldPosition(m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition());
 	m_pCurrentConnection = nullptr;
+}
+
+void TankComponent::AddMovementInput(glm::ivec2 movement)
+{
+	m_MovementInput += movement;
+}
+
+void TankComponent::AddGunRotation(int dir)
+{
+	if (m_pGunComponent)
+	{
+		m_pGunComponent->AddRotationInput(dir);
+	}
+}
+
+void TankComponent::Shoot()
+{
+	if (m_pGunComponent) m_pGunComponent->SetShootInput();
+	else
+	{
+		//shoot in the direction the tank is facing
+		
+	}
 }
 
 

@@ -9,6 +9,8 @@
 #include "MazeComponent.h"
 #include "GunComponent.h"
 #include "ColliderComponent.h"
+#include "TankControllerInput.h"
+#include "InputManager.h"
 
 using namespace dae;
 
@@ -42,7 +44,19 @@ void TronScene::Initialize()
 	renComp->SetTexture(ResourceManager::GetInstance().LoadTexture("RedTank.png"));
 	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	//renComp->SetTexture(texture);
-	parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp));
+
+	auto p1Controller = new TankControllerInput();
+
+
+	p1Controller->AddBinding({ SDL_SCANCODE_UP, dae::ButtonMode::HeldDown }, TankAction::MoveUp);
+	p1Controller->AddBinding({ SDL_SCANCODE_DOWN, dae::ButtonMode::HeldDown }, TankAction::MoveDown);
+	p1Controller->AddBinding({ SDL_SCANCODE_LEFT, dae::ButtonMode::HeldDown }, TankAction::MoveLeft);
+	p1Controller->AddBinding({ SDL_SCANCODE_RIGHT, dae::ButtonMode::HeldDown }, TankAction::MoveRight);
+	p1Controller->AddBinding({ SDL_SCANCODE_COMMA, dae::ButtonMode::HeldDown }, TankAction::AimClockwise);
+	p1Controller->AddBinding({ SDL_SCANCODE_PERIOD, dae::ButtonMode::HeldDown }, TankAction::AimCounterClockwise);
+	p1Controller->AddBinding({ SDL_SCANCODE_RALT, dae::ButtonMode::Pressed }, TankAction::Shoot);
+
+	parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller));
 
 	//add tank gun
 	GameObject* gun{ AddGameObject() };
