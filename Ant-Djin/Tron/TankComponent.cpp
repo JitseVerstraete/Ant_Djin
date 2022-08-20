@@ -234,6 +234,11 @@ void TankComponent::Render() const
 {
 }
 
+void TankComponent::SetGun(GunComponent* gun)
+{
+	m_pGunComponent = gun;
+}
+
 //the tank has arrived at a node, the connection is removed
 void TankComponent::ArrivedAtNode(NodeComponent* node)
 {

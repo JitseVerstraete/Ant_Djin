@@ -56,13 +56,13 @@ void TronScene::Initialize()
 	p1Controller->AddBinding({ SDL_SCANCODE_PERIOD, dae::ButtonMode::HeldDown }, TankAction::AimCounterClockwise);
 	p1Controller->AddBinding({ SDL_SCANCODE_RALT, dae::ButtonMode::Pressed }, TankAction::Shoot);
 
-	parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller));
+	TankComponent* tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller));
 
 	//add tank gun
 	GameObject* gun{ AddGameObject() };
 	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
 	auto gunRender = gun->AddComponent(new RenderComponent(gun, {0.5, 0.5}));
-	gun->AddComponent(new GunComponent(gun, gunRender));
+	gun->AddComponent(new GunComponent(gun, gunRender, tank));
 
 
 	//add the instructions text

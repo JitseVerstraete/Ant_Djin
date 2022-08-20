@@ -7,14 +7,18 @@
 #include "BulletComponent.h"
 #include "SceneManager.h"
 #include "ColliderComponent.h"
+#include "TankComponent.h"
 
 
 
 using namespace dae;
 
-GunComponent::GunComponent(GameObject* pGo, dae::RenderComponent* render) : Component(pGo)
+GunComponent::GunComponent(GameObject* pGo, dae::RenderComponent* render, TankComponent* tank) 
+	: Component(pGo)
 {
 	render->SetTexture(ResourceManager::GetInstance().LoadTexture("RedGun.png"));
+	GetGameObject()->GetTransform().SetParent(&tank->GetGameObject()->GetTransform(), false);
+	tank->SetGun(this);
 }
 
 void GunComponent::Update()
@@ -27,7 +31,7 @@ void GunComponent::Update()
 	GetGameObject()->GetTransform().Rotate(GameTime::GetInstance().GetElapsed() * m_RotationSpeed * rotationInput);
 
 	m_RotInput = 0;
-
+	m_ShootInput = false;
 }
 
 void GunComponent::AddRotationInput(int dir)

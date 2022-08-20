@@ -2,11 +2,11 @@
 #include <Component.h>
 #include "RenderComponent.h"
 
-
+class TankComponent;
 class GunComponent final: public dae::Component
 {
 public:
-	GunComponent(dae::GameObject* pGo, dae::RenderComponent* render);
+	GunComponent(dae::GameObject* pGo, dae::RenderComponent* render, TankComponent* tank);
 
 
 	void Update();

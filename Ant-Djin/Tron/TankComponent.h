@@ -17,6 +17,8 @@ public:
 	void FixedUpdate() override;
 	void Render() const override;
 
+	void SetGun(GunComponent* gun);
+
 	void AddMovementInput(glm::ivec2 movement);
 	void AddGunRotation(int dir);
 	void Shoot();

@@ -46,10 +46,10 @@ void TankControllerInput::ProcessAction(TankAction action)
 		m_pTankComponent->AddMovementInput({ 0, -1 });
 		break;
 	case TankAction::AimClockwise:
-		m_pTankComponent->AddGunRotation(1);
+		m_pTankComponent->AddGunRotation(-1);
 		break;
 	case TankAction::AimCounterClockwise:
-		m_pTankComponent->AddGunRotation(-1);
+		m_pTankComponent->AddGunRotation(1);
 		break;
 	case TankAction::Shoot:
 		m_pTankComponent->Shoot();
