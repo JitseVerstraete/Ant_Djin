@@ -10,13 +10,21 @@ enum class Team
 	Enemy
 };
 
+enum class TankType
+{
+	Player1,
+	Player2,
+	Enemy,
+	Recognizer
+};
+
 class TankControllerBase;
 class GunComponent;
 class TankComponent final : public dae::Component
 {
 public:
 	class GameObject;
-	TankComponent(dae::GameObject* pGo, MazeComponent* maze, dae::RenderComponent* renderer, TankControllerBase* controller, Team team, float speed, GunComponent* gun = nullptr);
+	TankComponent(dae::GameObject* pGo, MazeComponent* maze, dae::RenderComponent* renderer, TankControllerBase* controller, Team team, TankType type, float speed );
 	~TankComponent();
 
 	void Update() override;

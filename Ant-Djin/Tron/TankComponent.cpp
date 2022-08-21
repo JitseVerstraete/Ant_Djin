@@ -13,11 +13,10 @@ using namespace dae;
 
 std::vector<TankComponent*> TankComponent::m_AllTanks = std::vector<TankComponent*>();
 
-TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer, TankControllerBase* controller, Team team, float speed, GunComponent* gun)
+TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer, TankControllerBase* controller, Team team, TankType tankType, float speed)
 	: Component(pGo)
 	, m_Maze{ maze }
 	, m_Renderer{ renderer }
-	, m_pGunComponent{ gun }
 	, m_pTankController{ controller }
 	, m_Team{ team }
 	, m_Speed{speed}
@@ -27,7 +26,24 @@ TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderCo
 	GetGameObject()->GetTransform().SetLocalPosition({ spawnpos.x, spawnpos.y, 0 });
 
 
-	m_Renderer->SetTexture(ResourceManager::GetInstance().LoadTexture("RedTank.png"));
+	switch (tankType)
+	{
+	case TankType::Player1:
+		m_Renderer->SetTexture(ResourceManager::GetInstance().LoadTexture("RedTank.png"));
+		break;
+	case TankType::Player2:
+		m_Renderer->SetTexture(ResourceManager::GetInstance().LoadTexture("GreenTank.png"));
+		break;
+	case TankType::Enemy:
+		m_Renderer->SetTexture(ResourceManager::GetInstance().LoadTexture("EnemyTank.png"));
+		break;
+	case TankType::Recognizer:
+		m_Renderer->SetTexture(ResourceManager::GetInstance().LoadTexture("EnemyTank.png"));
+		break;
+	default:
+		break;
+	}
+
 	m_Renderer->SetDestRect({ 0, 0, 32, 32 });
 
 	m_pTankController->SetTankComponent(this);

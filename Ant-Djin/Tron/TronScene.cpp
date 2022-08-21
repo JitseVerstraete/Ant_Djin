@@ -52,13 +52,13 @@ void TronScene::Initialize()
 	p1Controller->AddBinding({ SDL_SCANCODE_PERIOD, dae::ButtonMode::HeldDown }, TankAction::AimCounterClockwise);
 	p1Controller->AddBinding({ SDL_SCANCODE_RALT, dae::ButtonMode::Pressed }, TankAction::Shoot);
 
-	TankComponent* tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller, Team::Player, 60));
+	TankComponent* tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller, Team::Player, TankType::Player1, 60));
 
 	//add tank gun
 	GameObject* gun{ AddGameObject() };
 	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
 	auto gunRender = gun->AddComponent(new RenderComponent(gun, {0.5, 0.5}));
-	gun->AddComponent(new GunComponent(gun, gunRender, tank, 0.2f, 4));
+	gun->AddComponent(new GunComponent(gun, gunRender, tank, 0.2f, 4, true));
 
 
 	
@@ -66,16 +66,13 @@ void TronScene::Initialize()
 	parentObject = AddGameObject();
 
 	renComp = parentObject->AddComponent(new RenderComponent(parentObject, glm::fvec2{ 0.5f, 0.5f }));
-	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
-	//renComp->SetTexture(texture);
 	auto aiController = new TankControllerAI();
-	tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, aiController, Team::Enemy, 30));
+	tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, aiController, Team::Enemy, TankType::Enemy, 30));
 
 	//add tank gun
 	gun = AddGameObject() ;
 	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
-	gunRender = gun->AddComponent(new RenderComponent(gun, { 0.5, 0.5 }));
-	gun->AddComponent(new GunComponent(gun, gunRender, tank,1.f,  false));
+	gun->AddComponent(new GunComponent(gun, nullptr, tank,1.f, 0, false));
 
 	
 

@@ -83,6 +83,7 @@ void GunComponent::Shoot()
 			break;
 		}
 	}
+
 	glm::vec2 vel = { cos(radAngle), sin(radAngle) };
 	vel *= m_BulletSpeed;
 

@@ -7,7 +7,7 @@ class TankComponent;
 class GunComponent final: public dae::Component
 {
 public:
-	GunComponent(dae::GameObject* pGo, dae::RenderComponent* render, TankComponent* tank, float shotInverval, int bounces = 0, bool canAim = true);
+	GunComponent(dae::GameObject* pGo, dae::RenderComponent* render, TankComponent* tank, float shotInverval, int bounces, bool canAim);
 
 
 	void Update();
