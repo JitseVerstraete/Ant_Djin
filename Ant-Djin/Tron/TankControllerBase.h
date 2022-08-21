@@ -9,8 +9,8 @@ public:
 	TankControllerBase() = default;
 	virtual ~TankControllerBase() = default;
 
-	virtual void ProcessControlls() = 0;
-	virtual void SetTankComponent(TankComponent* tankComp) { m_pTankComponent = tankComp; }
+	virtual void ProcessControlls() {}
+	void SetTankComponent(TankComponent* tankComp) { m_pTankComponent = tankComp; }
 
 
 protected:	

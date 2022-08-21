@@ -6,30 +6,45 @@
 #include "RenderComponent.h"
 #include "GunComponent.h"
 #include "TankControllerBase.h"
+#include "ResourceManager.h"
+#include "ColliderComponent.h"
 
 using namespace dae;
 
-TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer, TankControllerBase* controller, GunComponent* gun)
+std::vector<TankComponent*> TankComponent::m_AllTanks = std::vector<TankComponent*>();
+
+TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer, TankControllerBase* controller, Team team, float speed, GunComponent* gun)
 	: Component(pGo)
 	, m_Maze{ maze }
 	, m_Renderer{ renderer }
 	, m_pGunComponent{ gun }
-	, m_pTankController{controller}
+	, m_pTankController{ controller }
+	, m_Team{ team }
+	, m_Speed{speed}
 {
 	m_pCurrentNode = maze->GetSpawnPoint();
 	auto spawnpos = m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition();
 	GetGameObject()->GetTransform().SetLocalPosition({ spawnpos.x, spawnpos.y, 0 });
 
 
+	m_Renderer->SetTexture(ResourceManager::GetInstance().LoadTexture("RedTank.png"));
 	m_Renderer->SetDestRect({ 0, 0, 32, 32 });
 
 	m_pTankController->SetTankComponent(this);
+
+
+	m_AllTanks.push_back(this);
+
+	GetGameObject()->AddComponent(new ColliderComponent(GetGameObject(), Shape(-16, -16, 32, 32)));
 
 }
 
 TankComponent::~TankComponent()
 {
-	if(m_pTankController) delete m_pTankController;
+	if (m_pTankController) delete m_pTankController;
+
+	//remove this tank from the static list
+	m_AllTanks.erase(std::remove(m_AllTanks.begin(), m_AllTanks.end(), this), m_AllTanks.end());
 }
 
 void TankComponent::Update()
@@ -266,7 +281,7 @@ void TankComponent::Shoot()
 	else
 	{
 		//shoot in the direction the tank is facing
-		
+
 	}
 }
 

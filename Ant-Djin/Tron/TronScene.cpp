@@ -10,6 +10,7 @@
 #include "GunComponent.h"
 #include "ColliderComponent.h"
 #include "TankControllerInput.h"
+#include "TankControllerAI.h"
 #include "InputManager.h"
 
 using namespace dae;
@@ -33,15 +34,10 @@ void TronScene::Initialize()
 
 
 
-
-
-	
-	//add tank
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
+	//add player tank
 	GameObject* parentObject = AddGameObject();
 	
 	renComp = parentObject->AddComponent(new RenderComponent(parentObject, glm::fvec2{ 0.5f, 0.5f }));
-	renComp->SetTexture(ResourceManager::GetInstance().LoadTexture("RedTank.png"));
 	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	//renComp->SetTexture(texture);
 
@@ -56,17 +52,37 @@ void TronScene::Initialize()
 	p1Controller->AddBinding({ SDL_SCANCODE_PERIOD, dae::ButtonMode::HeldDown }, TankAction::AimCounterClockwise);
 	p1Controller->AddBinding({ SDL_SCANCODE_RALT, dae::ButtonMode::Pressed }, TankAction::Shoot);
 
-	TankComponent* tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller));
+	TankComponent* tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller, Team::Player, 60));
 
 	//add tank gun
 	GameObject* gun{ AddGameObject() };
 	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
 	auto gunRender = gun->AddComponent(new RenderComponent(gun, {0.5, 0.5}));
-	gun->AddComponent(new GunComponent(gun, gunRender, tank));
+	gun->AddComponent(new GunComponent(gun, gunRender, tank, 0.2f, 4));
+
+
+	
+	//add AI tank
+	parentObject = AddGameObject();
+
+	renComp = parentObject->AddComponent(new RenderComponent(parentObject, glm::fvec2{ 0.5f, 0.5f }));
+	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
+	//renComp->SetTexture(texture);
+	auto aiController = new TankControllerAI();
+	tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, aiController, Team::Enemy, 30));
+
+	//add tank gun
+	gun = AddGameObject() ;
+	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
+	gunRender = gun->AddComponent(new RenderComponent(gun, { 0.5, 0.5 }));
+	gun->AddComponent(new GunComponent(gun, gunRender, tank,1.f,  false));
+
+	
 
 
 	//add the instructions text
 	auto titleObject = AddGameObject();
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 25);
 	renComp = titleObject->AddComponent(new RenderComponent(titleObject));
 	titleObject->AddComponent(new TextComponent(titleObject, "This is " + m_Name, font));
 	titleObject->GetTransform().SetLocalPosition({ 110.f, 50.f, 0.f });

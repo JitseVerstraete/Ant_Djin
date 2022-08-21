@@ -34,6 +34,8 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		bool MarkedForDelete();
+
 		std::string m_Tag;
 
 	private:
@@ -43,6 +45,9 @@ namespace dae
 
 		std::vector<Component*> m_pComponents;
 		GameScene* m_Scene;
+
+		friend void GameScene::RemoveGameObject(GameObject* object);
+		bool m_MarkedForDelete;
 
 	};
 

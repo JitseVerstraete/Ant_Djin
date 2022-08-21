@@ -5,12 +5,14 @@
 #include "GameObject.h"
 #include "Shapes.h"
 #include "ColliderComponent.h"
+#include "GameTime.h"
 
 using namespace dae;
 
-BulletComponent::BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, const glm::vec3& pos, const glm::vec2& vel)
+BulletComponent::BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, const glm::vec3& pos, const glm::vec2& vel, int bounces)
 	: Component(pGo)
 	, m_Velocity{ vel }
+	, m_Bounces{bounces}
 {
 	render->SetTexture(ResourceManager::GetInstance().LoadTexture("Bullet.png"));
 	GetGameObject()->GetTransform().SetLocalPosition(pos);
@@ -35,6 +37,8 @@ void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 		if (other->m_Tag == "wall")
 		{
 			if (m_BouncedThisFrame) return;
+			if (m_Bounces <= 0) SceneManager::GetInstance().GetActiveScene()->RemoveGameObject(GetGameObject()); //delte the bullet
+
 			//check what side of the collider the bullet hit, and bounce the bullet to the coorect direction
 			auto collider{ other->GetComponent<ColliderComponent>() };
 			if (collider)
@@ -75,6 +79,7 @@ void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 				if (xProximity >= yProximity) m_Velocity.y = -m_Velocity.y;
 
 				m_BouncedThisFrame = true;
+				--m_Bounces;
 			}
 		}
 	}

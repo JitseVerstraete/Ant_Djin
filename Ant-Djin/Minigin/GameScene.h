@@ -11,7 +11,7 @@ namespace dae
 	public:
 		explicit GameScene(const std::string& name);
 		GameObject* AddGameObject();
-
+		void RemoveGameObject(GameObject* object);
 
 
 		const std::string& GetName() { return m_Name; }
@@ -20,7 +20,7 @@ namespace dae
 
 
 		void ProcessAddQueue();
-		void ProcessRemoveQueue();
+		void RemoveDeletedObjects();
 
 		virtual ~GameScene();
 		GameScene(const GameScene& other) = delete;
@@ -43,7 +43,7 @@ namespace dae
 		std::vector <GameObject*> m_Objects;
 
 		std::vector<GameObject*> m_AddQueue;
-		std::vector<GameObject*> m_RemoveQueue;
+		
 
 		CollisionManager* m_CollisionManager;
 	};

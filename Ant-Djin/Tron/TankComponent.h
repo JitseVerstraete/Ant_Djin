@@ -4,13 +4,19 @@
 #include "RenderComponent.h"
 #include "MazeComponent.h"
 
+enum class Team
+{
+	Player,
+	Enemy
+};
+
 class TankControllerBase;
 class GunComponent;
 class TankComponent final : public dae::Component
 {
 public:
 	class GameObject;
-	TankComponent(dae::GameObject* pGo, MazeComponent* maze, dae::RenderComponent* renderer, TankControllerBase* controller, GunComponent* gun = nullptr);
+	TankComponent(dae::GameObject* pGo, MazeComponent* maze, dae::RenderComponent* renderer, TankControllerBase* controller, Team team, float speed, GunComponent* gun = nullptr);
 	~TankComponent();
 
 	void Update() override;
@@ -22,6 +28,11 @@ public:
 	void AddMovementInput(glm::ivec2 movement);
 	void AddGunRotation(int dir);
 	void Shoot();
+
+	Team GetTeam() { return m_Team; }
+	static const std::vector<TankComponent*>& GetAllTanks() { return m_AllTanks; }
+
+	Direction GetMovementDir() { return m_CurrentMovement; }
 
 private:
 
@@ -39,6 +50,10 @@ private:
 	NodeComponent* m_pCurrentNode;
 
 	GunComponent* m_pGunComponent;
+
+	Team m_Team;
+
+	static std::vector<TankComponent*> m_AllTanks;
 
 	void ArrivedAtNode(NodeComponent* node);
 };

@@ -5,6 +5,7 @@
 
 dae::GameObject::GameObject()
 	:m_Transform{this}
+	, m_MarkedForDelete{false}
 {
 }
 
@@ -30,6 +31,11 @@ dae::GameObject::~GameObject()
 		if (pChild != nullptr) delete pChild;
 	}
 	*/
+}
+
+bool dae::GameObject::MarkedForDelete()
+{
+	return m_MarkedForDelete;
 }
 
 void dae::GameObject::Update()

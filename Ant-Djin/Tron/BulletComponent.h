@@ -7,7 +7,7 @@ class dae::GameObject;
 class BulletComponent final : public dae::Component
 {
 public:
-	BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, const glm::vec3& pos, const glm::vec2& vel);
+	BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, const glm::vec3& pos, const glm::vec2& vel, int bounces);
 
 
 	void Update() override;
@@ -20,5 +20,6 @@ public:
 private:
 	glm::fvec2 m_Velocity{};
 	bool m_BouncedThisFrame;
+	int m_Bounces;
 };
 

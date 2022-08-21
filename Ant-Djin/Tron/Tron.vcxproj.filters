@@ -52,6 +52,9 @@
     <ClCompile Include="TankControllerInput.cpp">
       <Filter>TankControllers</Filter>
     </ClCompile>
+    <ClCompile Include="TankControllerAI.cpp">
+      <Filter>TankControllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveComponent.h">
@@ -82,6 +85,9 @@
       <Filter>TankControllers</Filter>
     </ClInclude>
     <ClInclude Include="TankControllerInput.h">
+      <Filter>TankControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="TankControllerAI.h">
       <Filter>TankControllers</Filter>
     </ClInclude>
   </ItemGroup>

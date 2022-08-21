@@ -10,8 +10,7 @@ GameScene::GameScene(const std::string& name)
 	: m_Name(name)
 	, m_Objects{}
 	, m_AddQueue{}
-	, m_RemoveQueue{}
-	, m_CollisionManager{new CollisionManager()}
+	, m_CollisionManager{ new CollisionManager() }
 {
 }
 
@@ -25,21 +24,24 @@ void dae::GameScene::ProcessAddQueue()
 	m_AddQueue.clear();
 }
 
-void dae::GameScene::ProcessRemoveQueue()
+void dae::GameScene::RemoveDeletedObjects()
 {
-	for (GameObject* pGo : m_RemoveQueue)
+	for (GameObject* pGo : m_Objects)
 	{
-		if (pGo) delete pGo;
-		m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), pGo), m_Objects.end());
+		if (pGo->MarkedForDelete())
+		{
+			//if there is a collider attached, call exit events on all overlapping colliders before deleting
+			m_CollisionManager->CallExitEvent(pGo);
+			delete pGo;
+			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), pGo), m_Objects.end());
+		}
 	}
-
-	m_RemoveQueue.clear();
 }
 
 GameScene::~GameScene()
 {
 	ProcessAddQueue();
-	ProcessRemoveQueue();
+	RemoveDeletedObjects();
 
 	for (GameObject* pGO : m_Objects)
 	{
@@ -55,6 +57,12 @@ GameObject* GameScene::AddGameObject()
 	pNewObject->m_Scene = this;
 	m_AddQueue.push_back(pNewObject);
 	return pNewObject;
+}
+
+void dae::GameScene::RemoveGameObject(GameObject* object)
+{
+
+	object->m_MarkedForDelete = true;
 }
 
 void dae::GameScene::Initialize()

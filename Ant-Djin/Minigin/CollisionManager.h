@@ -54,6 +54,8 @@ namespace dae
 		void AddCollider(ColliderComponent* collider);
 		void RemoveCollider(ColliderComponent* collider);
 
+		void CallExitEvent(GameObject* go);
+
 
 	private:
 		friend class GameScene;

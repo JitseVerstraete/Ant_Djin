@@ -40,10 +40,12 @@ void dae::SceneManager::ProcessScene()
 	}
 	m_switchScene = false;
 
-	m_pActiveScene->ProcessAddQueue();
-	m_pActiveScene->ProcessRemoveQueue();
 
 	m_pActiveScene->m_CollisionManager->ProcessCollisions();
+
+	m_pActiveScene->ProcessAddQueue();
+	m_pActiveScene->RemoveDeletedObjects();
+
 
 }
 
@@ -90,7 +92,7 @@ void dae::SceneManager::AddScene(GameScene* pScene)
 	if (m_pActiveScene == nullptr) m_pActiveScene = pScene;
 }
 
-dae::GameScene* dae::SceneManager::GetScene(const std::string& )
+dae::GameScene* dae::SceneManager::GetScene(const std::string&)
 {
 	assert(false && "GetScene Function not implemented");
 	return nullptr;

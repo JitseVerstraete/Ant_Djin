@@ -2,6 +2,11 @@
   "dimensions": 700,
   "pathWidth": 20,
 
+  "playerSpawns": [ 53, 58 ],
+  "enemySpawns": [ 2, 6, 8, 10, 14 ],
+  "teleportPos": [350, 350],
+
+
   "nodes": [
     [ 40, 40 ],
     [ 100, 40 ],

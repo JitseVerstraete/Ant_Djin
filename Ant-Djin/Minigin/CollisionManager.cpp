@@ -8,7 +8,6 @@
 void dae::CollisionManager::ProcessCollisions()
 {
 	//set current collision records as the previous one and clear the current one
-
 	m_PreviousCollisions = std::move(m_CurrentCollisions);
 	m_CurrentCollisions = std::set<CollisionRecord>();
 
@@ -20,6 +19,8 @@ void dae::CollisionManager::ProcessCollisions()
 		{
 			//if the colliders are the same, skip
 			if (collider == compareWith) continue;
+
+			if (collider->GetGameObject()->MarkedForDelete() || compareWith->GetGameObject()->MarkedForDelete()) continue;
 
 			CollisionRecord newRec{ collider, compareWith };
 			if (std::find_if(m_CurrentCollisions.begin(), m_CurrentCollisions.end(), [&newRec](const CollisionRecord& rec) {return rec == newRec; }) != m_CurrentCollisions.end())
@@ -72,6 +73,7 @@ void dae::CollisionManager::ProcessCollisions()
 		go2->OnCollision(go1, type);
 	}
 
+	m_PreviousCollisions.clear();
 }
 
 void dae::CollisionManager::AddCollider(dae::ColliderComponent* collider)
@@ -91,6 +93,25 @@ void dae::CollisionManager::RemoveCollider(dae::ColliderComponent* collider)
 	m_Colliders.erase(std::remove(m_Colliders.begin(), m_Colliders.end(), collider), m_Colliders.end());
 
 }
+
+void dae::CollisionManager::CallExitEvent(GameObject* go)
+{
+	//call all the colliders that are currently overlapping with 
+	for (auto it = m_CurrentCollisions.begin(); it != m_CurrentCollisions.end();)
+	{
+		CollisionRecord rec = *it;
+		if (rec.collider1->GetGameObject() == go) rec.collider2->GetGameObject()->OnCollision(go, CollisionType::Exit);
+		else if (rec.collider2->GetGameObject() == go) rec.collider1->GetGameObject()->OnCollision(go, CollisionType::Exit);
+		else
+		{
+			it++;
+			continue;
+		};
+
+		m_CurrentCollisions.erase(it++);
+	}
+}
+
 
 bool dae::CollisionRecord::operator<(const CollisionRecord& other) const
 {
