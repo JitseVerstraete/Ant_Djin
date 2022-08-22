@@ -27,6 +27,7 @@ dae::Minigin::Minigin(BaseGame* pGame, int width, int height)
 	, m_pGame{pGame}
 {
 	assert(pGame);
+	srand(UINT(time(NULL)));
 }
 
 dae::Minigin::~Minigin()

@@ -98,8 +98,11 @@ public:
 
 	//get movement options given a current position
 
+	const std::vector<NodeComponent*> GetAllNodes() const { return m_pNodes; }
 	std::vector<NodeComponent*> GetPlayerSpawnPoints() const { return m_PlayerSpawns; }
 	std::vector<NodeComponent*> GetEnemySpawnPoints() const { return m_EnemySpawns; }
+
+	glm::ivec2 GetTeleporterPos() { return m_TeleporterPos; }
 
 
 private:
@@ -113,6 +116,7 @@ private:
 	std::vector<NodeComponent*> m_pNodes;
 	std::vector<Connection*> m_Connections;
 
+	glm::ivec2 m_TeleporterPos;
 
 	std::vector<NodeComponent*> m_PlayerSpawns;
 	std::vector<NodeComponent*> m_EnemySpawns;

@@ -4,7 +4,7 @@
 class MenuScene : public dae::GameScene
 {
 public:
-	MenuScene() : GameScene("Menu Scene") {}
+	MenuScene() : GameScene("menuScene") {}
 
 protected:
 	void Initialize() override;

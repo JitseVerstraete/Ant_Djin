@@ -32,6 +32,7 @@ void dae::ColliderComponent::Update()
 
 void dae::ColliderComponent::Render() const
 {
+	/*
 	glm::ivec2 worldPos{ GetGameObject()->GetTransform().GetWorldPosition().x + m_Shape.left,
 					GetGameObject()->GetTransform().GetWorldPosition().y + m_Shape.top };
 
@@ -44,6 +45,7 @@ void dae::ColliderComponent::Render() const
 	{
 		Renderer::GetInstance().DrawRectangle({ worldPos.x, worldPos.y }, { m_Shape.width, m_Shape.height }, { 255, 0, 0, 255 }, false);
 	}
+	*/
 }
 
 void dae::ColliderComponent::OnCollision(GameObject* , CollisionType type)

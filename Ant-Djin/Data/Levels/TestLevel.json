@@ -4,7 +4,7 @@
 
   "playerSpawns": [ 53, 58 ],
   "enemySpawns": [ 2, 6, 10, 14 ],
-  "teleportPos": [350, 350],
+  "teleportPos": [320, 280],
 
 
   "nodes": [

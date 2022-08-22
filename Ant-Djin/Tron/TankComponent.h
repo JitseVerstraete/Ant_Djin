@@ -4,6 +4,7 @@
 #include "RenderComponent.h"
 #include "MazeComponent.h"
 
+
 enum class Team
 {
 	Player,
@@ -18,6 +19,8 @@ enum class TankType
 	Recognizer
 };
 
+
+class TankObserver;
 class TankControllerBase;
 class GunComponent;
 class TankComponent final : public dae::Component
@@ -33,13 +36,22 @@ public:
 
 	void OnCollision(dae::GameObject* other, dae::CollisionType type) override;
 
+	void AddObserver(TankObserver* observer);
+
 	void SetGun(GunComponent* gun);
 
 	void AddMovementInput(glm::ivec2 movement);
 	void AddGunRotation(int dir);
 	void Shoot();
 
+	int GetLives() { return m_Lives; }
+	
+
 	Team GetTeam() { return m_Team; }
+	TankType GetType() { return m_Type; }
+
+	const std::vector<TankObserver*>& GetObservers();
+
 	static const std::vector<TankComponent*>& GetAllTanks() { return m_AllTanks; }
 	static std::vector<TankComponent*> GetPlayerTanks();
 	static std::vector<TankComponent*> GetEnemyTanks();
@@ -66,6 +78,10 @@ private:
 	GunComponent* m_pGunComponent;
 
 	Team m_Team;
+	TankType m_Type;
+
+
+	std::vector<TankObserver*> m_Observers;
 
 	static std::vector<TankComponent*> m_AllTanks;
 

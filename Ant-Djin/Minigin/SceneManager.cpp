@@ -83,13 +83,19 @@ void dae::SceneManager::AddScene(GameScene* pScene)
 	auto foundScene = std::find_if(m_Scenes.begin(), m_Scenes.end(), [&name = pScene->GetName()](dae::GameScene* s) -> bool {return s->GetName() == name; });
 	if (foundScene != m_Scenes.end())
 	{
-		std::cout << "A SCENE WITH THAT NAME ALREADY EXISTS!";
+		bool foundIsActive{ *foundScene == m_pActiveScene };
+		delete (*foundScene);
+		*foundScene = pScene;
+		if (foundIsActive) m_pActiveScene = pScene;
+		pScene->Initialize();
 		return;
 	}
-
-	m_Scenes.push_back(pScene);
-	pScene->Initialize();
-	if (m_pActiveScene == nullptr) m_pActiveScene = pScene;
+	else
+	{
+		m_Scenes.push_back(pScene);
+		pScene->Initialize();
+		if (m_pActiveScene == nullptr) m_pActiveScene = pScene;
+	}
 }
 
 dae::GameScene* dae::SceneManager::GetScene(const std::string&)

@@ -92,7 +92,7 @@ void GunComponent::Shoot()
 
 	auto pGo = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
 	auto renComp = pGo->AddComponent(new RenderComponent(pGo, { 0.5, 0.5 }));
-	pGo->AddComponent(new BulletComponent(pGo, renComp, m_pTank->GetTeam(), pos, vel, m_Bounces));
-	pGo->AddComponent(new ColliderComponent(pGo, Shape(-5, -5, 10, 10)));
+	pGo->AddComponent(new BulletComponent(pGo, renComp, m_pTank->GetObservers(), m_pTank->GetTeam(), m_pTank->GetType(), pos, vel, m_Bounces));
+	pGo->AddComponent(new ColliderComponent(pGo, Shape(-3, -3, 6, 6)));
 	pGo->m_Tag = "bullet";
 }

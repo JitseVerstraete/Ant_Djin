@@ -17,6 +17,9 @@
     <Filter Include="TankControllers">
       <UniqueIdentifier>{dbb759e2-5be5-4f56-b2b3-fe0c00d4e4dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observer">
+      <UniqueIdentifier>{9dab6344-a6b7-49f3-a315-54a25bee320b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MoveComponent.cpp">
@@ -55,6 +58,18 @@
     <ClCompile Include="TankControllerAI.cpp">
       <Filter>TankControllers</Filter>
     </ClCompile>
+    <ClCompile Include="DiamondComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TankObserver.cpp">
+      <Filter>Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPointsRecord.cpp">
+      <Filter>Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStatsComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveComponent.h">
@@ -89,6 +104,18 @@
     </ClInclude>
     <ClInclude Include="TankControllerAI.h">
       <Filter>TankControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="DiamondComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TankObserver.h">
+      <Filter>Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPointsRecord.h">
+      <Filter>Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStatsComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

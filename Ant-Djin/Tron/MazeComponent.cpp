@@ -11,6 +11,7 @@
 #include "ColliderComponent.h"
 #include <algorithm>
 #include <random>
+#include "DiamondComponent.h"
 
 
 
@@ -192,6 +193,12 @@ void MazeComponent::ParseLevelFile(std::string path)
 		//general info
 		m_MazeDimensions = doc["dimensions"].GetInt();
 		m_PathWidth = doc["pathWidth"].GetInt();
+
+		//parse diamond
+		m_TeleporterPos.x = doc["teleportPos"][0].GetInt();
+		m_TeleporterPos.y = doc["teleportPos"][1].GetInt();
+
+
 
 		//parse player & enemy spawns
 		m_PlayerSpawns = std::vector<NodeComponent*>();

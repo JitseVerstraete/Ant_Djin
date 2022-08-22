@@ -6,14 +6,17 @@
 #include "Shapes.h"
 #include "ColliderComponent.h"
 #include "GameTime.h"
+#include "TankObserver.h"
 
 using namespace dae;
 
-BulletComponent::BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, Team team, const glm::vec3& pos, const glm::vec2& vel, int bounces)
+BulletComponent::BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, const std::vector<TankObserver*>& observers, Team team, TankType origin, const glm::vec3& pos, const glm::vec2& vel, int bounces)
 	: Component(pGo)
 	, m_Velocity{ vel }
-	, m_Bounces{bounces}
-	, m_Team{team}
+	, m_Bounces{ bounces }
+	, m_Team{ team }
+	, m_Origin{ origin }
+	, m_Observers{ observers }
 {
 	render->SetTexture(ResourceManager::GetInstance().LoadTexture("Bullet.png"));
 	GetGameObject()->GetTransform().SetLocalPosition(pos);
@@ -31,9 +34,9 @@ void BulletComponent::Update()
 
 void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 {
-	
+
 	if (type == CollisionType::Enter)
-	
+
 	{
 		if (other->m_Tag == "wall")
 		{
@@ -81,6 +84,23 @@ void BulletComponent::OnCollision(dae::GameObject* other, CollisionType type)
 
 				m_BouncedThisFrame = true;
 				--m_Bounces;
+			}
+		}
+
+		if (other->m_Tag == "tank")
+		{
+			auto tank = other->GetComponent<TankComponent>();
+			if (tank->GetTeam() != m_Team)
+			{
+				SceneManager::GetInstance().GetActiveScene()->RemoveGameObject(GetGameObject()); //delte the bullet
+				if (tank->GetLives() <= 0)
+				{
+					//notify observers
+					for (auto obs : m_Observers)
+					{
+						obs->EnemyKilled(tank->GetType(), m_Origin);
+					}
+				}
 			}
 		}
 	}

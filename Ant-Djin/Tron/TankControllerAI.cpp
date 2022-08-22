@@ -5,10 +5,26 @@ void TankControllerAI::ProcessControlls()
 {
 
 	//choose what direction to move in, and wether or not to shoot 
-	auto tanks = TankComponent::GetAllTanks();
+	auto tanks = TankComponent::GetPlayerTanks();
+
+	auto pos = m_pTankComponent->GetGameObject()->GetTransform().GetWorldPosition();
+	float distance{ FLT_MAX };
+	TankComponent* closestTank = nullptr;
+	for (auto tank : tanks)
+	{
+		auto otherPos = tank->GetGameObject()->GetTransform().GetWorldPosition();
+		float newDistance = float( pow(pos.x - otherPos.x, 2) + pow(pos.y - otherPos.y, 2));
+		if (newDistance < distance)
+		{
+			closestTank = tank;
+			distance = newDistance;
+		}
+	}
+
+	if (closestTank == nullptr) return;
 
 	//movement
-	glm::vec3 tankPos = tanks[0]->GetGameObject()->GetTransform().GetWorldPosition();
+	glm::vec3 tankPos = closestTank->GetGameObject()->GetTransform().GetWorldPosition();
 	glm::vec3 thisPos = m_pTankComponent->GetGameObject()->GetTransform().GetWorldPosition();
 
 

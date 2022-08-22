@@ -9,6 +9,7 @@
 #include "ResourceManager.h"
 #include "ColliderComponent.h"
 #include "BulletComponent.h"
+#include "TankObserver.h"
 
 using namespace dae;
 
@@ -22,6 +23,7 @@ TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, NodeComp
 	, m_Team{ team }
 	, m_Speed{ speed }
 	, m_Lives{ lives }
+	, m_Type{ tankType }
 {
 	m_pCurrentNode = spawnNode;
 	auto spawnpos = m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition();
@@ -275,16 +277,34 @@ void TankComponent::OnCollision(dae::GameObject* other, dae::CollisionType type)
 		if (other->m_Tag == "bullet")
 		{
 			//check if the bullet is from another team
-			if (other->GetComponent<BulletComponent>()->GetTeam() != m_Team)
+			auto bullet = other->GetComponent<BulletComponent>();
+			if (bullet->GetTeam() != m_Team)
 			{
 				--m_Lives;
 				if (m_Lives <= 0)
 				{
 					SceneManager::GetInstance().GetActiveScene()->RemoveGameObject(this->GetGameObject());
+					for (auto obs : m_Observers)
+					{
+						obs->EnemyKilled(m_Type, bullet->GetType());
+					}
 				}
 			}
 		}
+
+		if (other->m_Tag == "teleporter")
+		{
+			m_pCurrentConnection = nullptr;
+			auto& nodes = m_Maze->GetAllNodes();
+			m_pCurrentNode = nodes[rand() % (nodes.size() - 1)];
+			GetGameObject()->GetTransform().SetLocalPosition(m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition());
+		}
 	}
+}
+
+void TankComponent::AddObserver(TankObserver* observer)
+{
+	m_Observers.push_back(observer);
 }
 
 void TankComponent::SetGun(GunComponent* gun)
@@ -316,11 +336,12 @@ void TankComponent::AddGunRotation(int dir)
 void TankComponent::Shoot()
 {
 	if (m_pGunComponent) m_pGunComponent->SetShootInput();
-	else
-	{
-		//shoot in the direction the tank is facing
 
-	}
+}
+
+const std::vector<TankObserver*>& TankComponent::GetObservers()
+{
+	return m_Observers;
 }
 
 std::vector<TankComponent*> TankComponent::GetPlayerTanks()
