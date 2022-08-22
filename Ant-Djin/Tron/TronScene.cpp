@@ -128,6 +128,7 @@ void TronScene::SceneUpdate()
 	//if no more players exist, go back to menu
 	if (TankComponent::GetPlayerTanks().size() <= 0)
 	{
+		PlayerPointsRecord::GetInstance().WriteScoreToFileP1("../Data/HighScores.txt");
 		SceneManager::GetInstance().SetActiveScene("menuScene");
 	}
 

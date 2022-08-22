@@ -10,6 +10,9 @@ public:
 	int GetPointsP1();
 	int GetPointsP2();
 
+	void WriteScoreToFileP1(const std::string& file);
+	std::vector<int> ReadScoresFromFile(const std::string& file);
+
 	void ResetScores();
 
 private: 
