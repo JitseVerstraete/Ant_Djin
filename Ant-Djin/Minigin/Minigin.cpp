@@ -13,11 +13,9 @@
 #include "RenderComponent.h"
 #include "TextComponent.h"
 #include "FPSComponent.h"
-#include "PeterPepperComponent.h"
-#include "PlayerScoreDisplayComponent.h"
-#include "PlayerLivesDisplayComponent.h"
 #include "SDLSoundSystem.h"
 #include "LoggerSoundSystem.h"
+#include "InputManager.h"
 
 using namespace std;
 

@@ -39,7 +39,7 @@ void MenuScene::Initialize()
 		renComp = go->AddComponent(new RenderComponent(go));
 
 		std::string text{};
-		if (i < scores.size())
+		if (i < (int)scores.size())
 		{
 			text = std::to_string(i).append(": ").append(std::to_string(scores[i]));
 		}

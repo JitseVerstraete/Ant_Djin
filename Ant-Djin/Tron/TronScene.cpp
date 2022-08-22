@@ -83,7 +83,7 @@ void TronScene::Initialize()
 	gun->AddComponent(new GunComponent(gun, gunRender, m_PlayerTank, 0.2f, 4, true));
 
 
-	for (int i{}; i < enemySpawns.size(); ++i)
+	for (int i{}; i < (int)enemySpawns.size(); ++i)
 	{
 		//add AI tank
 		auto AiTank = AddGameObject();
