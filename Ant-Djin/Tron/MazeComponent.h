@@ -98,7 +98,8 @@ public:
 
 	//get movement options given a current position
 
-	NodeComponent* GetSpawnPoint() const { return m_pNodes[0]; }
+	std::vector<NodeComponent*> GetPlayerSpawnPoints() const { return m_PlayerSpawns; }
+	std::vector<NodeComponent*> GetEnemySpawnPoints() const { return m_EnemySpawns; }
 
 
 private:
@@ -112,6 +113,9 @@ private:
 	std::vector<NodeComponent*> m_pNodes;
 	std::vector<Connection*> m_Connections;
 
+
+	std::vector<NodeComponent*> m_PlayerSpawns;
+	std::vector<NodeComponent*> m_EnemySpawns;
 	void ParseLevelFile(std::string path);
 
 

@@ -9,6 +9,8 @@
 #include "istreamwrapper.h"
 #include <fstream>
 #include "ColliderComponent.h"
+#include <algorithm>
+#include <random>
 
 
 
@@ -191,6 +193,12 @@ void MazeComponent::ParseLevelFile(std::string path)
 		m_MazeDimensions = doc["dimensions"].GetInt();
 		m_PathWidth = doc["pathWidth"].GetInt();
 
+		//parse player & enemy spawns
+		m_PlayerSpawns = std::vector<NodeComponent*>();
+		m_EnemySpawns = std::vector<NodeComponent*>();
+
+
+
 
 		//parse nodes
 		Value nodes{};
@@ -208,6 +216,25 @@ void MazeComponent::ParseLevelFile(std::string path)
 			AddNode(node);
 		}
 
+		Value playerSpawns{};
+		playerSpawns = doc["playerSpawns"];
+
+		for (auto it = playerSpawns.Begin(); it != playerSpawns.End(); it++)
+		{
+			m_PlayerSpawns.push_back(m_pNodes[(*it).GetInt()]);
+		}
+
+		Value enemySpawns{};
+		enemySpawns = doc["enemySpawns"];
+
+		for (auto it = enemySpawns.Begin(); it != enemySpawns.End(); it++)
+		{
+			m_EnemySpawns.push_back(m_pNodes[(*it).GetInt()]);
+			auto rnd = std::default_random_engine{};
+			std::shuffle(m_EnemySpawns.begin(), m_EnemySpawns.end(), rnd);
+		}
+
+
 
 		//parse connections
 		Value connections{};
@@ -221,7 +248,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 
 
 		//parse colliders
-		
+
 		Value colliders{};
 		colliders = doc["colliders"];
 		for (auto it = colliders.Begin(); it != colliders.End(); it++)
@@ -249,7 +276,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 			ColliderComponent* comp = new ColliderComponent(go, shape);
 			go->AddComponent(comp);
 		}
-		
+
 
 
 		////add the 4 walls
@@ -265,7 +292,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 
 		ColliderComponent* comp = new ColliderComponent(go, s);
 		go->AddComponent(comp);
-		
+
 		//bottom
 		s = Shape(int(topLeft.x - m_PathWidth * 2), int(bottomRight.y + m_PathWidth), m_MazeDimensions + m_PathWidth * 4, outsideWallThickness);
 		go = GetGameObject()->GetScene()->AddGameObject();
@@ -291,7 +318,7 @@ void MazeComponent::ParseLevelFile(std::string path)
 		go->GetTransform().SetParent(&GetGameObject()->GetTransform());
 		comp = new ColliderComponent(go, s);
 		go->AddComponent(comp);
-		
+
 
 
 

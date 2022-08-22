@@ -26,16 +26,18 @@ void dae::GameScene::ProcessAddQueue()
 
 void dae::GameScene::RemoveDeletedObjects()
 {
-	for (GameObject* pGo : m_Objects)
-	{
-		if (pGo->MarkedForDelete())
+	CollisionManager* colManager = m_CollisionManager;
+	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(), [colManager](GameObject* go)
 		{
-			//if there is a collider attached, call exit events on all overlapping colliders before deleting
-			m_CollisionManager->CallExitEvent(pGo);
-			delete pGo;
-			m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), pGo), m_Objects.end());
-		}
-	}
+			if (go->MarkedForDelete())
+			{
+				colManager->CallExitEvent(go);
+				delete go;
+				return true;
+			}
+			return false;
+		}), m_Objects.end());
+
 }
 
 GameScene::~GameScene()
@@ -59,11 +61,20 @@ GameObject* GameScene::AddGameObject()
 	return pNewObject;
 }
 
-void dae::GameScene::RemoveGameObject(GameObject* object)
+void dae::GameScene::RemoveGameObject(GameObject* object, bool removeChildren)
 {
-
 	object->m_MarkedForDelete = true;
+
+	if (removeChildren)
+	{
+		for (auto child : object->GetTransform().GetChildren())
+		{
+			child->GetGameObject()->m_MarkedForDelete = true;
+		}
+	}
+
 }
+
 
 void dae::GameScene::Initialize()
 {

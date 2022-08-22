@@ -3,7 +3,7 @@
   "pathWidth": 20,
 
   "playerSpawns": [ 53, 58 ],
-  "enemySpawns": [ 2, 6, 8, 10, 14 ],
+  "enemySpawns": [ 2, 6, 10, 14 ],
   "teleportPos": [350, 350],
 
 

@@ -11,7 +11,7 @@ namespace dae
 	public:
 		explicit GameScene(const std::string& name);
 		GameObject* AddGameObject();
-		void RemoveGameObject(GameObject* object);
+		void RemoveGameObject(GameObject* object, bool removeChildren = true);
 
 
 		const std::string& GetName() { return m_Name; }

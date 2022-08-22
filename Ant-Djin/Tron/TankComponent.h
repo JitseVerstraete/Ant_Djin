@@ -24,12 +24,14 @@ class TankComponent final : public dae::Component
 {
 public:
 	class GameObject;
-	TankComponent(dae::GameObject* pGo, MazeComponent* maze, dae::RenderComponent* renderer, TankControllerBase* controller, Team team, TankType type, float speed );
+	TankComponent(dae::GameObject* pGo, MazeComponent* maze, NodeComponent* spawnNode, dae::RenderComponent* renderer, TankControllerBase* controller, Team team, TankType type, float speed, int lives );
 	~TankComponent();
 
 	void Update() override;
 	void FixedUpdate() override;
 	void Render() const override;
+
+	void OnCollision(dae::GameObject* other, dae::CollisionType type) override;
 
 	void SetGun(GunComponent* gun);
 
@@ -39,6 +41,8 @@ public:
 
 	Team GetTeam() { return m_Team; }
 	static const std::vector<TankComponent*>& GetAllTanks() { return m_AllTanks; }
+	static std::vector<TankComponent*> GetPlayerTanks();
+	static std::vector<TankComponent*> GetEnemyTanks();
 
 	Direction GetMovementDir() { return m_CurrentMovement; }
 
@@ -47,6 +51,8 @@ private:
 	float m_Speed = 50.f;
 	MazeComponent* m_Maze;
 	dae::RenderComponent* m_Renderer;
+
+	int m_Lives;
 
 	TankControllerBase* m_pTankController;
 

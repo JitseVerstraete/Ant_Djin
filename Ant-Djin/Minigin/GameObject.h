@@ -46,7 +46,7 @@ namespace dae
 		std::vector<Component*> m_pComponents;
 		GameScene* m_Scene;
 
-		friend void GameScene::RemoveGameObject(GameObject* object);
+		friend void GameScene::RemoveGameObject(GameObject* object, bool removeChildren);
 		bool m_MarkedForDelete;
 
 	};

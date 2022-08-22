@@ -8,22 +8,25 @@
 #include "TankControllerBase.h"
 #include "ResourceManager.h"
 #include "ColliderComponent.h"
+#include "BulletComponent.h"
 
 using namespace dae;
 
 std::vector<TankComponent*> TankComponent::m_AllTanks = std::vector<TankComponent*>();
 
-TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, RenderComponent* renderer, TankControllerBase* controller, Team team, TankType tankType, float speed)
+TankComponent::TankComponent(dae::GameObject* pGo, MazeComponent* maze, NodeComponent* spawnNode, RenderComponent* renderer, TankControllerBase* controller, Team team, TankType tankType, float speed, int lives)
 	: Component(pGo)
 	, m_Maze{ maze }
 	, m_Renderer{ renderer }
 	, m_pTankController{ controller }
 	, m_Team{ team }
-	, m_Speed{speed}
+	, m_Speed{ speed }
+	, m_Lives{ lives }
 {
-	m_pCurrentNode = maze->GetSpawnPoint();
+	m_pCurrentNode = spawnNode;
 	auto spawnpos = m_pCurrentNode->GetGameObject()->GetTransform().GetWorldPosition();
 	GetGameObject()->GetTransform().SetLocalPosition({ spawnpos.x, spawnpos.y, 0 });
+	GetGameObject()->m_Tag = "tank";
 
 
 	switch (tankType)
@@ -265,6 +268,25 @@ void TankComponent::Render() const
 {
 }
 
+void TankComponent::OnCollision(dae::GameObject* other, dae::CollisionType type)
+{
+	if (type == CollisionType::Enter)
+	{
+		if (other->m_Tag == "bullet")
+		{
+			//check if the bullet is from another team
+			if (other->GetComponent<BulletComponent>()->GetTeam() != m_Team)
+			{
+				--m_Lives;
+				if (m_Lives <= 0)
+				{
+					SceneManager::GetInstance().GetActiveScene()->RemoveGameObject(this->GetGameObject());
+				}
+			}
+		}
+	}
+}
+
 void TankComponent::SetGun(GunComponent* gun)
 {
 	m_pGunComponent = gun;
@@ -299,6 +321,34 @@ void TankComponent::Shoot()
 		//shoot in the direction the tank is facing
 
 	}
+}
+
+std::vector<TankComponent*> TankComponent::GetPlayerTanks()
+{
+	std::vector<TankComponent*> players{};
+	for (auto tank : m_AllTanks)
+	{
+		if (tank->GetTeam() == Team::Player)
+		{
+			players.push_back(tank);
+		}
+	}
+
+	return players;
+}
+
+std::vector<TankComponent*> TankComponent::GetEnemyTanks()
+{
+	std::vector<TankComponent*> enemies{};
+	for (auto tank : m_AllTanks)
+	{
+		if (tank->GetTeam() == Team::Enemy)
+		{
+			enemies.push_back(tank);
+		}
+	}
+
+	return enemies;
 }
 
 

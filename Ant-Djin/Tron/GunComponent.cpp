@@ -24,6 +24,7 @@ GunComponent::GunComponent(GameObject* pGo, dae::RenderComponent* render, TankCo
 	if (render)render->SetTexture(ResourceManager::GetInstance().LoadTexture("RedGun.png"));
 	GetGameObject()->GetTransform().SetParent(&tank->GetGameObject()->GetTransform(), false);
 	tank->SetGun(this);
+	GetGameObject()->m_Tag = "gun";
 }
 
 void GunComponent::Update()
@@ -91,6 +92,7 @@ void GunComponent::Shoot()
 
 	auto pGo = SceneManager::GetInstance().GetActiveScene()->AddGameObject();
 	auto renComp = pGo->AddComponent(new RenderComponent(pGo, { 0.5, 0.5 }));
-	pGo->AddComponent(new BulletComponent(pGo, renComp, pos, vel, m_Bounces));
+	pGo->AddComponent(new BulletComponent(pGo, renComp, m_pTank->GetTeam(), pos, vel, m_Bounces));
 	pGo->AddComponent(new ColliderComponent(pGo, Shape(-5, -5, 10, 10)));
+	pGo->m_Tag = "bullet";
 }

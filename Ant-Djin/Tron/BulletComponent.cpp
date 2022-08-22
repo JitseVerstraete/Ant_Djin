@@ -9,10 +9,11 @@
 
 using namespace dae;
 
-BulletComponent::BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, const glm::vec3& pos, const glm::vec2& vel, int bounces)
+BulletComponent::BulletComponent(dae::GameObject* pGo, dae::RenderComponent* render, Team team, const glm::vec3& pos, const glm::vec2& vel, int bounces)
 	: Component(pGo)
 	, m_Velocity{ vel }
 	, m_Bounces{bounces}
+	, m_Team{team}
 {
 	render->SetTexture(ResourceManager::GetInstance().LoadTexture("Bullet.png"));
 	GetGameObject()->GetTransform().SetLocalPosition(pos);

@@ -34,9 +34,12 @@ void TronScene::Initialize()
 
 
 
+	auto playerSpawns = mazeComp->GetPlayerSpawnPoints();
+	auto enemySpawns = mazeComp->GetEnemySpawnPoints();
+
 	//add player tank
 	GameObject* parentObject = AddGameObject();
-	
+
 	renComp = parentObject->AddComponent(new RenderComponent(parentObject, glm::fvec2{ 0.5f, 0.5f }));
 	//texture = ResourceManager::GetInstance().LoadTexture("logo.png");
 	//renComp->SetTexture(texture);
@@ -52,29 +55,29 @@ void TronScene::Initialize()
 	p1Controller->AddBinding({ SDL_SCANCODE_PERIOD, dae::ButtonMode::HeldDown }, TankAction::AimCounterClockwise);
 	p1Controller->AddBinding({ SDL_SCANCODE_RALT, dae::ButtonMode::Pressed }, TankAction::Shoot);
 
-	TankComponent* tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, p1Controller, Team::Player, TankType::Player1, 60));
+	TankComponent* tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, playerSpawns[0], renComp, p1Controller, Team::Player, TankType::Player1, 60, 3));
 
 	//add tank gun
 	GameObject* gun{ AddGameObject() };
 	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
-	auto gunRender = gun->AddComponent(new RenderComponent(gun, {0.5, 0.5}));
+	auto gunRender = gun->AddComponent(new RenderComponent(gun, { 0.5, 0.5 }));
 	gun->AddComponent(new GunComponent(gun, gunRender, tank, 0.2f, 4, true));
 
 
-	
+
 	//add AI tank
 	parentObject = AddGameObject();
 
 	renComp = parentObject->AddComponent(new RenderComponent(parentObject, glm::fvec2{ 0.5f, 0.5f }));
 	auto aiController = new TankControllerAI();
-	tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, renComp, aiController, Team::Enemy, TankType::Enemy, 30));
+	tank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, enemySpawns[0], renComp, aiController, Team::Enemy, TankType::Enemy, 30, 1));
 
 	//add tank gun
-	gun = AddGameObject() ;
+	gun = AddGameObject();
 	gun->GetTransform().SetParent(&parentObject->GetTransform(), false);
-	gun->AddComponent(new GunComponent(gun, nullptr, tank,1.f, 0, false));
+	gun->AddComponent(new GunComponent(gun, nullptr, tank, 1.f, 0, false));
 
-	
+
 
 
 	//add the instructions text

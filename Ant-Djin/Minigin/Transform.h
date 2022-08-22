@@ -42,7 +42,9 @@ namespace dae
 
 		//hierarchy functions (add child)
 		void SetParent(Transform* pParent, bool keepWorldTransform = true); //sets parent, removes itself as child from previous parent, set as child for new parent & update transform
+		const std::set<Transform*>& GetChildren() { return m_pChildren; }
 
+		GameObject* GetGameObject() { return m_pGameObject; }
 
 	private:
 		glm::vec3 m_LocalPos;
