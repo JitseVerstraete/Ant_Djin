@@ -1,3 +1,11 @@
+CONTROLS:
+
+movement: dpad or arrow keys:
+aiming: Left and right bumper of comman & period keys
+shooting: A-button or Right Alt
+
+
+
 Engine Comments:
 
 

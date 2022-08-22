@@ -72,6 +72,14 @@ void TronScene::Initialize()
 	p1Controller->AddBinding({ SDL_SCANCODE_PERIOD, dae::ButtonMode::HeldDown }, TankAction::AimCounterClockwise);
 	p1Controller->AddBinding({ SDL_SCANCODE_RALT, dae::ButtonMode::Pressed }, TankAction::Shoot);
 
+	p1Controller->AddBinding(ControllerButtonInfo{ ControllerButton::DpadUp, dae::ButtonMode::HeldDown, 0 }, TankAction::MoveUp);
+	p1Controller->AddBinding(ControllerButtonInfo{ ControllerButton::DpadDown, dae::ButtonMode::HeldDown, 0 }, TankAction::MoveDown);
+	p1Controller->AddBinding(ControllerButtonInfo{ ControllerButton::DpadLeft, dae::ButtonMode::HeldDown, 0 }, TankAction::MoveLeft);
+	p1Controller->AddBinding(ControllerButtonInfo{ ControllerButton::DpadRight, dae::ButtonMode::HeldDown }, TankAction::MoveRight);
+	p1Controller->AddBinding(ControllerButtonInfo{ ControllerButton::LShoulder, dae::ButtonMode::HeldDown, 0 }, TankAction::AimClockwise);
+	p1Controller->AddBinding(ControllerButtonInfo{ ControllerButton::RShoulder, dae::ButtonMode::HeldDown, 0 }, TankAction::AimCounterClockwise);
+	p1Controller->AddBinding(ControllerButtonInfo{ ControllerButton::ButtonA, dae::ButtonMode::Pressed, 0 }, TankAction::Shoot);
+
 	m_PlayerTank = parentObject->AddComponent(new TankComponent(parentObject, mazeComp, playerSpawns[0], renComp, p1Controller, Team::Player, TankType::Player1, 60, m_playerSTartLives));
 
 	m_PlayerTank->AddObserver(&PlayerPointsRecord::GetInstance());

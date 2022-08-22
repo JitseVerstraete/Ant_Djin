@@ -61,10 +61,10 @@ bool XBox360Controller::IsDown(ControllerButton button) const
 		return m_pImpl->IsDown(XINPUT_GAMEPAD_DPAD_RIGHT);
 		break;
 	case dae::ControllerButton::DpadUp:
-		return m_pImpl->IsDown(VK_GAMEPAD_DPAD_UP);
+		return m_pImpl->IsDown(XINPUT_GAMEPAD_DPAD_UP);
 		break;
 	case dae::ControllerButton::DpadDown:
-		return m_pImpl->IsDown(VK_GAMEPAD_DPAD_DOWN);
+		return m_pImpl->IsDown(XINPUT_GAMEPAD_DPAD_DOWN);
 		break;
 	case dae::ControllerButton::Start:
 		return m_pImpl->IsDown(XINPUT_GAMEPAD_START);

@@ -68,7 +68,7 @@ void MenuScene::SceneUpdate()
 	std::string sceneName{};
 
 
-	if (InputManager::GetInstance().IsPressed(SDL_SCANCODE_1, ButtonMode::Pressed))
+	if (InputManager::GetInstance().IsPressed(SDL_SCANCODE_1, ButtonMode::Pressed) || InputManager::GetInstance().IsPressed(ControllerButton::Start, ButtonMode::Pressed, 0))
 	{
 		PlayerPointsRecord::GetInstance().ResetScores();
 		SceneManager::GetInstance().AddScene(new TronScene(3));
